@@ -1,12 +1,17 @@
 # Prólogo
 
 ## Formato de los capítulos
-Cada capítulo constará de una parte teórica, donde se explicarán algunos conceptos y una parte práctica en la que se pedirá al lector que realice un ejercicio.
+Cada capítulo constará de una parte teórica, donde se explicarán algunos conceptos y una parte práctica en la que se pedirá al lector que realice varios ejercicios.
+
+Los ejercicios son una parte muy importante del libro, ya que profundizarán en conceptos y mostrarán cosas que no están en la parte práctica.
+
+Además... No hay mejor manera de aprender que practicar.
 
 La parte práctica estará precedida de una subsección llamada `before_start` que indicará que deberiamos tener instalado para poder ejecutarlos.
 
 Los ejercicios y los materiales necesarios (sprites, sonidos, imágenes) estarán disponibles en el repositorio del libro.
 
+Si encuentras alguna errata o bug puedes reportarlo a través de una issue en GitHub `https://github.com/rafinskipg/introductioncanvas/issues` 
 
 
 ## Nota técnica y lenguaje del libro.

@@ -1,10 +1,8 @@
 /**
- * Exercise 1
+ * Exercise 1 solution
  */
 var canvas = document.getElementById('canvas');
-
 var context = canvas.getContext('2d');
-
 
 function render(){
   context.rect(100, 100, 300, 300);
@@ -13,6 +11,5 @@ function render(){
   context.fill();
   context.stroke();
 }
-
 
 render();
