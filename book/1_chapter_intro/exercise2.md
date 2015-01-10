@@ -1,4 +1,4 @@
-# Ejercicio 2 - Círculos y líneas
+# Círculos y líneas
 
 Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a ir un paso más lejos, y a incorporar los círculos y las líneas.
 
@@ -60,7 +60,7 @@ context.stroke();
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circle_line.png)
 
 
-# Reto 
+# Ejercicio 2
 
 Dibuja 3 circulos de 50 píxeles de radio, el tercero estará pintado solo hasta 3/4 partes de su circunferencia. Desde donde acabe ese tercer círculo, pinta una línea horizontal de 50 píxeles de largo.
 
