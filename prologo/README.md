@@ -1,5 +1,14 @@
 # Prólogo
 
+## Formato de los capítulos
+Cada capítulo constará de una parte teórica, donde se explicarán algunos conceptos y una parte práctica en la que se pedirá al lector que realice un ejercicio.
+
+La parte práctica estará precedida de una subsección llamada `before_start` que indicará que deberiamos tener instalado para poder ejecutarlos.
+
+Los ejercicios y los materiales necesarios (sprites, sonidos, imágenes) estarán disponibles en el repositorio del libro.
+
+
+
 ## Nota técnica y lenguaje del libro.
 
 Este libro está enfocado al aprendizaje y manejo del elemento `canvas`.
@@ -28,11 +37,8 @@ function User(){
 module.exports = User;
 ```
 
-Podréis encontrar referencias externas en el epílogo del libro.
+Todos los conceptos que necesiten una referencia externa quedarán reunidos en el glosario que se encuentra al final del libro.
 
-## Ejercicios
-
-Cada tema tendrá 4 o 5 ejercicios finales que podréis encontrar resueltos en el repositorio http://github.com/rafinskipg/canvas_exercises
 
 ## Agradecimientos
 
