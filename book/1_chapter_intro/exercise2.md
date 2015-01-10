@@ -68,3 +68,5 @@ Dibuja 3 circulos de 50 píxeles de radio, el tercero estará pintado solo hasta
 `context.beginPath()` actua como si levantases el lápiz del papel desde la figura anterior. Si no lo usas, canvas trazará una línea desde la figura anterior.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_1_exercise_2.png)
+
+_Recuerda que puedes visitar las soluciones de los ejercicios cuando lo creas conveniente :)_
