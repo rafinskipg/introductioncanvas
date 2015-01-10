@@ -20,6 +20,10 @@ Siempre que vayamos a pintar algo sobre el canvas, tenemos que tener claro su si
 
 ![sistema_coordenadas](https://github.com/rafinskipg/introductioncanvas/raw/master/img/coordinate_system.png)
 
+El eje `x` aumenta a partir de 0 de izquierda a derecha, y lo mismo pasa con el eje `y` de arriba a abajo.
+
+Una vez que hemos creado este elemento, vamos a realizar nuestro primer dibujo.
+
 Para ello, debemos obtener la referencia del elemento y su contexto 2D mediante Javascript.
 
 El contexto es un objeto HTML con propiedades y métodos que permiten dibujar. 
@@ -41,15 +45,23 @@ var context =  canvas.getContext('webgl');
 Una vez que ya tenemos referenciado el elemento `canvas` y hemos obtenido su contexto `context`, ya podemos empezar a interactuar.
 
 Vamos a dibujar un cuadrado en el canvas y vamos a pintarlo de color rojo.
+
+
 Para ello usaremos el método `rect` que permite la creación de un rectángulo pasandole sus coordenadas de inicio y su tamaño.
 
 ```
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
 /*
   context.rect recibe los siguientes parámetros
   (origenX, origenY, ancho, alto)
 */
 context.rect(20,20,150,100);
 context.stroke();
+```
+
+
 
 ## Practicum
 ### ¿Qué vamos a practicar?

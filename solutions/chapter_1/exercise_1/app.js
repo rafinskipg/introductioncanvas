@@ -7,7 +7,11 @@ var context = canvas.getContext('2d');
 
 
 function render(){
-  //Do stuff...
+  context.rect(100, 100, 300, 300);
+  context.strokeStyle = 'red';
+  context.fillStyle = 'blue';
+  context.fill();
+  context.stroke();
 }
 
 
