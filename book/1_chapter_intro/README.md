@@ -36,7 +36,7 @@ var context = canvas.getContext('2d');
 ```
 
 
->###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Dato interesante
+>###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante
 En el caso de que queramos usar tecnología `WebGL` podemos pasar como parámetro al método `getContext` el argumento `webgl`
 ```
 var context =  canvas.getContext('webgl');
