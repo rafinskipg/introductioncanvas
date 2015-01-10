@@ -1,4 +1,1 @@
-# Referencias
-
-* Browserify : 
-* CommonJS : 
+# Epílogo
