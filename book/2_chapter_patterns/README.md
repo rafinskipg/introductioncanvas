@@ -36,19 +36,65 @@ function fibonacci(size){
 
 ## El número áureo
 
+El número áureo es un número irracional - sus decimales se extienden hasta el infinito - como el número pi. Y generalmente se representa con el carácter ϕ   - phi - o mediante su fórmula:
+
+```
+var phi = ( 1 + Math.sqrt(5) ) / 2;
+//phi
+//1.618033988749895
+```
+
 A lo largo del tiempo se ha utilizado el número áureo para generar obras que guardan unas proporciones estéticas adecuadas.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
 
 
-En la geometría y citando a Wikipedia
+Vamos a realizar una implementación del rectángulo áureo en `canvas`.
 
-> El número áureo y la sección áurea están presentes en todos los objetos geométricos regulares o semiregulares en los que haya simetría pentagonal, que sean pentágonos o que aparezca de alguna manera la raíz cuadrada de cinco.
->
-- Relaciones entre las partes del pentágono.
-- Relaciones entre las partes del pentágono estrellado, pentáculo o pentagrama.
-- Relaciones entre las partes del decágono.
-- Relaciones entre las partes del dodecaedro y del icosaedro.
+> El rectángulo dorado (denominado también rectángulo áureo) es un rectángulo que posee una proporcionalidad entre sus lados igual a la razón aúrea. Es decir que es aquél rectángulo que al substraer la imagen de un cuadrado igual al de su lado menor, el rectángulo resultante es igualmente un rectángulo dorado. A partir de este rectángulo se puede obtener la espiral dorada, que es una espiral logarítmica.
+
+Para ello tomaremos como base el código que hemos estado usando hasta ahora, pero vamos a hacer un poco más ancho el lienzo
+
+```
+<canvas id="canvas" width="800" height="560"></canvas>
+```
+
+Las dimensiones del rectangulo inicial serán `647x400`.
+
+Para obtener estas dimensiones, hemos tomado un cuadrado de `400x400` y hemos multiplicado uno de sus lados por `phi`, obteniendo 647 aproximadamente.
+
+Para poder utilizar correctamente `canvas` en este ejercicio, primero vamos a aprender los métodos `context.translate(x,y)`, `context.save()`, `context.restore()` y `context.rotate(rad)`.
+
+----
+### context.save()
+
+Este método permite almacenar el estado del canvas en la situación actual, es decir, su grado de rotación, sus coordenadas iniciales, etc.
+
+### context.translate(x,y)
+
+Sirve para trasladar el origen de coordenadas (0,0) a otro puntro arbitrario.
+
+### context.rotate(rad)
+
+Rota el canvas en su origen de coordenadas un ángulo de `rad` radianes.
+
+Podemos transformar de grados a radianes mediante la siguiente fórmula:
+
+```
+var grados = 90;
+var radianes =  grados * Math.PI / 180;
+```
+
+### context.restore()
+
+Devuelve el canvas a su origen de coordenadas inicial.
+
+----
+
+
+Con estas nuevas nuevas herramientas en nuestro cinturón, vamos a empezar con el ejercicio.
+
+
 
 
 
