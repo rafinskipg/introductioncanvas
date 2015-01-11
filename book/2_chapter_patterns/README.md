@@ -15,10 +15,31 @@ Estos son los primeros 15 dígitos de la sucesión
 Conforme avanzamos en la sucesión, el ratio entre los números sucesivos tiende hacia una constante (1.61803 aprox), conocida como el _número áureo ϕ _. 
 Esta sucesión tiene múltiples aplicaciones, tanto en música como en ciencia, en la naturaleza podemos encontrarla en las ramas de los árboles, en la disposición de los pétalos de las flores, en la cantidad de pétalos de flores...
 
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci2.jpg)
+
+Un ejemplo de una implementación sencilla de la sucesión de Fibonacci en JavaScript.
+
+```
+function fibonacci(size){
+  var first = 0, second = 1,  next, count = 2, results = [first, second];
+  
+  while(count++ < size){
+    next = first + second;
+    first = second;
+    second = next;
+    results.push(next);
+  }
+
+  return results;
+}
+```
 
 ## El número áureo
 
 A lo largo del tiempo se ha utilizado el número áureo para generar obras que guardan unas proporciones estéticas adecuadas.
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
+
 
 En la geometría y citando a Wikipedia
 
@@ -28,6 +49,9 @@ En la geometría y citando a Wikipedia
 - Relaciones entre las partes del pentágono estrellado, pentáculo o pentagrama.
 - Relaciones entre las partes del decágono.
 - Relaciones entre las partes del dodecaedro y del icosaedro.
+
+
+
 
 ## Ammann Beenker 
 
