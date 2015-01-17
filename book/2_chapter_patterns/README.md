@@ -19,7 +19,7 @@ Esta sucesión tiene múltiples aplicaciones, tanto en música como en ciencia, 
 
 Un ejemplo de una implementación sencilla de la sucesión de Fibonacci en JavaScript.
 
-```
+```javascript
 function fibonacci(size){
   var first = 0, second = 1,  next, count = 2, results = [first, second];
   
@@ -38,7 +38,7 @@ function fibonacci(size){
 
 El número áureo es un número irracional - sus decimales se extienden hasta el infinito - como el número pi. Y generalmente se representa con el carácter ϕ   - phi - o mediante su fórmula:
 
-```
+```javascript
 var phi = ( 1 + Math.sqrt(5) ) / 2;
 //phi
 //1.618033988749895
@@ -55,7 +55,7 @@ Vamos a realizar una implementación del rectángulo áureo en `canvas`.
 
 Para ello tomaremos como base el código que hemos estado usando hasta ahora, pero vamos a hacer un poco más ancho el lienzo
 
-```
+```html
 <canvas id="canvas" width="800" height="560"></canvas>
 ```
 
@@ -82,7 +82,7 @@ Rota el canvas en su origen de coordenadas un ángulo de `rad` radianes.
 
 Podemos transformar de grados a radianes mediante la siguiente fórmula:
 
-```
+```javascript
 var grados = 90;
 var radianes =  grados * Math.PI / 180;
 ```

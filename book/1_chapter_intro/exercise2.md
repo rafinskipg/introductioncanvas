@@ -3,7 +3,7 @@
 Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a ir un paso más lejos, y a incorporar los círculos y las líneas.
 
 Para pintar un círculo utilizaremos el siguiente código:
-```
+```javascript
 context.beginPath();
 context.arc(x,y,r,start,stop);
 ```
@@ -23,7 +23,7 @@ Posteriormente podremos usar `context.stroke` o `context.fill`, como hemos apren
 
 Veamos un ejemplo: 
 
-```
+```javascript
 context.strokeStyle = '#69D2E7';
 context.lineWidth = 5;
 
@@ -45,7 +45,7 @@ Para pintar líneas, tendremos que usar los métodos `context.moveTo` y `context
 
 Ejemplo
 
-```
+```javascript
 context.strokeStyle = '#69D2E7';
 context.lineWidth = 5;
 

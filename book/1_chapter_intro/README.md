@@ -11,7 +11,7 @@ Desde un punto de vista más abstracto, `canvas` es una herramienta donde podemo
 
 Lo primero que necesitaremos será crear el elemento `html`.
 
-```
+```javascript
 <canvas id="canvas" width="560" height="560"></canvas>
 ```
 Este será el elemento sobre el que pintaremos las representaciones visuales.
@@ -28,7 +28,7 @@ Para ello, debemos obtener la referencia del elemento y su contexto 2D mediante 
 
 El contexto es un objeto HTML con propiedades y métodos que permiten dibujar. 
 
-```
+```javascript
 var canvas = document.getElementById('canvas');
 
 //Devuelve un CanvasRenderingContext2D
@@ -38,7 +38,7 @@ var context = canvas.getContext('2d');
 
 >###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante
 En el caso de que queramos usar tecnología `WebGL` podemos pasar como parámetro al método `getContext` el argumento `webgl`
-```
+```javascript
 var context =  canvas.getContext('webgl');
 ```
 
@@ -59,7 +59,7 @@ La resolución de los ejercicios podrás encontrarla en `https://github.com/rafi
 
 Este es el contenido del archivo `index.html`
 
-```
+```html
 <!doctype html>
 <html>
   <head>
@@ -82,7 +82,7 @@ Este es el contenido del archivo `index.html`
 
 Este es el contenido del archivo `app.js`
 
-```
+```javascript
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
