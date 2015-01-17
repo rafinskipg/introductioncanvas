@@ -1,4 +1,4 @@
-# Animaciones
+# Rotar y trasladar
 
 En este capítulo vamos a ver como rotar, mover y animar los elementos que vayamos creando.
 

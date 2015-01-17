@@ -8,6 +8,7 @@
     * [Circulos y líneas](1_chapter_intro/exercise2.md)
     * [Polígonos](1_chapter_intro/exercise3.md)
 * [Moviendo los elementos](chapter_animations/README.md)
+    * [Animaciones](chapter_animations/animations.md)
     * [Rotaciones](chapter_animations/rotating.md)
 * [Patrones visuales](2_chapter_patterns/README.md)
 * [Usando imagenes](4_chapter_images/README.md)
