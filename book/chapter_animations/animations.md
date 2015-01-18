@@ -334,5 +334,7 @@ context.fillRect(0, 0, canvas.width, canvas.height);
 canvas.width = canvas.width;
 ```
 
+**Usaremos el bueno, siempre que podamos**
 
+### Et voilà! Habemus animación
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_good.gif)
