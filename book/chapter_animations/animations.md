@@ -338,3 +338,81 @@ canvas.width = canvas.width;
 
 ### Et voilà! Habemus animación
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_good.gif)
+
+# Ejercicio 1
+
+Crea 4 círculos, cada uno de un tamaño distinto, como los de la siguiente imagen:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_exercise_1.png)
+
+Cada uno de los círculos tendrá las siguientes propiedades:
+  - Distancia al centro aleatoria entre 0 y 200
+  - Velocidad de movimiento aleatoria entre 0.0001 y 0.001
+  - Ángulo inicial aleatorio entre 0º y 360º
+  - Color aleatorio
+  - Radio aleatorio
+
+Todos los circulos rotarán con respecto al centro del canvas, pero desplazados la distancia indicada.
+
+## Ayuda
+
+Create una nueva clase llamada `Circle` que será parecida a la que vimos del cuadrado.
+
+Encapsula la inicialización de los objetos en una función `start` que será la primera en ser ejecutada:
+
+```javascript
+var circles = [];
+
+/* ... */
+
+function start(){
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  for (var i = 0; i < 4; i ++){
+    shapes.push(new Circle({
+      distance : Utils.randomInteger(0, 200),
+      radius : Utils.randomInteger(10, 50),
+      speed : Utils.randomInteger(1, 100)/1000,
+      angle : Utils.randomInteger(0, 360),
+      color : colors[i]
+    }))
+  }
+
+  loop();
+}
+
+```
+
+Estos son los colores utilizados :)
+
+```javascript
+var bgColor = '#1CA692';
+var colors = ['#F1EBD5', '#FBBC16', '#FF820E', '#FF3352'];
+```
+
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/circles_1.gif)
+
+
+# Ejercicio 2
+
+Cada uno de los círculos tendrá las siguientes propiedades:
+  - Posición x e y aleatorias
+  - Ángulo aleatorio entre 0º y 360º
+  - Color aleatorio
+  - Radio aleatorio
+  - Velocidad aleatoria entre 50 y 200
+
+Cuando un círculo se salga del tamaño del `canvas` cambia el ángulo de movimiento del círculo para que rebote en la pared.
+
+## Ayuda
+
+Puedes usar esta función para calcular el ángulo de rebote de la figura:
+
+```javascript
+function calculaAnguloDeRebote(figura){
+
+}
+```
