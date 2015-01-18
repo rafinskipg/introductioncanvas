@@ -4,9 +4,8 @@ function Square(x, y, width){
   this.width = width;
   this.angle = 0;
 
-  this.speed = 0.1;
- // var turnsPerSecond = 3;
-  //this.speed = turnsPerSecond * 2 * Math.PI / 1000;
+  var turnsPerSecond = 8;
+  this.speed = turnsPerSecond * 2 * Math.PI / 1000;
 }
 
 Square.prototype.rotate = function(angle){
@@ -19,7 +18,7 @@ Square.prototype.update = function(dt){
 
 Square.prototype.render = function(context){
   context.save();
-
+  context.beginPath();
   var radians = Utils.degreeToRadian(this.angle);
  
   context.translate(this.x + this.width / 2, this.y + this.width / 2);

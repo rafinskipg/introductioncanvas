@@ -103,6 +103,7 @@ function Square(x, y, width){
 
 Square.prototype.render = function(context){
   //Dibuja un rectangulo azul con borde rojo
+  context.beginPath();
   context.rect( - this.width / 2, - this.width / 2, this.width, this.width);
   context.strokeStyle = 'red';
   context.fillStyle = 'blue';
@@ -163,6 +164,7 @@ Square.prototype.render = function(context){
   context.rotate(radians);
 
   //Dibuja un rectangulo azul con borde rojo
+  context.beginPath();
   context.rect( - this.width / 2, - this.width / 2, this.width, this.width);
   context.strokeStyle = 'red';
   context.fillStyle = 'blue';
@@ -196,7 +198,7 @@ render();
 
 Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites. 
 
-Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación.
+Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación incluyendo el **`loop`** y **`update`**.
 
 ### app.js
 
@@ -248,7 +250,7 @@ Square.prototype.rotate = function(angle){
 }
 
 Square.prototype.update = function(dt){
-  //aumentamos el rato a lo largo del tiempo
+  //Incrementamos el ángulo a lo largo del tiempo
   this.angle += this.speed * dt;
 }
 
@@ -261,6 +263,7 @@ Square.prototype.render = function(context){
   context.rotate(radians);
 
   //Dibuja un rectangulo azul con borde rojo
+  context.beginPath();
   context.rect( - this.width / 2, - this.width / 2, this.width, this.width);
   context.strokeStyle = 'red';
   context.fillStyle = 'blue';
@@ -274,3 +277,62 @@ Square.prototype.render = function(context){
 ### Resultado
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating.gif)
+
+**¿Por qué se muestra así?**
+
+Estamos viendo lo que sucede cuando todos los frames se mantienen uno encima de otro. Quedan apilados, y al final se acaba dibujando un círculo, debido a la rotación del cuadrado.
+
+Para que veamos _un cuadrad rotando_ debemos borrar el canvas entre pintado y pintado.
+
+## Limpiando el canvas
+
+Añadiremos una nueva funcion en nuestro bucle llamada `clear` que limpiará el canvas, dejandolo blanco y reluciente.
+
+```javascript
+
+function loop(){
+  now = Date.now();
+  //Calcula el diferencial de tiempo entre esta ejecución y la anterior
+  var dt = now - then;
+  
+  update(dt);
+  clear();
+  render();
+
+  //Almacenamos el valor que de now para la siguiente iteración
+  then = now;
+  requestAnimationFrame(loop);
+}
+
+function clear(){
+  context.clearRect(0, 0, canvas.width, canvas.height);
+}
+```
+
+Existen varias maneras de limpiar el canvas
+
+
+1) El Bueno: Utilizando clearRect
+
+Has de tener atención con haber usado `context.beginPath();` antes de pintar las líneas, de otra manera canvas no tiene constancia de que tiene que borrarlas.
+
+```javascript
+//Recibe (coordenada_x, coordenada_y, anchura, altura)
+context.clearRect(0, 0, canvas.width, canvas.height);
+```
+
+2) El Feo: Repintando todo el canvas con `fillRect`
+
+```javascript
+context.fillStyle = 'white';
+context.fillRect(0, 0, canvas.width, canvas.height);
+```
+
+1) El malo: Cambiando el tamaño del canvas
+
+```javascript
+canvas.width = canvas.width;
+```
+
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_good.gif)
