@@ -194,4 +194,83 @@ render();
 
 ##Añadiendo lógica al loop
 
-Vamos a añadir un poco de lógica al ciclo par
+Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites. 
+
+Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación.
+
+### app.js
+
+```javascript
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+var now = then = Date.now();
+var square = new Square(100, 100, 300);
+
+//Actualizamos nuestros elementos
+function update(dt){
+  square.update(dt);
+}
+
+function render(){
+  square.render(context);
+}
+
+function loop(){
+  now = Date.now();
+  //Calcula el diferencial de tiempo entre esta ejecución y la anterior
+  var dt = now - then;
+  update(dt);
+  render();
+
+  //Almacenamos el valor que de now para la siguiente iteración
+  then = now;
+  requestAnimationFrame(loop);
+}
+
+loop();
+
+```
+
+### square.js
+
+```javascript
+function Square(x, y, width){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.angle = 0;
+  this.speed = 0.1
+}
+
+Square.prototype.rotate = function(angle){
+  this.angle = angle;
+}
+
+Square.prototype.update = function(dt){
+  //aumentamos el rato a lo largo del tiempo
+  this.angle += this.speed * dt;
+}
+
+Square.prototype.render = function(context){
+  context.save();
+
+  var radians = Utils.degreeToRadian(this.angle);
+ 
+  context.translate(this.x + this.width / 2, this.y + this.width / 2);
+  context.rotate(radians);
+
+  //Dibuja un rectangulo azul con borde rojo
+  context.rect( - this.width / 2, - this.width / 2, this.width, this.width);
+  context.strokeStyle = 'red';
+  context.fillStyle = 'blue';
+  context.fill();
+  context.stroke();
+
+  context.restore();
+}
+```
+
+### Resultado
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating.gif)

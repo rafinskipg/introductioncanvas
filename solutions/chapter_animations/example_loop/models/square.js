@@ -3,7 +3,10 @@ function Square(x, y, width){
   this.y = y;
   this.width = width;
   this.angle = 0;
-  this.rotatingSpeed = 100;
+
+  this.speed = 0.1;
+ // var turnsPerSecond = 3;
+  //this.speed = turnsPerSecond * 2 * Math.PI / 1000;
 }
 
 Square.prototype.rotate = function(angle){
@@ -11,7 +14,7 @@ Square.prototype.rotate = function(angle){
 }
 
 Square.prototype.update = function(dt){
-  this.angle += this.rotatingSpeed;
+  this.angle += this.speed * dt;
 }
 
 Square.prototype.render = function(context){
@@ -28,6 +31,6 @@ Square.prototype.render = function(context){
   context.fillStyle = 'blue';
   context.fill();
   context.stroke();
-  
+
   context.restore();
 }
