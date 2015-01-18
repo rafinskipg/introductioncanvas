@@ -17,10 +17,13 @@ Square.prototype.update = function(dt){
 }
 
 Square.prototype.render = function(context){
-  context.save();
-  context.beginPath();
   var radians = Utils.degreeToRadian(this.angle);
- 
+  //Guardamos el estado del canvas
+  context.save();
+
+  //Le decimos al canvas que vamos a pintar líneas
+  context.beginPath();
+
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
   context.rotate(radians);
 
@@ -31,5 +34,6 @@ Square.prototype.render = function(context){
   context.fill();
   context.stroke();
 
+  //Restauramos el estado del canvas
   context.restore();
 }
