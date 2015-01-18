@@ -3,13 +3,13 @@
 Índice de contenidos del libro
 
 * [Prologo](prologo/README.md)
-* [Introducción](1_chapter_intro/README.md)
-    * [Rectángulos](1_chapter_intro/exercise1.md)
-    * [Circulos y líneas](1_chapter_intro/exercise2.md)
-    * [Polígonos](1_chapter_intro/exercise3.md)
+* [Introducción](chapter_intro/README.md)
+    * [Rectángulos](chapter_intro/rectangles.md)
+    * [Circulos y líneas](chapter_intro/circles.md)
+    * [Polígonos](chapter_intro/polygons.md)
 * [Moviendo los elementos](chapter_animations/README.md)
+    * [Rotando](chapter_animations/rotating.md)
     * [Animaciones](chapter_animations/animations.md)
-    * [Rotaciones](chapter_animations/rotating.md)
 * [Patrones visuales](2_chapter_patterns/README.md)
 * [Usando imagenes](4_chapter_images/README.md)
     * [Preloader](5_chapter_games/README.md)

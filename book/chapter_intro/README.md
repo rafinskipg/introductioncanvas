@@ -1,8 +1,6 @@
 # Capítulo 1: Introducción a `canvas`
 
-## Teoricum
-
-### ¿Qué es `canvas`?
+## ¿Qué es `canvas`?
 
 Desde el punto de vista técnico, `canvas` es una etiqueta HTML que permite dibujar gráficos a través de una API.
 Desde un punto de vista más abstracto, `canvas` es una herramienta donde podemos crear representaciones visuales, interactivas, animadas. Que sirve, entre otras cosas, para crear juegos.
@@ -45,17 +43,15 @@ var context =  canvas.getContext('webgl');
 Una vez que ya tenemos referenciado el elemento `canvas` y hemos obtenido su contexto `context`, ya podemos empezar a interactuar.
 
 
-## Practicum
+## Para los ejercicios.
 ### ¿Qué vamos a practicar?
 En este capítulo vamos a practicar los métodos del contexto `rect`, `fill`, `stroke`, `moveTo`, `lineTo` y `beginPath`.
 
-### `before_start`
+### Antes de empezar
+
+Podrás encontrar **la solución de todos los ejercicios en `https://github.com/rafinskipg/introductioncanvas/solutions/`**
 
 Necesitarás - al menos - un archivo `index.html` que cargue un archivo JavaScript llamado `app.js`.
-
-Puedes obtener los archivos básicos en `https://github.com/rafinskipg/introductioncanvas/exercises/chapter_1`
-
-La resolución de los ejercicios podrás encontrarla en `https://github.com/rafinskipg/introductioncanvas/solutions/chapter_1`
 
 Este es el contenido del archivo `index.html`
 
@@ -92,3 +88,5 @@ function render(){
 
 render();
 ```
+
+**¡Ya estás listo/a para aprender, dale duro!**

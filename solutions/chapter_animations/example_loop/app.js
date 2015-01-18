@@ -14,14 +14,14 @@ function render(){
 
 function clear(){
   // Store the current transformation matrix
-context.save();
+  context.save();
 
-// Use the identity matrix while clearing the canvas
-context.setTransform(1, 0, 0, 1, 0, 0);
-context.clearRect(0, 0, canvas.width, canvas.height);
+  // Use the identity matrix while clearing the canvas
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
-// Restore the transform
-context.restore();
+  // Restore the transform
+  context.restore();
 }
 
 function loop(){
