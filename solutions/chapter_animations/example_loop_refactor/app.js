@@ -5,7 +5,7 @@ function update(dt){
   square.update(dt);
 }
 
-function render(){
+function render(context){
   square.render(context);
 }
 
