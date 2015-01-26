@@ -7,10 +7,47 @@ var phi = ( 1 + Math.sqrt(5) ) / 2;
 
 function render(){
   context.strokeStyle = '#69D2E7';
-  context.lineWidth = 5;
+  context.lineWidth = 1;
 
-  var rectangle = new GoldenRectangle(200, 50, 100, true);
-  rectangle.draw();
+  /*var rectangle = new GoldenRectangle(200, 50, 100, true);
+  rectangle.draw();*/
+  var posx = canvas.width/2;
+  var posy = canvas.height / 2;
+
+  context.moveTo(posx, posy);
+
+  var fibSequence = fibonacci(15)
+
+  
+
+  for(var i = fibSequence.length -1; i >= 0; i--){
+    var point = fibSequence[i];
+    console.log(point)
+    var grd=context.createLinearGradient(0 , 0 , posx , posy);
+    grd.addColorStop(0,"white");
+    grd.addColorStop(1,"black");
+    context.fillStyle = grd;
+    
+    context.beginPath();
+    context.arc(posx + point, posy + point, point*2, point*2, Math.PI, Math.PI/2);
+    context.closePath();
+    context.stroke();
+    context.fill();
+
+  }
+
+  context.strokeStyle = 'red';
+  for(var i = 0; i < fibSequence.length; i++){
+    var point = fibSequence[i];
+    context.translate(point, point);
+    context.rotate(Utils.degreeToRadian(point))
+    if(fibSequence[i+1]){
+      context.lineTo(fibSequence[i+1], fibSequence[i+1]);
+      context.stroke();
+    }
+  }
+
+
 
   /*function innerRectangle(rect){
     var difference = rect.rotated ? rect.width - rect.height : rect.height - rect.width;
@@ -26,7 +63,7 @@ function render(){
 
   innerRectangle(rectangle);*/
 
-  rectangle.getInnerGoldenRectangle().draw();
+  //rectangle.getInnerGoldenRectangle().draw();
 
   context.stroke();
 }
@@ -41,7 +78,7 @@ function fibonacci(size){
     results.push(next);
   }
 
-  console.log(results);
+  return results;
 }
 
 function GoldenRectangle(shortSideSize, x , y, rotated ){
@@ -71,3 +108,5 @@ GoldenRectangle.prototype.getInnerGoldenRectangle = function(){
 }
 
 render(15);
+
+//http://jsfiddle.net/jingshaochen/xJc7M/

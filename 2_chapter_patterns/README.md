@@ -99,10 +99,16 @@ Vamos a empezar con el ejercicio.
 
 
 
+# Ejercicio 1 
 
+Dibujar una flor 
+`http://krazydad.com/tutorials/circles/`
 
 ## Ammann Beenker 
 
 https://geometricolor.wordpress.com/2012/06/11/morphing-the-ammann-beenker-tiling/
 
 http://www.quadibloc.com/math/pen01.htm
+
+
+// Guapo http://mozilla.github.io/nunjucks/
