@@ -13,6 +13,8 @@
     * [Engine](chapter_animations/engine.md)
     * [El Juego de la Vida](chapter_animations/gameoflife.md)
 * [Patrones visuales](2_chapter_patterns/README.md)
+    * [Suelo de hexágonos](chapter_animations/hexagons.md)
+
 * [Usando imagenes](4_chapter_images/README.md)
     * [Preloader](5_chapter_games/README.md)
     * [La clase Sprite](4_chapter_images/sprite.md)
