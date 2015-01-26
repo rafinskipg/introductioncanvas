@@ -63,7 +63,7 @@ Las dimensiones del rectangulo inicial serán `647x400`.
 
 Para obtener estas dimensiones, hemos tomado un cuadrado de `400x400` y hemos multiplicado uno de sus lados por `phi`, obteniendo 647 aproximadamente.
 
-Para poder utilizar correctamente `canvas` en este ejercicio, tendremos que utilizar los métodos `context.translate(x,y)`, `context.save()`, `context.restore()` y `context.rotate(rad)`.
+Para poder utilizar correctamente `canvas` en este ejemplo, tendremos que utilizar los métodos `context.translate(x,y)`, `context.save()`, `context.restore()` y `context.rotate(rad)`.
 
 Hagamos una breve recapitulación de lo que hacían:
 
@@ -94,12 +94,12 @@ Devuelve el canvas a su origen de coordenadas inicial.
 ----
 
 
-Vamos a empezar con el ejercicio.
 
 
 
+# Implementacion 
 
-# Ejercicio 1 
+![]()
 
 Dibujar una flor 
 `http://krazydad.com/tutorials/circles/`

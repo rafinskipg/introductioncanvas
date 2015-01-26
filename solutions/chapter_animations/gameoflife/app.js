@@ -1,5 +1,6 @@
 var canvas = document.getElementById('canvas');
-var square;
+var cells;
+var MAX_CELLS = 200;
 
 function update(dt){
   square.update(dt);
