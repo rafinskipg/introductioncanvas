@@ -11,6 +11,7 @@
     * [Rotando](chapter_animations/rotating.md)
     * [Animaciones](chapter_animations/animations.md)
     * [Engine](chapter_animations/engine.md)
+    * [El Juego de la Vida](chapter_animations/gameoflife.md)
 * [Patrones visuales](2_chapter_patterns/README.md)
 * [Usando imagenes](4_chapter_images/README.md)
     * [Preloader](5_chapter_games/README.md)
