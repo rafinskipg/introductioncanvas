@@ -1,0 +1,7 @@
+{
+  "name": "introductioncanvas",
+  "private": true,
+  "dependencies": {
+    "lodash": "~3.0.0"
+  }
+}
