@@ -41,4 +41,13 @@ HexagonalGrid.prototype.render = function(context){
   context.restore();
 }
 
+HexagonalGrid.prototype.update = function(dt){
+  for(var i = 0; i < this.grid.length; i++){
+    //Pinta las filas
+    for(var j = 0; j < this.grid[i].length; j++){
+      //Pinta las columnas
+      this.grid[i][j].update(dt);
+    }
+  }
+}
 //See more at http://www.redblobgames.com/grids/hexagons/

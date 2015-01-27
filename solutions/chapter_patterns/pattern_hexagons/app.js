@@ -6,12 +6,16 @@ function render(context){
   grid.render(context);
 }
 
+function update(dt){
+  grid.update(dt);
+}
+
 function start(){
   grid = new HexagonalGrid({pieceRadius: PIECE_RADIUS}, canvas.width, canvas.height)
 }
 
-var myEngine = new Engine(canvas, false);
+var myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
-//myEngine.addUpdateCallback(update);
+myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
 myEngine.start();

@@ -5,6 +5,7 @@ function Polygon(x, y, radius, sides, angle, anticlockwise){
   this.sides = sides < 3 ? 3 : sides;
   this.angle = Utils.degreeToRadian(angle || 0);
   this.anticlockwise = anticlockwise || false;
+  this.gradient = 0.0;
   this.faceUp = Math.random() * 4 > 2;
 
   //Calculamos el angulo entre lados
@@ -51,29 +52,42 @@ Polygon.prototype.render = function(context){
 Polygon.prototype.renderInnerLight = function(context){
   var gradient = context.createLinearGradient(-this.radius, -this.radius, this.radius, this.radius );
   if(this.faceUp){
-    gradient.addColorStop(0, "rgba(56, 29, 181, 0.5)");
+    gradient.addColorStop(0, "rgba(56, 29, 181, "+ this.gradient +")");
     gradient.addColorStop(1, "rgba(96, 72, 208, 0.95)");
   }else{
     gradient.addColorStop(0, "rgba(96, 72, 208, 0.95)");
-    gradient.addColorStop(1, "rgba(56, 29, 181, 0.5)");
+    gradient.addColorStop(1, "rgba(56, 29, 181, "+ this.gradient +")");
   }
+    
   context.fillStyle = gradient;
 }
 
 Polygon.prototype.renderBorders = function(context){
   context.shadowColor = 'rgba(0,0,0,0.75)';
   
-  if(this.faceUp){
-    context.shadowOffsetX = 1;
-    context.shadowOffsetY = 1;
-  }else{
-    context.shadowOffsetX = -1;
-    context.shadowOffsetY = 1;
-  }
+  
+    context.shadowOffsetX = this.gradient;
+    context.shadowOffsetY = this.gradient;
+ 
   
   //Inner border
   context.shadowBlur = 1;
   context.strokeStyle = 'rgb(56, 29, 181)';
   context.lineWidth = 5;
   context.stroke();
+}
+
+Polygon.prototype.update = function(dt){
+  if(this.goingUp){
+    this.gradient+=dt/1000;
+    if(this.gradient >= 1){
+      this.goingUp = false;
+    }
+  }else{
+    this.gradient-=dt/1000;
+    if(this.gradient <= 0){
+      this.gradient = 0;
+      this.goingUp = true;
+    }
+  }
 }
