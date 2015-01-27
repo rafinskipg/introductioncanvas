@@ -14,7 +14,7 @@ function start(){
   grid = new HexagonalGrid({pieceRadius: PIECE_RADIUS}, canvas.width, canvas.height)
 }
 
-var myEngine = new Engine(canvas);
+var myEngine = new Engine(canvas, true, 30);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);

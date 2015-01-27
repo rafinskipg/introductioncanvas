@@ -9,8 +9,10 @@ function HexagonalGrid(options, width, height){
   this.maxPiecesY = Math.floor(height / this.pieceHeight);
   this.origin = {
     x: 0,
-    y: 0
+    y: 10
   }
+  //Use for toggling debugging features
+  this.debugging = true;
 
   var pieceDistanceY =  this.pieceHeight * 3/4;
 
@@ -35,6 +37,12 @@ HexagonalGrid.prototype.render = function(context){
     for(var j = 0; j < this.grid[i].length; j++){
       //Pinta las columnas
       this.grid[i][j].render(context);
+      if(this.debugging){
+        context.font="20px Georgia";
+        context.fillStyle = 'white';
+        context.fillText("["+i +","+j+"]",this.grid[i][j].x - this.pieceRadius/2,this.grid[i][j].y);
+      }
+      
     }
   }
 

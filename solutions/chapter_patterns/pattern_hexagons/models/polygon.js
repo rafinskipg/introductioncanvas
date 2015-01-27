@@ -65,10 +65,8 @@ Polygon.prototype.renderInnerLight = function(context){
 Polygon.prototype.renderBorders = function(context){
   context.shadowColor = 'rgba(0,0,0,0.75)';
   
-  
-    context.shadowOffsetX = this.gradient;
-    context.shadowOffsetY = this.gradient;
- 
+  context.shadowOffsetX = this.faceUp ? this.gradient : -this.gradient;
+  context.shadowOffsetY = this.faceUp ? this.gradient : -this.gradient;
   
   //Inner border
   context.shadowBlur = 1;
