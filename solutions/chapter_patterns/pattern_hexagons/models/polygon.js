@@ -31,11 +31,10 @@ Polygon.prototype.render = function(context){
 
   context.closePath();
 
-  //Draw the shadow (try changing the order of drawing the shadow to be the last operation )
-  context.fillStyle = 'rgb(56, 29, 181)';
-  context.fill();
 
-  this.renderInnerLight(context);
+  this.paintBaseColor(context);
+  //Linear gradient
+  this.paintGradient(context);
 
   context.shadowColor = 'rgba(0,0,0,0.75)';
   context.shadowOffsetX = 6;
@@ -43,14 +42,26 @@ Polygon.prototype.render = function(context){
   context.shadowBlur = 5;
   context.fill();
 
-
   this.renderBorders(context);
 
   context.restore();
 }
 
-Polygon.prototype.renderInnerLight = function(context){
+Polygon.prototype.paintBaseColor = function (context) {
+  //Plain base color
+  context.fillStyle = 'rgb(56, 29, 181)';
+  context.fill();
+}
+
+Polygon.prototype.paintBaseColor = function (context) {
+  //Plain base color
+  context.fillStyle = 'rgb(56, 29, 181)';
+  context.fill();
+}
+
+Polygon.prototype.paintGradient = function(context){
   var gradient = context.createLinearGradient(-this.radius, -this.radius, this.radius, this.radius );
+  
   if(this.faceUp){
     gradient.addColorStop(0, "rgba(56, 29, 181, "+ this.gradient +")");
     gradient.addColorStop(1, "rgba(96, 72, 208, 0.95)");

@@ -1,17 +1,17 @@
 var canvas = document.getElementById('canvas');
-var cells;
-var MAX_CELLS = 200;
+var grid;
 
 function update(dt){
-  square.update(dt);
+  grid.update(dt);
 }
 
 function render(){
-  square.render(context);
+  grid.render(context);
 }
 
 function start(){
-  square = new Square(100, 100, 300);
+  grid = new Grid(canvas.width, canvas.height, 10);
+  grid.tick();
 }
 
 var myEngine = new Engine(canvas);

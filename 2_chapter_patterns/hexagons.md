@@ -37,5 +37,3 @@ function HexagonalGrid(options, width, height){
   }
 }
 ```
-
-//TODO : Ver si se puede hacer un gradiente a cada uno por separado.
