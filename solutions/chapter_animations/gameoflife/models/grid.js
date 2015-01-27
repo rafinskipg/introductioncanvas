@@ -22,8 +22,6 @@ function Grid(width, height, pieceWidth, origin, tickTime){
       this.cells[i][j] = cell;
     }
   }
-  console.log(this.cells)
-
 }
 
 //Returns an array with the coordinates of available neighbours of this cell to check.
@@ -74,11 +72,10 @@ Grid.prototype.render = function(context){
 
 Grid.prototype.update = function(dt){
   this.tickTime -= dt;
-  var thePreviousGrid = _.clone(this.cells);
 
   //TODO: Use map
   if(this.tickTime <= 0 && this.allowTick){
-
+    var thePreviousGrid = _.clone(this.cells);
     for(var i = 0; i < this.cells.length; i++){
       //Filas
       for(var j = 0; j < this.cells[i].length; j++){
@@ -117,9 +114,27 @@ Grid.prototype.tick = function(){
 }
 
 Grid.prototype.toggleCellAt = function(xCoord, yCoord){
+  var cell = this.getCellAt(xCoord, yCoord);
+  this.toggleCell(cell);
+}
+
+Grid.prototype.getCellAt = function(xCoord, yCoord){
   var col = parseInt(xCoord/this.pieceWidth, 10);
   var row = parseInt(yCoord/this.pieceWidth, 10);
-  this.cells[row][col].alive = !this.cells[row][col].alive;
+
+  return this.cells[row][col];
+}
+
+Grid.prototype.toggleCell = function(cell){
+  cell.nextState = !cell.alive;
   //Add some time to allow interaction
-  this.tickTime += 700;
+  this.tickTime = 700;
+}
+
+Grid.prototype.highLightCell = function(cell){
+  cell.highlighted = true;
+}
+
+Grid.prototype.unHighLightCell = function(cell){
+  cell.highlighted = false;
 }
