@@ -23,7 +23,7 @@ function HexagonalGrid(options, width, height){
     var basePaddingY = this.pieceRadius;
 
     for(var j = 0; j < this.maxPiecesX; j++){
-      this.grid[i][j] = new Polygon( basePaddingX + (j * this.pieceWidth), basePaddingY + (i * pieceDistanceY), PIECE_RADIUS, 6, 90);
+      this.grid[i][j] = new Polygon( basePaddingX + (j * this.pieceWidth), basePaddingY + (i * pieceDistanceY), this.pieceRadius, 6, 90);
     }
   }
 }
