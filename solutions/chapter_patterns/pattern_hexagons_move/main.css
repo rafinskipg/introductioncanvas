@@ -1,0 +1,44 @@
+@font-face {
+  font-family: 'OpenSansLight';
+  src: url("fonts/opensans-light-webfont.eot");
+  src: url("fonts/opensans-light-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/opensans-light-webfont.woff") format("woff"), url("fonts/opensans-light-webfont.ttf") format("truetype"), url("fonts/opensans-light-webfont.svg#open_sanslight") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body, html{
+  margin: 0;
+  padding: 0;
+  background: rgb(27, 14, 145);
+  font-family: 'OpenSansLight';
+}
+
+h1, h2, h3{
+  font-family: 'OpenSansLight';
+}
+
+.header-container{
+  position: relative;
+  height: 350px;
+  background: white;
+  color: rgb(27, 14, 145);
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+canvas{
+  position: absolute;
+  background: transparent;
+}
+
+.text-container{
+  text-align: center;
+  z-index: 2;
+  padding-top: 100px;
+  font-size: 28px;
+  text-shadow: 3px 4px 4px rgba(0,0,0,0.3);
+}
+
+section.intro{
+  color: white;
+  text-align: center;
+}

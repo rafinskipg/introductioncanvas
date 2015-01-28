@@ -1,5 +1,5 @@
 var canvas = document.getElementById('canvas');
-var grid, CELL_SIZE = 5, cords = [], dragging = false;
+var grid, CELL_SIZE = 10, cords = [], dragging = false;
 
 function update(dt){
   grid.update(dt);
