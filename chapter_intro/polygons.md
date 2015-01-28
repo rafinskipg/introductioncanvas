@@ -55,7 +55,7 @@ drawPolygon(150, 150, 50, 6);
 
 `canvas` nos proporciona herramientas para realizar cosas visualmente más apetecibles como dar sombras a los objetos, colores degradados, fondos de imagenes, etc.
 
-Introduzcamos algo de color en nuestro hexágono, para ello empecemos dándole una sombra, introduciendo este código antes de `context.stroke`:
+Introduzcamos algo de profundidad en nuestro hexágono, para ello empecemos dándole una sombra, añadiendo este código antes de `context.stroke`:
 
 ```javascript
 //Color de sombra
@@ -72,6 +72,36 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked_shadow.png)
 
+Cambiamos las propiedades del pintado de línea.
+
+```javascript
+context.strokeStyle = 'rgb(56, 29, 181)';
+context.lineWidth = 5;
+context.stroke();
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked_shadow_newstroke.png)
+
+Y finalmente, creamos un gradiente. Este gradiente irá desde el origen de la figura hasta su final, y cambiará de color en el centro:
+
+```javascript
+//Podemos cambiar la dirección del gradiente cambiando las coordenadas
+//createLinearGradient(x, y, destX, destY)
+var gradient = context.createLinearGradient(-radius, -radius, radius, radius );
+//Color en la posición 0
+gradient.addColorStop(0, "rgba(56, 29, 181, 0.5)");
+//Color a mitad de distancia
+gradient.addColorStop(0.5, "rgb(96, 72, 208)");
+//Color al final
+gradient.addColorStop(1, "rgba(56, 29, 181, 0.5)");
+
+context.fillStyle = gradient;
+context.fill();
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon.png)
+
+Veamos como quedaría en conjunto: 
 
 ```javascript
 var canvas = document.getElementById('canvas');
@@ -110,13 +140,11 @@ function drawPolygon(x, y, radius, sides, startAngle) {
   context.strokeStyle = 'rgb(56, 29, 181)';
   context.lineWidth = 5;
   context.stroke();
-
+ 
   //Lo rellenamos con un gradiente
-  var gradient = context.createLinearGradient(-x/2, -y/2, radius, radius );
+  var gradient = context.createLinearGradient(-radius, -radius, radius, radius );
   gradient.addColorStop(0, "rgba(56, 29, 181, 0.5)");
-  gradient.addColorStop(0.45, "rgba(96, 72, 208, 0.95)");
   gradient.addColorStop(0.5, "rgb(96, 72, 208)");
-  gradient.addColorStop(0.53, "rgba(96, 72, 208, 0.97)");
   gradient.addColorStop(1, "rgba(56, 29, 181, 0.5)");
   context.fillStyle = gradient;
   context.fill();
@@ -125,22 +153,26 @@ function drawPolygon(x, y, radius, sides, startAngle) {
 }
 
 function render(){
-  drawPolygon(150, 100, 50, 6, 0);
-  drawPolygon(260, 100, 50, 3, 30);
-  drawPolygon(370, 100, 50, 4, 0);
-
-  drawPolygon(150, 300, 50, 5, 0);
-  drawPolygon(260, 300, 50, 8, 0);
-  drawPolygon(370, 300, 50, 12, 0);
+  drawPolygon(150, 150, 100, 6, 0);
 }
 
 render();
 ```
+Recuerda que sirve para generar cualquier polígono regular, tan solo has de parametrizarlo:
 
-## Resultado
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon.png)
+```javascript
+drawPolygon(150, 100, 50, 6, 0);
+drawPolygon(260, 100, 50, 3, 30);
+drawPolygon(370, 100, 50, 4, 0);
 
+drawPolygon(150, 300, 50, 5, 0);
+drawPolygon(260, 300, 50, 8, 0);
+drawPolygon(370, 300, 50, 12, 0);
+```
 
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/polygons.png)
+
+##TODO : To check
 
 http://scienceprimer.com/drawing-regular-polygons-javascript-canvas
 

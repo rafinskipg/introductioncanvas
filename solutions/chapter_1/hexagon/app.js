@@ -29,23 +29,20 @@ function drawPolygon(x, y, radius, sides, startAngle) {
   context.shadowOffsetY = 8;
   context.shadowBlur = 10;
   context.fill();
-/* 
+
   //Pintamos el borde de la figura
   context.strokeStyle = 'rgb(56, 29, 181)';
   context.lineWidth = 5;
   context.stroke();
-
+ 
   //Lo rellenamos con un gradiente
-  var gradient = context.createLinearGradient(-x/2, -y/2, radius, radius );
+  var gradient = context.createLinearGradient(-radius, -radius, radius, radius );
   gradient.addColorStop(0, "rgba(56, 29, 181, 0.5)");
-  gradient.addColorStop(0.45, "rgba(96, 72, 208, 0.95)");
   gradient.addColorStop(0.5, "rgb(96, 72, 208)");
-  gradient.addColorStop(0.53, "rgba(96, 72, 208, 0.97)");
   gradient.addColorStop(1, "rgba(56, 29, 181, 0.5)");
   context.fillStyle = gradient;
   context.fill();
-*/
-context.stroke();
+
   context.restore();
 }
 
