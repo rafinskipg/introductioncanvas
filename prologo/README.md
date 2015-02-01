@@ -1,13 +1,14 @@
 # Prólogo
 
+## Acerca del libro
+
+Este libro trata el uso de `canvas` desde aprender a trazar formas sencillas, a realizar animaciones visuales, crear nuestro propio __motor__ de renderizado, crear nuestra clase de manejo de `sprites`, etc.
+
 ## Formato de los capítulos
-Cada capítulo constará de una parte teórica, donde se explicarán algunos conceptos y una parte práctica en la que se pedirá al lector que realice varios ejercicios.
 
-Los ejercicios son una parte muy importante del libro, ya que profundizarán en conceptos y mostrarán cosas que no están en la parte práctica.
+Cada capítulo constará de una parte teórica, donde se explicarán algunos conceptos y una parte práctica en la que se pedirá al lector que realice varios ejercicios o se explicará como se ha implementado alguna solución.
 
-Además... No hay mejor manera de aprender que practicar.
-
-Los ejercicios resueltos y los materiales necesarios (sprites, sonidos, imágenes) estarán disponibles en el repositorio del libro.
+Podrás encontrar el código de todos los ejemplos del libro en el repositorio de __GitHub__ `https://github.com/rafinskipg/introductioncanvas/` 
 
 Si encuentras alguna errata o bug puedes reportarlo a través de una issue en GitHub `https://github.com/rafinskipg/introductioncanvas/issues` 
 
@@ -23,30 +24,14 @@ var ejemplo = 'ejemplo';
 
 O en el formato inline: `canvas`, que permite la continuación del párrafo a su alrededor.
 
-El código se escribirá en el formato *CommonJS* - el usado por NodeJS -, y que usaremos en el navegador gracias a *Browserify*. Browserify es una herramienta que nos permitirá reutilizar paquetes de Node en el navegador, un concepto que se conoce como código isomórfico (que se ejecuta igual en el servidor que en el cliente). Esto lo consigue actuando como una envoltura sobre los paquetes cargados.
+Para ejecutar los ejercicios tan solo necesitarás un editor de texto simple y un navegador en el que previsualizarlo.
 
-Ejemplo de formato *CommonJS*:
-
-```javascript
-/* File user.js */
-
-//Cargamos un paquete de node, este en concreto sirve para generar IDs únicos
-var uid = require('uuid');
-
-function User(){
-  this.id = uuid.v1():
-}
-
-module.exports = User;
-```
-
-Todos los conceptos que necesiten una referencia externa quedarán reunidos en el glosario que se encuentra al final del libro.
-
-
-## Agradecimientos
-
-//TODO
 
 ## Sobre el autor
 
-//TODO
+Me llamo *Rafael Ventura* y soy programador web que lleva varios años trabajando con JavaScript a nivel profesional.
+Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS*, he hecho mis recetas de *Gulp*, *Grunt*, he publicado generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
+
+Podéis seguirme en *GitHub* o en *Twitter* a través del, siempre repetido nickname, @rafinskipg 
+
+__Disfrutad del viaje__

@@ -3,6 +3,7 @@
 Índice de contenidos del libro
 
 * [Prologo](prologo/README.md)
+    * [Agradecimientos](prologo/thanks.md)
 * [Introducción](chapter_intro/README.md)
     * [Rectángulos](chapter_intro/rectangles.md)
     * [Circulos y líneas](chapter_intro/circles.md)
@@ -12,9 +13,9 @@
     * [Animaciones](chapter_animations/animations.md)
     * [Engine](chapter_animations/engine.md)
     * [El Juego de la Vida](chapter_animations/gameoflife.md)
-* [Patrones visuales](2_chapter_patterns/README.md)
-    * [Grid de hexágonos](2_chapter_patterns/hexagons.md)
-    * [Fractales](2_chapter_patterns/fractals.md)
+* [Patrones visuales](chapter_patterns/README.md)
+    * [Grid de hexágonos](chapter_patterns/hexagons.md)
+    * [Fractales](chapter_patterns/fractals.md)
 * [Usando imagenes](4_chapter_images/README.md)
     * [Preloader](5_chapter_games/README.md)
     * [La clase Sprite](4_chapter_images/sprite.md)
