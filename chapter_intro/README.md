@@ -39,17 +39,11 @@ Una vez que ya tenemos referenciado el elemento `canvas` y hemos obtenido su con
 
 Siempre que vayamos a pintar algo sobre el canvas, tenemos que tener claro su sistema de coordenadas, que es el siguiente 
 
-![sistema_coordenadas](https://github.com/rafinskipg/introductioncanvas/raw/master/img/coordinate_system.png)
-
 El eje `x` aumenta a partir de 0 de izquierda a derecha, y lo mismo pasa con el eje `y` de arriba a abajo.
 
+![sistema_coordenadas](https://github.com/rafinskipg/introductioncanvas/raw/master/img/coordinate_system.png)
 
-
-## Para los ejercicios.
-### ¿Qué vamos a practicar?
-En este capítulo vamos a practicar los métodos del contexto `rect`, `fill`, `stroke`, `moveTo`, `lineTo` y `beginPath`.
-
-### Antes de empezar
+## Antes de empezar
 
 Podrás encontrar **la solución de todos los ejercicios en `https://github.com/rafinskipg/introductioncanvas/examples/`**
 
