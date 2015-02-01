@@ -12,13 +12,13 @@ context.arc(x,y,r,start,stop);
 `beginPath` sirve para indicar que empezamos un nuevo dibujo separado del anterior, indicandole al `canvas` que estamos trazando una nueva figura.
 
 
-`context.arc` traza una curva, en las coordenadas `x` e `y`. `r` es el radio de la circunferencia y `start` y `stop` son los ángulos en radianes de inicio y fin de pintado.
+`context.arc` traza un arco, en las coordenadas `x` e `y`. `r` es el radio de la circunferencia y `start` y `stop` son los ángulos en radianes de inicio y fin de pintado.
 
 El ángulo de giro es en sentido antihorario, como podemos ver en las siguientes figuras:
 
 //TODO: check sentido de giro
 
-__`Math.PI * 2` radianes equivale a un ángulo 360 grados, `Math.PI` radianes son 180 grados.--
+__`Math.PI * 2` radianes equivale a un ángulo 360 grados, `Math.PI` radianes son 180 grados.__
 
 
 Posteriormente podremos usar `context.stroke` o `context.fill`, como hemos aprendido en el ejercicio anterior, para dibujar el contorno o rellenar el círculo.
@@ -41,7 +41,7 @@ context.lineWidth = 5;
 
 //Notifica al canvas de que trazamos una nueva figura
 context.beginPath();
-//Dibujamos un círculo
+//Trazamos un arco de 360 grados 
 context.arc(200,200,50,0,2*Math.PI);
 //Pintamos su contorno
 context.stroke();
