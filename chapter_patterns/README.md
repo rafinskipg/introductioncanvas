@@ -10,14 +10,7 @@ Estos son los primeros 15 dígitos de la sucesión
 
 `[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]`
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci.jpg)
-
-Conforme avanzamos en la sucesión, el ratio entre los números sucesivos tiende hacia una constante (1.61803 aprox), conocida como el _número áureo ϕ _. 
-Esta sucesión tiene múltiples aplicaciones, tanto en música como en ciencia, en la naturaleza podemos encontrarla en las ramas de los árboles, en la disposición de los pétalos de las flores, en la cantidad de pétalos de flores...
-
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci2.jpg)
-
-Un ejemplo de una implementación sencilla de la sucesión de Fibonacci en JavaScript.
+__Ejemplo de una implementación sencilla de la sucesión de Fibonacci en JavaScript.__
 
 ```javascript
 function fibonacci(size){
@@ -34,6 +27,20 @@ function fibonacci(size){
 }
 ```
 
+A los números de esta sucesión se les llama números de Fibonacci.
+
+Al construir bloques cuya longitud de lado sean números de Fibonacci se obtiene un dibujo que asemeja al rectángulo áureo.
+
+__Ejemplo de una espiral de fibonacci dentro de un rectángulo áureo__
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci.jpg)
+
+Conforme avanzamos en la sucesión, el ratio entre los números sucesivos tiende hacia una constante (1.61803 aprox), conocida como el _número áureo ϕ _. 
+Esta sucesión tiene múltiples aplicaciones, tanto en música como en ciencia, en la naturaleza podemos encontrarla en las ramas de los árboles, en la disposición de los pétalos de las flores, en la cantidad de pétalos de flores...
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci2.jpg)
+
+
 ## El número áureo
 
 El número áureo es un número irracional - sus decimales se extienden hasta el infinito - como el número pi. Y generalmente se representa con el carácter ϕ   - phi - o mediante su fórmula:
@@ -48,6 +55,7 @@ A lo largo del tiempo se ha utilizado el número áureo para generar obras que g
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
 
+## Rectángulo áureo en canvas
 
 Vamos a realizar una implementación del rectángulo áureo en `canvas`.
 
@@ -97,12 +105,11 @@ Devuelve el canvas a su origen de coordenadas inicial.
 
 
 
-# Implementacion 
+# Flor con ángulo dorado
 
-![]()
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/flower.gif)
 
-Dibujar una flor 
-`http://krazydad.com/tutorials/circles/`
+http://krazydad.com/tutorials/circles/
 
 ## Ammann Beenker 
 

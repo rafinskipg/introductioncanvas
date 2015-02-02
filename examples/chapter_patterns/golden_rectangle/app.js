@@ -41,6 +41,7 @@ GoldenRectangle.prototype.draw = function(context){
 
 GoldenRectangle.prototype.getInnerRectangleData = function(){
   var x,y;
+  
   switch(this.phase){
     case 0:
       x = this.x + this.width;
@@ -58,8 +59,8 @@ GoldenRectangle.prototype.getInnerRectangleData = function(){
       x = this.x;
       y = this.y - this.width;
     break;
-   
   }
+
   return {
     x : x,
     y : y,
