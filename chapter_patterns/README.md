@@ -59,7 +59,7 @@ A lo largo del tiempo se ha utilizado el número áureo para generar obras que g
 
 Vamos a realizar una implementación del rectángulo áureo en `canvas`.
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/golden_rectangle_generated.gif)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/golden_rectangle_generated.png)
 
 > El rectángulo dorado (denominado también rectángulo áureo) es un rectángulo que posee una proporcionalidad entre sus lados igual a la razón aúrea. Es decir que es aquél rectángulo que al substraer la imagen de un cuadrado igual al de su lado menor, el rectángulo resultante es igualmente un rectángulo dorado. A partir de este rectángulo se puede obtener la espiral dorada, que es una espiral logarítmica.
 
