@@ -113,13 +113,17 @@ Si jugamos cambiando el ángulo entre cada uno de los puntos, y la cantidad máx
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_90degrees.png)
 
 
-## Rectángulo áureo en canvas
+### Rectángulo áureo en canvas
 
-Vamos a realizar una implementación del rectángulo áureo en `canvas`.
+Considera la siguiente implementación del rectángulo áureo en `canvas`.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/golden_rectangle_generated.png)
 
 > El rectángulo dorado (denominado también rectángulo áureo) es un rectángulo que posee una proporcionalidad entre sus lados igual a la razón aúrea. Es decir que es aquél rectángulo que al substraer la imagen de un cuadrado igual al de su lado menor, el rectángulo resultante es igualmente un rectángulo dorado. A partir de este rectángulo se puede obtener la espiral dorada, que es una espiral logarítmica.
+
+Podemos ver las 4 fases que conforman la espiral contenidas en cada uno de los cuadrados que quedan dentro de cada sección del rectángulo áureo.
+
+Podemos realizar una implementación del rectángulo áureo sin trazar una espiral, utilizando la regla de que cada sección restante del rectángulo, tras trazar un arco desde una de sus esquinas, es otro rectángulo áureo.
 
 Para ello tomaremos como base el código que hemos estado usando hasta ahora, pero vamos a hacer un poco más ancho el lienzo
 
