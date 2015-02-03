@@ -108,6 +108,11 @@ Si jugamos cambiando el ángulo entre cada uno de los puntos, y la cantidad máx
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_phidegrees.png)
 
+- 200 puntos y 90º
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_90degrees.png)
+
+
 ## Rectángulo áureo en canvas
 
 Vamos a realizar una implementación del rectángulo áureo en `canvas`.

@@ -1,5 +1,5 @@
 var canvas = document.getElementById('canvas');
-var MAX_POINTS = 1500;
+var MAX_POINTS = 200;
 var phi = ( 1 + Math.sqrt(5) ) / 2;
 var golden_angle = phi * 2 * Math.PI;
 var spiral_radius, centerX, centerY;
@@ -35,7 +35,7 @@ function render(context, canvas){
   //var growthFactor
   context.beginPath();
   //var spiral_angle = phi;
-var spiral_angle = Utils.degreeToRadian(1)
+var spiral_angle = Utils.degreeToRadian(90)
 
   for (var i = 1; i <= MAX_POINTS; ++i) {
     var ratio = i / MAX_POINTS;
@@ -65,7 +65,7 @@ function updateCallback(dt){
 
 }
 
-var myEngine = new Engine(canvas, true, 100);
+var myEngine = new Engine(canvas, true, 1);
 //myEngine.setStartDelay(1000);
 myEngine.addStartCallback(startCallback);
 myEngine.addUpdateCallback(updateCallback);
