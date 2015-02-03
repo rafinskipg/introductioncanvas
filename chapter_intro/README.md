@@ -6,4 +6,4 @@
 > - no te impliques</i>
 > _<h3 style="float:right">Sensei Quijano</h3>_
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/aikido.jpg)
+<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/aikido.jpg" style="width:500px; margin-left: 100px">
