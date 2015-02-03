@@ -2,7 +2,7 @@ var canvas = document.getElementById('canvas');
 var MAX_PETALS = 600;
 var petals = [];
 var phi = ( 1 + Math.sqrt(5) ) / 2;
-var golden_angle = phi * 2 * Math.PI;
+var golden_angle = phi;
 var flower_radius, centerX, centerY;
 
 function Petal(opts ){
@@ -62,7 +62,7 @@ function updateCallback(dt){
 
 }
 
-var myEngine = new Engine(canvas);
+var myEngine = new Engine(canvas, false);
 myEngine.addStartCallback(startCallback);
 myEngine.addUpdateCallback(updateCallback);
 myEngine.addRenderCallback(render);

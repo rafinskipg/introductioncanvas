@@ -8,6 +8,8 @@ function Engine(canvas, loopable, maxIterations){
   this.currentIteration = 0;
   this.now = Date.now();
   this.then = Date.now();
+  this.clock = 0;
+  this.startDelay = 0;
   this.loopable = (typeof(loopable) === 'undefined' || loopable !== false) ? true : false;
 }
 
@@ -52,10 +54,13 @@ Engine.prototype.loop = function(){
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
   var dt = this.now - this.then;
   
-  this.update(dt);
-  this.clear();
-  this.render();
-  this.currentIteration++;
+  this.clock += dt;
+  if(this.clock > this.startDelay){
+    this.update(dt);
+    this.clear();
+    this.render();
+    this.currentIteration++;
+  }
 
   //Almacenamos el valor que de now para la siguiente iteración
   this.then = this.now;
@@ -70,5 +75,12 @@ Engine.prototype.start = function(){
     cb(this.context, this.canvas)
   }.bind(this));
 
+  //Restart the loop variable
+  this.then = Date.now();
+  this.clock = 0;
   this.loop();
+}
+
+Engine.prototype.setStartDelay = function(ms){
+  this.startDelay = ms;
 }

@@ -55,6 +55,59 @@ A lo largo del tiempo se ha utilizado el número áureo para generar obras que g
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
 
+## Espiral de fibonacci
+
+La espiral de fibonacci es una espiral logarítmica cuyo factor de crecimiento es el número áureo φ. 
+
+>Wikipedia - In geometry, a golden spiral is a logarithmic spiral whose growth factor is φ, the golden ratio.[1] That is, a golden spiral gets wider (or further from its origin) by a factor of φ for every quarter turn it makes.
+
+Es decir, que por cada cuarto de vuelta (o cada fase de esa vuelta), se incrementa el ángulo de la curva por un factor de número áureo.
+
+Tenemos que tener claro que si el extremo más alejado de la espiral tiene un ángulo de φ, el cuarto anterior tendrá un ángulo de 1/φ, el anterior 1/φ^2 y el más pequeño 1/φ^3.
+
+Para dibujar una espiral en canvas, aunque no sea de fibonacci, debemos mover el cursor por una serie de puntos, calculados e incrementados en distancia y ángulo desde el origen de coordenadas.
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral.png)
+
+En cada uno de estos pasos trazaremos una línea al anterior mediante `context.lineTo(x, y);`
+
+```javascript
+function render(context, canvas){
+  //angulo entre los puntos, resulta interesante ver que pasa al variarlo...
+  var spiral_angle = Utils.degreeToRadian(1);
+  
+  context.beginPath();
+
+  for (var i = 1; i <= MAX_POINTS; ++i) {
+    var ratio = i / MAX_POINTS;
+    var angle = i * spiral_angle;
+    var distanceFromCenter = ratio * spiral_radius;
+    var x = centerX + Math.cos(angle) * distanceFromCenter
+    var y = centerY + Math.sin(angle) * distanceFromCenter
+    context.lineTo(x, y);
+  }
+
+  context.stroke();
+}
+
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_1degree.png)
+
+Si jugamos cambiando el ángulo entre cada uno de los puntos, y la cantidad máxima de puntos a pintar, podemos obtener figuras muy curiosas:
+
+- 1500 puntos y 19º
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_19degrees.png)
+
+- 1500 puntos y 20º
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_20degrees.png)
+
+- 1500 puntos y phiº
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_phidegrees.png)
+
 ## Rectángulo áureo en canvas
 
 Vamos a realizar una implementación del rectángulo áureo en `canvas`.
@@ -108,6 +161,7 @@ Devuelve el canvas a su origen de coordenadas inicial.
 
 
 # Flor con ángulo dorado
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/flower.gif)
 
