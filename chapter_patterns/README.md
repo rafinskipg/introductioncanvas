@@ -112,6 +112,11 @@ Si jugamos cambiando el ángulo entre cada uno de los puntos, y la cantidad máx
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_90degrees.png)
 
+Estas espirales siguen un factor constante en su ángulo, sin embargo, si cambiamos el factor de crecimiento del ángulo como hemos dicho, podremos obtener una espiral de fibonacci:
+
+Las curvas logaritmicas, se encuentra presente en la naturaleza, por ejemplo en los brazos de una galaxia, en las conchas de los moluscos, siguiendo el mismo patrón que la espiral de fibonacci pero a veces con otros ángulos.
+
+
 
 ### Rectángulo áureo en canvas
 
