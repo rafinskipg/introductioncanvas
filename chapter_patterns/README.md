@@ -116,6 +116,9 @@ Estas espirales siguen un factor constante en su ángulo, sin embargo, si cambia
 
 Las curvas logaritmicas, se encuentra presente en la naturaleza, por ejemplo en los brazos de una galaxia, en las conchas de los moluscos, siguiendo el mismo patrón que la espiral de fibonacci pero a veces con otros ángulos.
 
+//TODO http://en.wikipedia.org/wiki/Golden_spiral
+//http://krazydad.com/tutorials/rainbow/
+//http://es.wikipedia.org/wiki/Sucesi%C3%B3n_de_Fibonacci
 
 
 ### Rectángulo áureo en canvas

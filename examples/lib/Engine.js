@@ -55,9 +55,10 @@ Engine.prototype.loop = function(){
   var dt = this.now - this.then;
   
   this.clock += dt;
-  if(this.clock > this.startDelay){
-    this.update(dt);
+
+  if(this.clock >= this.startDelay){
     this.clear();
+    this.update(dt);
     this.render();
     this.currentIteration++;
   }
