@@ -8,7 +8,7 @@ Si quieres decirme algo, puedes hacerlo a través de mi correo rafinskipg@gmail.
 
 Aceptaré cualquier tipo de idea, sugerencia y crítica sobre el libro. Y si solamente quieres saludarme, puedes hacerlo también :)
 
-Si quieres ampliar más tus conocimientos sobre desarrollo de juegos en canvas, solo tienes que esperar a que publique mi segundo libro **`De <Canvas> a Juego`**, que te hará conocer como crear naves, hojas de sprites, utilizar librerías de renderizado con mucho más rendimiento, juegos multiplayer con `sockets`, etc...
+Si quieres ampliar más tus conocimientos sobre desarrollo de juegos en canvas, solo tienes que esperar a que publique mi segundo libro **`De <Canvas> a Juego`**, que te hará conocer como crear naves, hojas de sprites, utilizar librerías de renderizado con mucho más rendimiento, juegos multiplayer con `sockets`, exportar tu juego para Android / iOS, etc...
 
 Si quieres saber más sobre el proceso de build, Browserify, NPM, Yeoman, Grunt... Puedes buscar mi libro **`Una build hipster, una build feliz`**.
 

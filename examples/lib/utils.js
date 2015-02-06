@@ -1,5 +1,5 @@
 /**
-  Utils
+  Utils you will use so maany times
 **/
 var Utils = {};
 
@@ -11,15 +11,18 @@ Utils.degreeToRadian = function(degree){
   return degree/(180/Math.PI);
 }
 
+//Returns a random Integer between min and max
 Utils.randomInteger = function(min, max){
-  return Math.floor(Math.random()*max)+min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+//Calculates the bounce angle between a particle with a incidenceAngle and a wall with angleDest
 Utils.calculateBounceAngle = function(incidenceAngle, angleDest){
   reflectionAngle = 2 * angleDest - incidenceAngle;
   return reflectionAngle;
 }
 
+//Returns a fibonacci serie
 Utils.fibonacci = function(size){
   var first = 0, second = 1,  next, count = 2, results = [first, second];
   
@@ -41,10 +44,28 @@ Utils.isEven = function(number){
   return Utils.isOdd(number + 1);
 }
 
-Utils.flipCoin = function(probability){
-  probability = probability ? probability : 2;
-  return Math.floor( Math.random() * probability ) == 1;
+//Returns true or false randomly, you can force the probability.
+//The bigger the times number, the less probable to happen
+Utils.flipCoin = function(times){
+  times = times ? times : 2;
+  return Math.floor( Math.random() * times ) == 1;
 }
 
+//Returns the mouse coords relative to the canvas
+Utils.getMouseCoords = function(canvas, e){
+  var canvasPosition, mouse;
+
+  canvasPosition = {
+    x: canvas.offsetLeft,
+    y: canvas.offsetTop
+  }
+
+  mouse = {
+    x: e.pageX - canvasPosition.x,
+    y: e.pageY - canvasPosition.y
+  }
+
+  return mouse;
+}
 
 window.Utils = Utils;

@@ -394,25 +394,3 @@ var colors = ['#F1EBD5', '#FBBC16', '#FF820E', '#FF3352'];
 
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/circles_1.gif)
-
-
-# Ejercicio 2
-
-Cada uno de los círculos tendrá las siguientes propiedades:
-  - Posición x e y aleatorias
-  - Ángulo aleatorio entre 0º y 360º
-  - Color aleatorio
-  - Radio aleatorio
-  - Velocidad aleatoria entre 50 y 200
-
-Cuando un círculo se salga del tamaño del `canvas` cambia el ángulo de movimiento del círculo para que rebote en la pared.
-
-## Ayuda
-
-Puedes usar esta función para calcular el ángulo de rebote de la figura:
-
-```javascript
-function calculaAnguloDeRebote(figura){
-
-}
-```

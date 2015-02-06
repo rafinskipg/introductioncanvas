@@ -14,6 +14,7 @@
     * [Rotando](chapter_animations/rotating.md)
     * [Animaciones](chapter_animations/animations.md)
     * [My Engine](chapter_animations/engine.md)
+    * [Gravedad, Herencia y Vector2D](chapter_animations/vector2d.md)
     * [El Juego de la Vida](chapter_animations/gameoflife.md)
 * [Patrones visuales](chapter_patterns/README.md)
     * [Fibonacci](chapter_patterns/fibonacci.md)
