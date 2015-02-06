@@ -1,19 +1,25 @@
 var canvas = document.getElementById('canvas');
-var particles = [], MAX_PARTICLES = 10, addingParticle;
+var particles = [], MAX_PARTICLES = 10;
+var addingParticle;
 
 function start(context, canvas){
   for(var i = 0; i < MAX_PARTICLES; i++){
-    particles.push(new ParticleWithMass({
+    var newParticle = new ParticleWithMass({
       mass : Utils.randomInteger(1, 20),
       x : Utils.randomInteger(0, canvas.width),
       y : Utils.randomInteger(0, canvas.height),
       speedX : Utils.randomInteger(-100, 100),
       speedY : Utils.randomInteger(-100, 100)
-    }))
+    });
+
+    addParticle(newParticle);
   }
   addEventListeners();
 }
 
+function addParticle(particle){
+  particles.push(particle);
+}
 
 function update(dt){
   particles = particles.map(function(particle){
@@ -36,7 +42,6 @@ function render(context){
   }
 }
 
-
 function addEventListeners(){
   canvas.addEventListener('mousedown', handleMouseDown, false);
   canvas.addEventListener('mousemove', handleMouseMove, false);
@@ -44,7 +49,7 @@ function addEventListeners(){
 }
 
 function handleMouseDown(e){
-  var mouse = Utils.getMouseCoords(e);
+  var mouse = Utils.getMouseCoords(canvas, e);
   
   addingParticle = new ParticleWithMass({
     x : mouse.x,
@@ -56,22 +61,23 @@ function handleMouseDown(e){
 
 function handleMouseMove(e){
   if(addingParticle){
-    var mouse = Utils.getMouseCoords(e);
+    var mouse = Utils.getMouseCoords(canvas, e);
     addingParticle.pos.x = mouse.x;
     addingParticle.pos.y = mouse.y;
   }
 }
 
 function handleMouseUp(e){
-  particles.push(new ParticleWithMass({
+  var newParticle = new ParticleWithMass({
     x : addingParticle.pos.x,
     y : addingParticle.pos.y,
 
     speedX: Utils.randomInteger(1,10),
     speedY: Utils.randomInteger(1, 20),
     mass : addingParticle.mass
-  }));
-  console.log(particles)
+  });
+
+  addParticle(newParticle);
   addingParticle = null;
 }
 

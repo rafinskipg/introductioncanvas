@@ -300,7 +300,7 @@ Implementemos los callback de los eventos.
 
 ```javascript
 function handleMouseDown(e){
-  var mouse = Utils.getMouseCoords(e);
+  var mouse = Utils.getMouseCoords(canvas, e);
   
   //Almacenamos la nueva particula temporal
   addingParticle = new ParticleWithMass({
@@ -314,7 +314,7 @@ function handleMouseDown(e){
 //Al mover el ratón actualizamos la posición de la partícula
 function handleMouseMove(e){
   if(addingParticle){
-    var mouse = Utils.getMouseCoords(e);
+    var mouse = Utils.getMouseCoords(canvas, e);
     addingParticle.pos.x = mouse.x;
     addingParticle.pos.y = mouse.y;
   }
