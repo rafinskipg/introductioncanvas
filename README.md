@@ -8,7 +8,11 @@ En este libro podrás ver como:
 - Dibujar formas básicas, círculos, polígonos, líneas
 - Añadir sombreados, colores y gradientes a los elementos
 - Entender los principios básicos de la animación
+- Crear tu motor de renderizado en canvas
 - Crear animaciones de elementos
-- Crear un **Juego de la Vida**
+- Implementar partículas que interactuan entre sí con gravedad
+- Crear un **Juego de la Vida** con interacción con el ratón
 - Crear **diseños web interactivos**
+- Crear tu clase de manejo de **Sprites**
+- Movidas curiosas sobre Fibonacci y el número áureo
 - **Bonus:** Como renderizar imágenes con canvas en el servidor
