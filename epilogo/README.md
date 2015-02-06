@@ -10,6 +10,8 @@ Aceptaré cualquier tipo de idea, sugerencia y crítica sobre el libro. Y si sol
 
 Si quieres ampliar más tus conocimientos sobre desarrollo de juegos en canvas, solo tienes que esperar a que publique mi segundo libro **`De <Canvas> a Juego`**, que te hará conocer como crear naves, hojas de sprites, utilizar librerías de renderizado con mucho más rendimiento, juegos multiplayer con `sockets`, etc...
 
+Si quieres saber más sobre el proceso de build, Browserify, NPM, Yeoman, Grunt... Puedes buscar mi libro **`Una build hipster, una build feliz`**.
+
 Me encantaría despedirme con un poema
 
 > Si el camino ha sido afable

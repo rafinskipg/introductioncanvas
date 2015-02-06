@@ -9,6 +9,7 @@
     * [Rectángulos](chapter_intro/rectangles.md)
     * [Circulos y líneas](chapter_intro/circles.md)
     * [Polígonos](chapter_intro/polygons.md)
+    * [Gestión de paquetes con Bower](chapter_intro/packagemanagement.md)
 * [Dar movimiento](chapter_animations/README.md)
     * [Rotando](chapter_animations/rotating.md)
     * [Animaciones](chapter_animations/animations.md)
