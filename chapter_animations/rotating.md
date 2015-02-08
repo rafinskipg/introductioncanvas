@@ -24,6 +24,7 @@ El archivo `lib/utils.js` incluirá todas las fórmulas que se declaren con la s
 
 
 ```javascript
+//lib/Utils.js
 var Utils = {};
 
 Utils.radianToDegree  = function(radians){
@@ -38,6 +39,7 @@ Utils.degreeToRadian = function(degree){
 Veamos un ejemplo de como aplicar el método rotate para rotar el cuadrado del primer ejercicio 45 grados.
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
@@ -79,6 +81,7 @@ El método *translate* sirve para cambiar el origen de coordenadas. De esta mane
 Primero de todo cambiemos el origen de coordenadas, una vez cambiado tendremos que cambiar también los parámetros que recibe `context.rect`, ya que al desplazar el origen de coordenadas a otro punto, las coordenadas que le estabamos pasando serán incorrectas.
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
@@ -110,6 +113,7 @@ Actualizamos los parámetros de `context.rect` para que se pinte donde estaba an
 
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
@@ -141,6 +145,7 @@ render();
 Añadimos el ángulo de rotación (**después de la traslación**)
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 

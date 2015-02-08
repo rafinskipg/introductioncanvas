@@ -100,6 +100,7 @@ Al crear nuestra clase `ParticleWithMass`, que será la que defina el comportami
 Podemos heredar el constructor y métodos de la clase base haciendo lo siguiente
 
 ```javascript
+//models/ParticleWithMass.js
 function ParticleWithMass(opts){
   //Llamamos al constructor de BaseEntity
   BaseEntity.prototype.constructor.call(this, opts);
@@ -111,6 +112,7 @@ function ParticleWithMass(opts){
 Ahora vamos a heredar el prototipo de la clase BaseEntity
 
 ```javascript
+//models/ParticleWithMass.js
 /*
   Inicializamos el prototipo de ParticleWithMass 
   con el prototipo por defecto de BaseEntity
@@ -124,6 +126,7 @@ ParticleWithMass.prototype.parent = BaseEntity.prototype;
 Ahora que ya tenemos el "padre" referenciado en nuestras nuevas instancias ya podemos utilizar su implementación de los métodos además de la propia de `ParticleWithMass`
 
 ```javascript
+//models/ParticleWithMass.js
 ParticleWithMass.prototype.update = function(dt) {
   //Llamamos al metodo update del padre
   this.parent.update.call(this, dt);
@@ -137,6 +140,7 @@ ParticleWithMass.prototype.update = function(dt) {
 Haremos que en el renderizado se pinten de un color u otro dependiendo de su masa. También haremos que su tamaño esté relacionado con su masa.
 
 ```javascript
+//models/ParticleWithMass.js
 function ParticleWithMass(opts){
   BaseEntity.prototype.constructor.call(this, opts);
   this.mass = opts.mass || 1;
@@ -187,7 +191,7 @@ Ahora que ya tenemos el modelo creado, lo incluiremos en la aplicación.
 <script src="../../lib/utils.js"></script>
 <script src="../../lib/Engine.js"></script>
 <script src="../../lib/BaseEntity.js"></script>
-<script src="models/particle_with_mass.js"></script>
+<script src="models/ParticleWithMass.js"></script>
 <script src="app.js"></script>
 ```
 
@@ -196,6 +200,7 @@ Ahora que ya tenemos el modelo creado, lo incluiremos en la aplicación.
 El canvas inicial aparecerá con 10 partículas aleatorias
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var particles = [], MAX_PARTICLES = 10;
 
@@ -236,6 +241,7 @@ Con esto tendriamos unas bonitas partículas, que no se mueven ni interactuan.
 Si quisieramos que tuvieran una velocidad inicial aleatoria: 
 
 ```javascript
+//app.js
 function start(context, canvas){
   
   for(var i = 0; i < MAX_PARTICLES; i++){
@@ -269,6 +275,7 @@ var addingParticle;
 En la función de `start` añadiremos la inicialización de los listeners de eventos del ratón.
 
 ```javascript
+//app.js
 function start(context, canvas){
   /*... 
 
@@ -282,6 +289,7 @@ function start(context, canvas){
 Como no estamos usando jQuery, usaremos la delegación de eventos nativa de JavaScript:
 
 ```javascript
+//app.js
 function addEventListeners(){
   canvas.addEventListener('mousedown', handleMouseDown, false);
   canvas.addEventListener('mousemove', handleMouseMove, false);
@@ -295,6 +303,7 @@ Para saber en que coordenadas del canvas estamos haciendo click usaremos esta fu
 Tendremos que restarle a las coordenadas del ratón el offset que tiene el canvas (padding, margin) con respecto a la página.
 
 ```javascript
+//lib/Utils.js
 //Returns the mouse coords relative to the canvas
 Utils.getMouseCoords = function(canvas, e){
   
@@ -310,6 +319,7 @@ Utils.getMouseCoords = function(canvas, e){
 Implementemos los callback de los eventos.
 
 ```javascript
+//app.js
 function handleMouseDown(e){
   var mouse = Utils.getMouseCoords(canvas, e);
   
@@ -350,6 +360,7 @@ function handleMouseUp(e){
 Como podéis ver se ha creado una nueva propiedad `autoIncrement` en el modelo de partículas, esta propiedad la usaremos en la función `update` de su modelo para incrementar su tamaño en cada ejecución del loop, de esta manera, cuanto más mantengamos presionado el ratón más irá creciendo la masa de la partícula.
 
 ```javascript
+//models/ParticleWithMass.js
 ParticleWithMass.prototype.update = function(dt) {
   this.parent.update.call(this, dt);
   
@@ -362,6 +373,7 @@ ParticleWithMass.prototype.update = function(dt) {
 Ahora solo faltará añadir esa partícula temporal a los métodos del engine.
 
 ```javascript
+//app.js
 function update(dt){
   particles = particles.map(function(particle){
     particle.update(dt);
