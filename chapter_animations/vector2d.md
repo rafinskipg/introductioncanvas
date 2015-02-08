@@ -424,3 +424,9 @@ var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Ma
 Para implementar una atracción gravitica con partículas deberemos tener en cuenta ciertas cuestiones:
 
 - Debemos actualizar las nuevas posiciones de todos los objetos antes de recalcular las fuerzas de gravedad y actualizar las velocidades
+
+http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation
+
+http://codeflow.org/entries/2010/aug/28/integration-by-example-euler-vs-verlet-vs-runge-kutta/
+
+http://kaeru.neritic.net/projects/short-experiments/glxy/

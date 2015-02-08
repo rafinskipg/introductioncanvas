@@ -68,4 +68,20 @@ Utils.getMouseCoords = function(canvas, e){
   return mouse;
 }
 
+//Returns a random UID
+Utils.uid = function(times){
+  times = times ? times : 8;
+  var _uid = '';
+
+  for(var i = 0; i < times; i++){
+    _uid += Math.random().toString(36).substr(2, 5);
+
+    if(i !== times -1){
+      _uid += '-'
+    }
+  }
+
+  return _uid;
+}
+
 window.Utils = Utils;

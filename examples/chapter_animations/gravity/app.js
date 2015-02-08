@@ -1,16 +1,14 @@
 var canvas = document.getElementById('canvas');
 var particles = [], MAX_PARTICLES = 10;
 var addingParticle;
-var GRAVITY_CONSTANT = 0.1 ;
+var GRAVITY_CONSTANT = 0.01 ;
 
 function start(context, canvas){
   for(var i = 0; i < MAX_PARTICLES; i++){
     var newParticle = new ParticleWithMass({
-      mass : Utils.randomInteger(1, 20),
+      mass : Utils.randomInteger(100, 300),
       x : Utils.randomInteger(0, canvas.width),
-      y : Utils.randomInteger(0, canvas.height),
-      speedX : Utils.randomInteger(-100, 100),
-      speedY : Utils.randomInteger(-100, 100)
+      y : Utils.randomInteger(0, canvas.height)
     });
 
     addParticle(newParticle);
@@ -22,14 +20,19 @@ function addParticle(particle){
   particles.push(particle);
 }
 
-function update(dt){
+function update(dt, context, canvas){
   particles = particles.map(function(particle){
     particle.update(dt);
     return particle;
   });
 
-  particles = particles.map(function(particle){
-    particle.updateForce(particles, GRAVITY_CONSTANT);
+  particles.map(function(particle){
+    particle.calculateNewForce(particles, GRAVITY_CONSTANT, context);
+    return particle;
+  });
+
+  particles.map(function(particle){
+    particle.updateForce(particles, GRAVITY_CONSTANT, context);
     return particle;
   });
 
@@ -77,9 +80,6 @@ function handleMouseUp(e){
   var newParticle = new ParticleWithMass({
     x : addingParticle.pos.x,
     y : addingParticle.pos.y,
-
-    speedX: Utils.randomInteger(1,10),
-    speedY: Utils.randomInteger(1, 20),
     mass : addingParticle.mass
   });
 
