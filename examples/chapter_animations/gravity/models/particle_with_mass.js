@@ -2,6 +2,7 @@ function ParticleWithMass(opts){
   //Llamamos al constructor de BaseEntity
   BaseEntity.prototype.constructor.call(this, opts);
   this.mass = opts.mass || 1;
+  this.id = Math.random();
   this.autoIncrement = opts.autoIncrement || false;
 }
 
@@ -15,6 +16,10 @@ ParticleWithMass.prototype.update = function(dt) {
     this.mass += dt/100;
   }
 };
+
+ParticleWithMass.prototype.updateForce = function(allParticles, G){
+  this.acceleration = this.force(allParticles, G);
+}
 
 ParticleWithMass.prototype.render = function(context){
   var color, radius;
@@ -40,3 +45,26 @@ ParticleWithMass.prototype.render = function(context){
   context.closePath();
   context.restore();
 }
+
+//Calcula la fuerza de gravedad que le estan aplicando las otras particulas
+ParticleWithMass.prototype.force = function(allParticles, G){
+  var result = new Victor(0,0)
+
+  for(var i = 0; i < allParticles.length; i++){
+    if(allParticles[i].id != this.id){
+      var distanceX = this.pos.distanceX(allParticles[i].pos);
+      var distanceY = this.pos.distanceY(allParticles[i].pos);
+      var distance = this.pos.distance(allParticles[i].pos);
+      //console.log(distance)
+      var force = (G * this.mass * allParticles[i].mass) / Math.pow(distance, 2);
+       var fscale = force /distance ;
+        result.x += fscale * distanceX / this.mass;
+        result.y += fscale * distanceY / this.mass;
+    }
+  }
+  //console.log(acc)
+
+  return result;
+}
+
+//http://kaeru.neritic.net/projects/short-experiments/glxy/

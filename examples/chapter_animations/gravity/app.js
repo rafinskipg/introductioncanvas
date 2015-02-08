@@ -1,6 +1,7 @@
 var canvas = document.getElementById('canvas');
 var particles = [], MAX_PARTICLES = 10;
 var addingParticle;
+var GRAVITY_CONSTANT = 0.1 ;
 
 function start(context, canvas){
   for(var i = 0; i < MAX_PARTICLES; i++){
@@ -24,6 +25,11 @@ function addParticle(particle){
 function update(dt){
   particles = particles.map(function(particle){
     particle.update(dt);
+    return particle;
+  });
+
+  particles = particles.map(function(particle){
+    particle.updateForce(particles, GRAVITY_CONSTANT);
     return particle;
   });
 

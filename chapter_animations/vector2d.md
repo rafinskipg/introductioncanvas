@@ -401,3 +401,20 @@ Listo! Ya tenemos nuestra máquina de crear partículas.
 **:) Yay! otra vez.**
 
 ##Implementando Gravedad
+
+Vamos a repasar primero algunos conceptos de física básica:
+
+```javascript
+var fuerza = masa * gravedad; 
+//Unidad de masa = kilogramos
+//Unidad de gravedad metros/segundos^2
+//Unidad de fuerza de la gravedad = newtons
+
+var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Math.pow(distanciaEntreObjetos, 2);
+//Unidad de distancia metros
+//CONSTANTE_GRAVEDAD G, 6.67 x 10^-11 
+```
+
+Para implementar una atracción gravitica con partículas deberemos tener en cuenta ciertas cuestiones:
+
+- Debemos actualizar las nuevas posiciones de todos los objetos antes de recalcular las fuerzas de gravedad y actualizar las velocidades
