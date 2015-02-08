@@ -34,13 +34,13 @@ En _rectángulolandia_ nadie tiene muy claro a que se dedican los otros, ni siqu
 
 Lo que si saben los habitantes de este desdichado mundo, es que siempre obedeceran la inmutable verdad que dicta que:
 
-```
+```javascript
 var globalAcc = 0.0;
 ```
 
 Y su adn lo confirma:
 
-```
+```javascript
 Rectangle.prototype.update = function(dt, globalAcc){
   //Dame tu fuerza, pegaso
   this.speedX += globalAcc;
@@ -58,14 +58,18 @@ Así vivían estos seres, unos yendo hacia arriba, otros hacia abajo, cada uno s
 
 ¡PERO! Un día se produce un cataclismo y una de las leyes más ancestrales de su planeta se ve modificada
 
-```
+```javascript
 var globalAcc = 0.3;
 ```
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/rectangle_surprised.png)
 
-Nadie se explica que está pasando, pero todos tienen la sensación de que cada vez a cada momento que pasa su velocidad se ve alterada, incluso sus rumbos cambian, los que iban hacia arriba empiezan a caer, los que iban hacia atrás empiezan a darse la vuelta para cambiar su dirección.
+Nadie se explica que está pasando, pero todos tienen la sensación de que a cada momento que pasa su velocidad se ve alterada, incluso sus rumbos cambian, los que iban hacia arriba empiezan a caer, los que iban hacia atrás empiezan a darse la vuelta para cambiar su dirección.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/rectangleland_2_directions.png)
 
 Y así, todos los habitantes tomaron el mismo rumbo y se dirigieron juntos hacia otros planos, más coloridos y llenos de otros polígonos más animados.
+
+_Y con esta historieta tu has aprendido como aplicar la aceleración a cuerpos en movimiento._
+
+*Fin*
