@@ -1,6 +1,6 @@
 # Gravedad, Herencia y Vector2D
 
-En esta implementación vamos a ver como utilizar la librería para Vector2D "Victor JS". También veremos otros principios sobre herencia en JavaScript y como implementar una simulación de la gravedad.
+En esta implementación vamos a ver como utilizar una librería para Vector2, algunos principios sobre herencia en JavaScript y como implementar una simulación de la gravedad.
 
 Lo primero vamos a instalar las librerías que necesitaremos
 
@@ -17,6 +17,43 @@ Luego las referenciaremos en nuestro index.html
 <script src="../../lib/utils.js"></script>
 <script src="../../lib/Engine.js"></script>
 ```
+
+
+Hemos elegido la librería VictorJS, esta librería nos provee de utilidades para realizar operaciones matemáticas. Nos facilitará trabajar con velocidades, posiciones y ángulos a la hora de mover nuestros elementos por el canvas.
+
+Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones en Javascript suelen llevar la suya propia o alguna opensource.
+
+Podemos instanciar un nuevo vector de la siguiente manera:
+
+```javascript
+var vec = new Victor(42, 1337);
+vec.x;
+// => 42
+```
+
+Lo bueno que nos da la librería es que podemos realizar operaciones de adición de valores de una forma sencilla.
+
+Se puede utilizar el método `clone` si no deseamos alterar el objeto inicial.
+
+```javascript
+var vec = new Victor(100, 200);
+
+vec
+  .clone()
+  .add(new Victor(50, 50))
+  .toString();
+// => x: 150, y: 250
+
+vec.toString();
+// => x: 100, y: 200
+```
+
+
+>###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante
+Otros métodos de la API de Victor que podremos necesitar son `vector.substract`, `vector.divide`, `vector.limit`, `vector.multiply`... 
+Puedes encontrar más información sobre los métodos disponibles en su documentación online. 
+
+https//github.com/maxkueng/victor
 
 ## Nuestra entidad base
 
@@ -47,64 +84,18 @@ BaseEntity.prototype.render = function(context, canvas){
 }
 ```
 
-En este código estamos viendo como utilizar la librería VictorJS, esta librería nos provee de utilidades para realizar operaciones matemáticas que nos facilitaran trabajar con velocidades, posiciones y ángulos a la hora de mover nuestros elementos por el canvas.
+## Implementar las partículas
 
-Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones en Javascript suelen llevar la suya propia o alguna opensource.
+Implementaremos el modelo para cada una de las partículas con masa que se moveran en este canvas 
 
-Vamos a explicar brevemente que es lo que hace este código:
-
-
-```javascript
-this.pos = new Victor(opts.x, opts.y);
-```
-
-Aquí estamos almacenando la posición de la entidad en un vector (x, y) 
-
-Por ejemplo 
-
-```javascript
-var vec = new Victor(42, 1337);
-vec.x;
-// => 42
-```
-
-Lo bueno que nos da la librería es que podemos realizar operaciones de adición de valores de una forma sencilla
-Es importante utilizar el método `clone` si no deseamos alterar el objeto inicial.
-
-```javascript
-var vec = new Victor(100, 200);
-
-vec
-  .clone()
-  .add(new Victor(50, 50))
-  .toString();
-// => x: 150, y: 250
-
-vec.toString();
-// => x: 100, y: 200
-```
-
-## Heredando de la Base
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/particles_with_mass_1.png)
 
 Ahora crearemos nuestras entidades para este ejercicio heredando del constructor de `BaseEntity` 
 
-Añadimos nuestra nuevas entidades al `index.html`
-
-```html
-<script src="../../../bower_components/lodash/lodash.js"></script>
-<script src="../../../bower_components/victor/build/victor.min.js"></script>
-<script src="../../lib/utils.js"></script>
-<script src="../../lib/Engine.js"></script>
-<script src="../../lib/BaseEntity.js"></script>
-<script src="models/particle_with_mass.js"></script>
-<script src="app.js"></script>
-```
-
-Procederemos a crear la entidad que utilizaremos en el ejemplo, se tratará de crear un canvas con varias particulas con una masa, posición y velocidad aleatorias. Estas particulas se regiran por una implementación de la ley de la gravedad aproximada. 
-
-//INSERTAR IMAGEn
 
 ### Herencia
+
+Al crear nuestra clase `ParticleWithMass`, que será la que defina el comportamiento individual de cada partícula que pintemos, reutilizaremos el prototipo de `BaseEntity`.
 
 Podemos heredar el constructor y métodos de la clase base haciendo lo siguiente
 
@@ -112,6 +103,7 @@ Podemos heredar el constructor y métodos de la clase base haciendo lo siguiente
 function ParticleWithMass(opts){
   //Llamamos al constructor de BaseEntity
   BaseEntity.prototype.constructor.call(this, opts);
+  //Otras inicializaciones propias de ParticleWithMass
   this.mass = opts.mass || 1;
 }
 ```
@@ -129,12 +121,23 @@ ParticleWithMass.prototype.constructor = ParticleWithMass;
 ParticleWithMass.prototype.parent = BaseEntity.prototype;
 ```
 
-De esta manera quedaria una implementación inicial de nuestras particulas:
+Ahora que ya tenemos el "padre" referenciado en nuestras nuevas instancias ya podemos utilizar su implementación de los métodos además de la propia de `ParticleWithMass`
 
+```javascript
+ParticleWithMass.prototype.update = function(dt) {
+  //Llamamos al metodo update del padre
+  this.parent.update.call(this, dt);
+  //Realizamos otros cálculos propios de esta clase
+  //...
+};
+```
+
+** Así quedaría una implementación inicial de estas partículas**
+
+Haremos que en el renderizado se pinten de un color u otro dependiendo de su masa. También haremos que su tamaño esté relacionado con su masa.
 
 ```javascript
 function ParticleWithMass(opts){
-  //Llamamos al constructor de BaseEntity
   BaseEntity.prototype.constructor.call(this, opts);
   this.mass = opts.mass || 1;
 }
@@ -144,7 +147,6 @@ ParticleWithMass.prototype.constructor = ParticleWithMass;
 ParticleWithMass.prototype.parent = BaseEntity.prototype;
 
 ParticleWithMass.prototype.update = function(dt) {
-  //Llamamos al metodo update del padre
   this.parent.update.call(this, dt);
 };
 
@@ -176,13 +178,22 @@ ParticleWithMass.prototype.render = function(context){
 }
 ```
 
-Lo que vamos a implementar, al principio va a ser esto: 
+Ahora que ya tenemos el modelo creado, lo incluiremos en la aplicación.
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/particles_with_mass_1.png)
+
+```html
+<script src="../../../bower_components/lodash/lodash.js"></script>
+<script src="../../../bower_components/victor/build/victor.min.js"></script>
+<script src="../../lib/utils.js"></script>
+<script src="../../lib/Engine.js"></script>
+<script src="../../lib/BaseEntity.js"></script>
+<script src="models/particle_with_mass.js"></script>
+<script src="app.js"></script>
+```
 
 ## La aplicación
 
-El canvas inicial aparecerá con 10 particulas aleatorias
+El canvas inicial aparecerá con 10 partículas aleatorias
 
 ```javascript
 var canvas = document.getElementById('canvas');
@@ -220,7 +231,7 @@ myEngine.addRenderCallback(render);
 myEngine.start();
 ```
 
-Con esto tendriamos unas bonitas particulas, que no se mueven ni interactuan.
+Con esto tendriamos unas bonitas partículas, que no se mueven ni interactuan.
 
 Si quisieramos que tuvieran una velocidad inicial aleatoria: 
 
@@ -241,22 +252,21 @@ function start(context, canvas){
 
 ```
 
-De esta manera ya nuestras particulas se mueven en el canvas!
+De esta manera ya nuestras partículas se mueven en el canvas!
 
 > YAY! 
 > <br/>
 > <div class="float: right; font-weight: bold">@mrheston</span>
 
-Queremos que al hacer click en el canvas poder añadir una nueva particula donde estemos haciendo click, y cuanto más mantengamos presionado el ratón, más grande sea esa partícula.
+**Bola extra:** Queremos que al hacer click en el canvas se añada una nueva particula donde estsmos haciendo click, y cuanto más mantengamos presionado el ratón, más grande sea esa partícula.
 
 Para ello debemos almacenar una particula temporal
-
 
 ```javascript
 var addingParticle;
 ```
 
-En la función de `start` añadiremos la inicialización de los listeners de eventos.
+En la función de `start` añadiremos la inicialización de los listeners de eventos del ratón.
 
 ```javascript
 function start(context, canvas){
@@ -269,7 +279,7 @@ function start(context, canvas){
 }
 ```
 
-Como no estamos usando jQuery, usaremos la delegación de eventos de JavaScript:
+Como no estamos usando jQuery, usaremos la delegación de eventos nativa de JavaScript:
 
 ```javascript
 function addEventListeners(){
@@ -279,7 +289,8 @@ function addEventListeners(){
 }
 ```
 
-Para saber en que coordenadas del canvas estamos haciendo click y no en que coordenadas de la página lo estamos haciendo, usaremos esta función, que guardaremos en nuestro fichero de `Utils` para poder reutilizarla más adelante en otros ejemplos.
+Cuando escuchamos un evento "mouse" para obtener sus coordenadas solo tenemos la información sobre las cordenadas de la página.
+Para saber en que coordenadas del canvas estamos haciendo click usaremos esta función, que guardaremos en nuestro fichero de `Utils` para poder reutilizarla más adelante en otros ejemplos.
 
 Tendremos que restarle a las coordenadas del ratón el offset que tiene el canvas (padding, margin) con respecto a la página.
 
@@ -336,7 +347,7 @@ function handleMouseUp(e){
 }
 ```
 
-Como podéis ver se ha creado una nueva propiedad `autoIncrement` en el modelo de particula, esta propiedad la usaremos en la función `update` de su modelo para incrementar su tamaño en cada ejecución del loop, de esta manera, cuanto más mantengamos presionado el ratón más irá creciendo la masa de la partícula.
+Como podéis ver se ha creado una nueva propiedad `autoIncrement` en el modelo de partículas, esta propiedad la usaremos en la función `update` de su modelo para incrementar su tamaño en cada ejecución del loop, de esta manera, cuanto más mantengamos presionado el ratón más irá creciendo la masa de la partícula.
 
 ```javascript
 ParticleWithMass.prototype.update = function(dt) {
@@ -373,7 +384,7 @@ function render(context){
 }
 ```
 
-Listo! Ya tenemos nuestra máquina de crear particulas.
+Listo! Ya tenemos nuestra máquina de crear partículas.
 
 **:) Yay! otra vez.**
 

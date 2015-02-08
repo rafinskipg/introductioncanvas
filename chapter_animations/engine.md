@@ -1,6 +1,10 @@
-#Engine
+#Creando mi primer engine.
 
-Vamos a separar la lógica del motor de animaciones en una clase aparte, llamada `Engine`
+Hemos aprendido a hacer animaciones, ahora querremos animar muchas cosas...!
+
+Para ser productivos de aquí en adelante, vamos a crearnos nuestro propio motor de animaciones que podremos reutilizar siempre que queramos. 
+
+
 
 ```javascript
 function Engine(canvas, loopable){
