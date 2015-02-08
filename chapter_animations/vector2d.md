@@ -404,15 +404,21 @@ Listo! Ya tenemos nuestra máquina de crear partículas.
 
 Vamos a repasar primero algunos conceptos de física básica:
 
-```javascript
-var fuerza = masa * gravedad; 
-//Unidad de masa = kilogramos
-//Unidad de gravedad metros/segundos^2
-//Unidad de fuerza de la gravedad = newtons
+### Newton al rescate
 
-var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Math.pow(distanciaEntreObjetos, 2);
+La ley de gravitación universal de Newton dice que "dos cuerpos en el universo se atraen el uno al otro con una fuerza que es directamente proporcional al producto de sus masas e inversamente proporcional al cuadrado de la distancia entre sus dos centros".
+
+También se demostró que grandes cuerpos de forma esférica atraen y son atraidos como si toda su masa se concentrase en su centro.
+
+Estos principios se pueden encontrar en su libro **Philosophiæ Naturalis Principia Mathematica**, publicado por primera vez en 1687. 
+
+
+```javascript
+var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Math.pow(distanciaEntreCentroDeObjetos, 2);
+//Unidad de masa = kilogramos - kg
+//Unidad de fuerza de la gravedad = newtons - N
 //Unidad de distancia metros
-//CONSTANTE_GRAVEDAD G, 6.67 x 10^-11 
+//CONSTANTE_GRAVEDAD G, 6.67 x 10^-11 N·(m/kg)^2
 ```
 
 Para implementar una atracción gravitica con partículas deberemos tener en cuenta ciertas cuestiones:
