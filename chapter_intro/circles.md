@@ -5,6 +5,7 @@ Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a ir un paso más l
 Para pintar un círculo utilizaremos el siguiente código:
 
 ```javascript
+//app.js
 context.beginPath();
 context.arc(x,y,r,start,stop);
 ```
@@ -34,6 +35,7 @@ Posteriormente podremos usar `context.stroke` o `context.fill`, como hemos apren
 Veamos un ejemplo: 
 
 ```javascript
+//app.js
 //Cambia el color de la línea
 context.strokeStyle = '#69D2E7';
 //Cambia la anchura de la línea
@@ -61,6 +63,7 @@ Para pintar **líneas**, tendremos que aprender a usar los métodos `context.mov
 Ejemplo
 
 ```javascript
+//app.js
 context.strokeStyle = '#69D2E7';
 context.lineWidth = 5;
 

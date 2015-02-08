@@ -14,6 +14,7 @@ Así que podemos saber que, determinado el número de lados del polígono, podem
 
 
 ```javascript
+//app.js
 function drawPolygon(x, y, radius, sides){
   //Debe tener al menos 3 lados para poder formar una figura
   if( sides < 3 ) return;
@@ -104,6 +105,7 @@ context.fill();
 Veamos como quedaría en conjunto: 
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 

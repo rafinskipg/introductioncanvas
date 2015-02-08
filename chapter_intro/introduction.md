@@ -22,6 +22,7 @@ Para ello, debemos obtener la referencia del elemento y su contexto 2D mediante 
 El contexto es un objeto HTML con propiedades y métodos que permiten dibujar. 
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 
 //Devuelve un CanvasRenderingContext2D
@@ -75,6 +76,7 @@ Este es el contenido del archivo `index.html`
 Este es el contenido del archivo `app.js`
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 

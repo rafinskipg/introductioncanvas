@@ -6,6 +6,7 @@ Vamos a dibujar un cuadrado en el canvas y vamos a pintarlo de color rojo.
 Para ello usaremos el método `rect` que permite la creación de un rectángulo pasandole sus coordenadas de inicio y su tamaño.
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
@@ -24,6 +25,7 @@ Esto pintará lo siguiente:
 Como no hemos especificado ninguna opción, el color del borde es negro, así que como queremos cambiar el color de la línea, tenemos que utilizar la propiedad `strokeStyle` del contexto.
 
 ```javascript
+//app.js
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 

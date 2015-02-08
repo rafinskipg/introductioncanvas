@@ -72,4 +72,4 @@ Y así, todos los habitantes tomaron el mismo rumbo y se dirigieron juntos hacia
 
 _Y con esta historieta tu has aprendido como aplicar la aceleración a cuerpos en movimiento._
 
-*Fin*
+**Fin**
