@@ -38,15 +38,20 @@ Engine.prototype.update = function(dt){
 }
 
 Engine.prototype.clear = function(){
-   // Store the current transformation matrix
-  this.context.save();
 
-  // Use the identity matrix while clearing the canvas
-  this.context.setTransform(1, 0, 0, 1, 0, 0);
-  this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  if(this.hasOwnProperty('clearingMethod')){
+    this.clearingMethod(this.context, this.canvas);
+  }else{
+    // Store the current transformation matrix
+    this.context.save();
 
-  // Restore the transform
-  this.context.restore();
+    // Use the identity matrix while clearing the canvas
+    this.context.setTransform(1, 0, 0, 1, 0, 0);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Restore the transform
+    this.context.restore();
+  }
 }
 
 Engine.prototype.loop = function(){
@@ -84,4 +89,8 @@ Engine.prototype.start = function(){
 
 Engine.prototype.setStartDelay = function(ms){
   this.startDelay = ms;
+}
+
+Engine.prototype.setClearingMethod  = function (cb) {
+  this.clearingMethod = cb;
 }
