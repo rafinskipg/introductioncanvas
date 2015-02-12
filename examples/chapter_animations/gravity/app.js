@@ -1,12 +1,12 @@
 var canvas = document.getElementById('canvas');
 var particles = [], MAX_PARTICLES = 10;
 var addingParticle;
-var GRAVITY_CONSTANT = 0.01 ;
+var GRAVITY_CONSTANT = 0.1 ;
 
 function start(context, canvas){
   for(var i = 0; i < MAX_PARTICLES; i++){
     var newParticle = new ParticleWithMass({
-      mass : Utils.randomInteger(100, 300),
+      mass : Utils.randomInteger(5, 10),
       x : Utils.randomInteger(0, canvas.width),
       y : Utils.randomInteger(0, canvas.height)
     });

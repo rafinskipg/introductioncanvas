@@ -13,7 +13,7 @@ ParticleWithMass.prototype.parent = BaseEntity.prototype;
 ParticleWithMass.prototype.update = function(dt) {
   this.parent.update.call(this, dt);
   if(this.autoIncrement){
-    this.mass += dt;
+    this.mass += dt/10;
   }
 };
 
@@ -22,14 +22,12 @@ ParticleWithMass.prototype.calculateNewForce = function(allParticles, G, context
 }
 ParticleWithMass.prototype.updateForce = function () {
   this.acceleration = this.newAcceleration.clone();
-  //console.log(this.acceleration.toString())
 }
-
-
 
 ParticleWithMass.prototype.render = function(context){
   var color, radius;
-  radius = Math.pow(this.mass,1/3);
+
+  radius = Math.pow(this.mass,1/2);
 
   if(radius < 10){
     color = 'black';
@@ -61,14 +59,14 @@ ParticleWithMass.prototype.force = function(allParticles, G, context){
 
   for(var i = 0; i < allParticles.length; i++){
     if(allParticles[i].id !== this.id){
-      var distanceX = this.pos.distanceX(allParticles[i].pos);
-      var distanceY = this.pos.distanceY(allParticles[i].pos);
-      var distance = this.pos.distance(allParticles[i].pos);
-      //console.log(distance)
-      var force = (G * this.mass * allParticles[i].mass) / Math.pow(distance * 1, 2);
-     // force = force/distance
-      result.x += -1 * force * distanceX / this.mass;
-      result.y += -1 * force * distanceY / this.mass;
+      var distanceX = allParticles[i].pos.distanceX(this.pos);
+      var distanceY = allParticles[i].pos.distanceY(this.pos);
+      var distance = allParticles[i].pos.distance(this.pos);
+      
+      var force = (G * this.mass * allParticles[i].mass) / Math.pow(distance, 2);
+
+      result.x += force * distanceX / this.mass;
+      result.y += force * distanceY / this.mass;
 
       context.beginPath();
       context.strokeStyle = 'black';
@@ -79,9 +77,6 @@ ParticleWithMass.prototype.force = function(allParticles, G, context){
       context.stroke(); 
     }
   }
-  //console.log(acc)
-
-
   
   context.restore();
 
