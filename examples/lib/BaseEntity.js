@@ -3,6 +3,8 @@ function BaseEntity(opts){
   this.pos = new Victor(opts.x, opts.y);
   this.speed = new Victor(opts.speedX || 0, opts.speedY || 0);
   this.acceleration = new Victor(opts.accX || 0, opts.accY || 0);
+
+  this.angle = typeof(opts.angle) !== 'undefined' ? opts.angle : false;
 }
 
 BaseEntity.prototype.update = function(dt){
@@ -11,6 +13,10 @@ BaseEntity.prototype.update = function(dt){
 
   //Calculamos el diferencial de posición 
   var posDt = this.speed.clone().multiply(new Victor(dt/1000, dt/1000));
+
+  if(this.angle !== false){
+  	posDt.rotateDeg(this.angle);
+  }
 
   this.pos = this.pos.add(posDt);
 }
