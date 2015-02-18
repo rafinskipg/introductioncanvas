@@ -1,4 +1,4 @@
-# Círculos y líneas
+# Círculos, líneas y beginPath
 
 Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a dar otro pasito en nuestra escalera hacia el dominio del canvas, incorporando la figura circular.
 
@@ -19,6 +19,9 @@ context.arc(posicionX, posicionY, radio, anguloComienzo, anguloFinal);
 > ```
 
 
+__`Math.PI * 2` radianes equivale a un ángulo 360 grados, `Math.PI` radianes son 180 grados.__
+
+
 El ángulo de giro es en sentido horario, como podemos ver en las siguientes figuras:
 
 ```javascript
@@ -29,17 +32,14 @@ context.fill();
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc1.png)
 
 ```javascript
-context.arc(100,100, 50, Utils.degreeToRadian(90), Utils.degreeToRadian(180))
+context.arc(100,100, 50, Utils.degreeToRadian(90), Math.PI)
 context.fill();
 ```
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc2.png)
 
-__`Math.PI * 2` radianes equivale a un ángulo 360 grados, `Math.PI` radianes son 180 grados.__
 
-
-Posteriormente podremos usar `context.stroke` o `context.fill`, como hemos aprendido en el ejercicio anterior, para dibujar el contorno o rellenar el círculo.
-
+Imaginemos que quisieramos dibujar un círculo completo, con un borde de un color cualquiera
 
 > ###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante 
 > Podemos usar `context.lineWidth` para cambiar la anchura de las líneas
@@ -48,19 +48,18 @@ Posteriormente podremos usar `context.stroke` o `context.fill`, como hemos apren
 > ```
 
 
-Veamos un ejemplo: 
-
 ```javascript
 //app.js
+
 //Cambia el color de la línea
 context.strokeStyle = '#69D2E7';
+
 //Cambia la anchura de la línea
 context.lineWidth = 5;
 
-//Notifica al canvas de que trazamos una nueva figura
-context.beginPath();
 //Trazamos un arco de 360 grados 
 context.arc(200,200,50,0,2*Math.PI);
+
 //Pintamos su contorno
 context.stroke();
 ```
@@ -69,6 +68,10 @@ context.stroke();
 
 
 Genial!
+
+Tenemos nuestro primer círculo, vamos a añadir otro más.
+
+//TODO aqui explanation de beginPath
 
 Tenemos nuestro primer círculo, vamos a añadir alguna línea.
 
