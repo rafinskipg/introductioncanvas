@@ -1,23 +1,39 @@
 # Círculos y líneas
 
-Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a ir un paso más lejos, y a incorporar los círculos y las líneas.
+Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a dar otro pasito en nuestra escalera hacia el dominio del canvas, incorporando la figura circular.
 
-Para pintar un círculo utilizaremos el siguiente código:
+Podemos dibujar un "arco" para trazar un círculo. Para hacerlo usaremos el método:
 
 ```javascript
-//app.js
-context.beginPath();
-context.arc(x,y,r,start,stop);
+context.arc(posicionX, posicionY, radio, anguloComienzo, anguloFinal);
 ```
 
-`beginPath` sirve para indicar que empezamos un nuevo dibujo separado del anterior, indicandole al `canvas` que estamos trazando una nueva figura.
+`context.arc` traza un arco, en las coordenadas `posicionX` e `posicionY`. `radio` es el radio de la circunferencia y `anguloComienzo` y `anguloFinal` son los ángulos en radianes de inicio y fin de pintado. 
+
+> ###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante 
+> Para cambiar de grados a radianes podemos usar la siguiente función
+> ```
+> Utils.degreeToRadian = function(degree){
+  return degree/(180/Math.PI);
+}
+> ```
 
 
-`context.arc` traza un arco, en las coordenadas `x` e `y`. `r` es el radio de la circunferencia y `start` y `stop` son los ángulos en radianes de inicio y fin de pintado.
+El ángulo de giro es en sentido horario, como podemos ver en las siguientes figuras:
 
-El ángulo de giro es en sentido antihorario, como podemos ver en las siguientes figuras:
+```javascript
+context.arc(100,100, 50, Utils.degreeToRadian(90), 2 * Math.PI)
+context.fill();
+```
 
-//TODO: check sentido de giro
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc1.png)
+
+```javascript
+context.arc(100,100, 50, Utils.degreeToRadian(90), Utils.degreeToRadian(180))
+context.fill();
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc2.png)
 
 __`Math.PI * 2` radianes equivale a un ángulo 360 grados, `Math.PI` radianes son 180 grados.__
 
