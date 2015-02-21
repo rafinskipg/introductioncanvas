@@ -69,9 +69,65 @@ context.stroke();
 
 Genial!
 
-Tenemos nuestro primer círculo, vamos a añadir otro más.
+Tenemos nuestro primer círculo, vamos a ver que pasa cuando añadimos varias piezas.
 
-//TODO aqui explanation de beginPath
+Añadimos otro círculo en la coordenada `400x200`
+
+```javascript
+context.strokeStyle = '#69D2E7';
+context.lineWidth = 5; 
+context.arc(200,200,50,0,2*Math.PI);
+context.arc(400,200,50,0,2*Math.PI);
+context.stroke();
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_withoutBeginPath.png)
+
+Vemos que se produce una linea entre las dos figuras. Esto está sucendiendo por que cuando estamos pintando en canvas, estamos actuando sobre el mismo trazado. Necesitamos decirle a canvas que vamos a "levantar el lapiz del lienzo", de otra manera lo realiza como si fuese la misma figura.
+
+Para indicarle a canvas que hemos comenzado un nuevo trazado utilizaremos el método `beginPath`
+
+___`beginPath` indica a canvas que comienza un nuevo trazado.___
+
+```javascript
+context.strokeStyle = '#69D2E7';
+context.lineWidth = 5; 
+
+context.beginPath();
+context.arc(200,200,50,0,2*Math.PI);
+
+context.beginPath();
+context.arc(400,200,50,0,2*Math.PI);
+
+context.stroke();
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_beginPath1.png)
+
+Como vemos, solo se ha pintado el último...  :(
+
+Es debido a que cada vez que hacemos un `stroke` o `fill`, pintamos el último trazo que le hemos indicado al canvas.
+
+Vamos a solucionarlo:
+
+
+```javascript
+context.strokeStyle = '#69D2E7';
+context.lineWidth = 5; 
+
+context.beginPath();
+context.arc(200,200,50,0,2*Math.PI);
+context.stroke();
+
+context.beginPath();
+context.arc(400,200,50,0,2*Math.PI);
+context.stroke();
+```
+
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_beginPath2.png)
+
+Listo :)
 
 Tenemos nuestro primer círculo, vamos a añadir alguna línea.
 
