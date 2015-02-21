@@ -127,13 +127,16 @@ context.stroke();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_beginPath2.png)
 
-Listo :)
+Listo, ya sabemos pintar múltiples elementos :)
 
-Tenemos nuestro primer círculo, vamos a añadir alguna línea.
+## Líneas
+
+> La línea es la distancia más corta entre dos puntos. ___Captain Obvious___
 
 Para pintar **líneas**, tendremos que aprender a usar los métodos `context.moveTo` y `context.lineTo`.
 
-`moveTo` mueve el cursor del canvas a una coordenada y `lineTo` traza una línea desde el cursor hasta las coordenadas que se le pasen como parámetro.
+- `moveTo` mueve el cursor del canvas a una coordenada (pero sin actualizar el origen 0,0 como ocurre con `context.translate`)
+- `lineTo` traza una línea desde el cursor hasta las coordenadas que se le pasen como parámetro.
 
 Ejemplo
 
@@ -145,9 +148,9 @@ context.lineWidth = 5;
 context.beginPath();
 context.arc(200,200,50,0,2*Math.PI);
 
-//Movemos el cursor a la coordenada 100, 200
-context.moveTo(100,200);
-//Trazamos una linea de 100 pixeles de ancho
+//Movemos el cursor a la coordenada 100, 400
+context.moveTo(100,400);
+//Trazamos una linea al centro del círculo
 context.lineTo(200,200);
 //Marcamos las figuras pintadas
 context.stroke();
