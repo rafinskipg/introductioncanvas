@@ -84,4 +84,14 @@ Utils.uid = function(times){
   return _uid;
 }
 
+Utils.randomColor = function(){
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+
+  for(var i = 0; i < 6; i++){
+    color += letters[Utils.randomInteger(0, letters.length - 1)]
+  }
+  return color;
+}
+
 window.Utils = Utils;

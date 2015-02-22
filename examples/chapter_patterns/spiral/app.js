@@ -35,7 +35,7 @@ function render(context, canvas){
   //var growthFactor
   context.beginPath();
   //var spiral_angle = phi;
-var spiral_angle = Utils.degreeToRadian(22)
+  var spiral_angle = Utils.degreeToRadian(22)
 
   for (var i = 1; i <= MAX_POINTS; ++i) {
     var ratio = i / MAX_POINTS;
