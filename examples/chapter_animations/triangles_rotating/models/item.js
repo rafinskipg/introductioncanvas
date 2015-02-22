@@ -38,36 +38,65 @@ Item.prototype.render = function(context){
 
   context.rotate(Utils.degreeToRadian(this.angle));
 
-  var spiral_angle = Utils.degreeToRadian(this.angleOfCurve)
-
+  var points = this.getPoints();
+  
   //Reset values.
   context.moveTo(0,0)
   this.currentColor = 0;
+
+  points.forEach(function(point, i){
+
+    context.lineTo(point.x, point.y);
+    context.closePath();
+
+    //Change the color of the line for this stroke
+    this.changeColor();
+    this.paint(context, point, points[i+1]);
+    
+
+    //Prepare for next iteration, 
+    context.beginPath();
+    context.moveTo(point.x, point.y)
+  }.bind(this));
+  
+  context.restore();
+}
+
+Item.prototype.getPoints = function(){
+  var points = [];
+
+  var spiral_angle = Utils.degreeToRadian(this.angleOfCurve)
 
   for (var i = 1; i <= this.maxPoints; ++i) {
     //Calculate the new point
     var ratio = i / this.maxPoints;
     var angle = i * spiral_angle;
     var distanceFromCenter = ratio * this.size;
-    var opacity = 1 * ratio;
 
-    var x =  Math.cos(angle) * distanceFromCenter
+    var x = Math.cos(angle) * distanceFromCenter
     var y = Math.sin(angle) * distanceFromCenter
 
-    context.lineTo(x, y);
-
-    //Change the color of the line for this stroke
-    this.changeColor();
-    context.strokeStyle = this.color;
-    context.stroke();
-
-    //Prepare for next iteration, 
-    context.beginPath();
-    context.moveTo(x, y)
-  
+    points.push(new Victor(x, y)); 
   }
+
+  return points;
+}
+
+Item.prototype.paint = function(context, point, nextPoint){
+  nextPoint = nextPoint ? nextPoint : new Victor(0,0);
+
+  if(this.paintMethod !== 'gradient'){
+    context.strokeStyle = this.color;
+  }else{
   
-  context.restore();
+    var gradient = context.createLinearGradient(0, 0, nextPoint.x, nextPoint.y);
+    gradient.addColorStop(0, 'white');
+    gradient.addColorStop(0.5, this.color);
+    gradient.addColorStop(1,'blue');
+    context.strokeStyle = gradient;
+    context.lineWidth = 2;
+  }
+  context.stroke();
 }
 
 Item.prototype.update = function(dt){
