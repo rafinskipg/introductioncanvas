@@ -169,3 +169,9 @@ Dibuja 3 circulos de 50 píxeles de radio, el tercero estará pintado solo hasta
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_1_exercise_2.png)
 
 _Recuerda que puedes visitar las soluciones de los ejercicios cuando lo creas conveniente :)_
+
+
+//TODO: More on lines
+http://perfectionkills.com/exploring-canvas-drawing-techniques/
+Line cap line join 
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineCap

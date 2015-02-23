@@ -58,6 +58,11 @@ Engine.prototype.loop = function(){
   this.now = Date.now();
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
   var dt = this.now - this.then;
+
+  //Evita que si cambiamos de pestaña recibamos un valor muy grande en delta
+  if(dt > 100){
+    dt = 100;
+  }
   
   this.clock += dt;
 

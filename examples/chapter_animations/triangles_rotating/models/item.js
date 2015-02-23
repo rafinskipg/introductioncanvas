@@ -28,9 +28,12 @@ function Item(opts ){
   this.size = this.sizes[0];
   //The clock of the size variation
   this.clockSize = 0;
+
+  //The painting method
+  this.paintMethod = 'gradient';
 }
 
-Item.prototype.render = function(context){
+Item.prototype.render = function(context, canvas){
   context.save();
 
   //Set the correct origin of coordinates
@@ -51,9 +54,8 @@ Item.prototype.render = function(context){
 
     //Change the color of the line for this stroke
     this.changeColor();
-    this.paint(context, point, points[i+1]);
+    this.paint(context, canvas, point, points[i+1]);
     
-
     //Prepare for next iteration, 
     context.beginPath();
     context.moveTo(point.x, point.y)
@@ -82,18 +84,28 @@ Item.prototype.getPoints = function(){
   return points;
 }
 
-Item.prototype.paint = function(context, point, nextPoint){
+Item.prototype.paint = function(context, canvas, point, nextPoint){
   nextPoint = nextPoint ? nextPoint : new Victor(0,0);
 
   if(this.paintMethod !== 'gradient'){
     context.strokeStyle = this.color;
   }else{
   
-    var gradient = context.createLinearGradient(0, 0, nextPoint.x, nextPoint.y);
+    var gradient = context.createLinearGradient(point.x,  point.y, nextPoint.x, nextPoint.y);
     gradient.addColorStop(0, 'white');
-    gradient.addColorStop(0.5, this.color);
+    gradient.addColorStop(0.3, this.color);
+    gradient.addColorStop(0.7, this.color);
     gradient.addColorStop(1,'blue');
-    context.strokeStyle = gradient;
+
+
+    context.lineJoin = context.lineCap = 'round';
+    context.shadowBlur = 5;
+    context.shadowColor = this.color;
+
+    var radgrad = context.createRadialGradient(0,0,1,0,0,150);
+    radgrad.addColorStop(0, '#A7D30C');
+    radgrad.addColorStop(1, 'rgba(1,159,98,0)');
+    context.strokeStyle = this.color;
     context.lineWidth = 2;
   }
   context.stroke();
