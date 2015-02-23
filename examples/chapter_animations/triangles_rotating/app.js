@@ -36,7 +36,7 @@ function startCallback(context, canvas){
     angle : 40
   })
 
-  triangles.push(centerItem, item2 )
+  triangles.push(centerItem )
 }
 
 function renderCallback(context, canvas){

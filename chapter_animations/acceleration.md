@@ -3,6 +3,15 @@
 >Cuando un objeto no tiene una propiedad de aceleración, se mantiene a una velocidad constante, lo que se conoce como movimiento rectilineo uniforme.
 Si queremos crear efectos como la gravedad, cohetes espaciales, pelotas que botan, etc, necesitaremos incorporar el factor de modificación de la velocidad a lo largo del tiempo.
 
+```javascript
+//update
+this.speedX += this.accX;
+this.speedY += this.accY;
+
+this.x += this.speedX * dt/1000;
+this.y += this.speedY * dt/1000;
+```
+
 Imaginemos por un momento que vivimos en _rectángulolandia_.
 
 ```javascript

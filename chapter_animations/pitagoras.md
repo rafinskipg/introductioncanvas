@@ -1,6 +1,6 @@
-# Pitágoras o "Volando voy, volando vengo"
+# Velocidad
 
-Cuando estamos creando una figura con unas propiedades `velocidadX`, `velocidadY` estamos diciendo que esa figura va a alterar su posición incrementando o decrementando la posición por el valor de la velocidad.
+Cuando estamos creando una figura con unas propiedades `velocidadX`, `velocidadY` estamos diciendo que esa figura, a lo largo del tiempo, va a ver su posición afectada.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
 
@@ -10,7 +10,14 @@ El teorema de pitágoras es sencillo, nos dice que la velocidad a la que se muev
 var velocidadRectangulo = Math.sqrt(velocidadX * velocidadX + velocidadY * velocidadY )
 ```
 
-Mola, pues vamos a probarlo.
+Para actualizar la posición de un elemento a lo largo del tiempo, en el método update modificaremos calcularemos el diferencial de posición, y lo añadiremos a la posición actual:
+
+```javascript
+this.x += this.speedX * dt/1000;
+this.y += this.speedY * dt/1000;
+```
+
+Implementación de la clase cuadrado, con alteración de posición a lo largo del tiempo:
 
 ```javascript
 //models/square.js
@@ -45,10 +52,7 @@ Square.prototype.render = function(context){
 }
 ```
 
-
-¿Fácil verdad? Solo hemos añadido a la posición `x` e `y` la velocidad del objeto multiplicada por el diferencial de tiempo del bucle.
-
-Así es como quedaría la aplicación 
+Así es como quedaría la aplicación que invocaría a este cuadrado.
 
 ```javascript
 //App.js
