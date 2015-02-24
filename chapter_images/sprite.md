@@ -13,3 +13,9 @@ Por ejemplo, teniendo este sprite, dividido en un grid de 30x30, podemos saber q
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_images/sprite_cooldog2.png)
 
+
+```javascript
+this.sprite = new sprite(window.backgroundImg);
+this.sprite.addAnimation('flap', [0,1,2,1,0,1,2,3,4,5], [10,10], 5);
+this.sprite.playAnimation('flap');
+```
