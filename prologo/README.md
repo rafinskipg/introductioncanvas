@@ -2,7 +2,7 @@
 
 ## Acerca del libro
 
-Este libro trata el uso de `canvas` desde aprender a trazar formas sencillas, a realizar animaciones visuales, crear nuestro propio __motor__ de renderizado, crear nuestra clase de manejo de `sprites`, etc.
+Este libro trata el uso de `canvas`; desde aprender a trazar formas sencillas, a realizar animaciones visuales, crear nuestro propio __motor__ de renderizado, etc.
 
 ## Formato de los capítulos
 
@@ -18,6 +18,7 @@ Si encuentras alguna errata o bug puedes reportarlo a través de una issue en Gi
 Este libro está enfocado al aprendizaje y manejo del elemento `canvas`.
 
 Siempre que hablemos de código o nombremos algún elemento del DOM, usaremos el siguiente formato de texto
+
 ```javascript
 var ejemplo = 'ejemplo';
 ```
@@ -29,9 +30,9 @@ Para ejecutar los ejercicios tan solo necesitarás un editor de texto simple y u
 
 ## Sobre el autor
 
-Me llamo *Rafael Ventura* y soy programador web que lleva varios años trabajando con JavaScript a nivel profesional.
-Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS*, he hecho mis recetas de *Gulp*, *Grunt*, he publicado generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
+Me llamo *Rafael Ventura Pedrola Gimeno* y soy programador web que lleva varios años trabajando con JavaScript a nivel profesional.
+Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS* - *Express, Sails...*, he hecho mis recetas de *Gulp*, *Grunt*, he publicado generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
 
 Podéis seguirme en *GitHub* o en *Twitter* a través del, siempre repetido nickname, @rafinskipg 
 
-__Disfrutad del viaje__
+__Disfrutad del viaje y cread cosas emocionantes__

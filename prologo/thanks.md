@@ -10,4 +10,4 @@ _A los nuevos amigos que estoy conociendo gracias a este libro._
 
 **_A todos vosotros por leerlo y disfrutarlo._**
 
->Domo arigato
+>Domo arigato mr robotto.
