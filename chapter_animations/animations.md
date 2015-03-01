@@ -308,7 +308,7 @@ Square.prototype.render = function(context){
 
 ### Resultado
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating.gif)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_noclear.png)
 
 **¿Por qué se muestra así?**
 
@@ -344,23 +344,23 @@ function clear(){
 Existen varias maneras de limpiar el canvas
 
 
-1) El Bueno: Utilizando clearRect
+1) **El Bueno**: Utilizando clearRect
 
-Has de tener atención con haber usado `context.beginPath();` antes de pintar las líneas, de otra manera canvas no tiene constancia de que tiene que borrarlas.
+Has de tener atención con haber usado `context.beginPath();` antes de pintar tus figuras, de otra manera canvas no tiene constancia de que tiene que borrarlas.
 
 ```javascript
 //Recibe (coordenada_x, coordenada_y, anchura, altura)
 context.clearRect(0, 0, canvas.width, canvas.height);
 ```
 
-2) El Feo: Repintando todo el canvas con `fillRect`
+2) **El Feo**: Repintando todo el canvas con `fillRect`
 
 ```javascript
 context.fillStyle = 'white';
 context.fillRect(0, 0, canvas.width, canvas.height);
 ```
 
-1) El malo: Cambiando el tamaño del canvas
+3) **El malo**: Cambiando el tamaño del canvas, esto lo resetea, pero consume más recursos.
 
 ```javascript
 canvas.width = canvas.width;
