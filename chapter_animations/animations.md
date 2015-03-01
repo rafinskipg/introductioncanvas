@@ -102,7 +102,7 @@ Es decir, si no usasemos `dt` y renderizasemos 60fps un objeto a una velocidad f
 
 En cuanto empezamos a usar una lógica más compleja, es conveniente empezar a estructurar el código mediante programación orientada a objetos. De esta manera es más sencillo comprender el código, aislar funcionalidades y evitar que acabemos creando un monstruo.
 
-### Usando el Prototype
+### Usando Prototype
 
 Vamos a definir nuestra clase `Square` que será la encargada de representar el objeto _cuadrado_, almacenando sus datos (posición, ángulo de rotación y tamaño de los lados) y encapsulando la lógica de pintado.
 

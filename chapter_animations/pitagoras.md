@@ -1,20 +1,38 @@
 # Velocidad
 
+Hemos aprendido a rotar un elemento a lo largo del tiempo, pero seguramente nuestros siguientes ejemplos serán más exigentes. Una de las primeras cosas que querremos hacer con canvas es aprender a mover partículas a través de un espacio de dos dimensiones.
+
+Para ello, deberemos añadir a nuestra entidad unas propiedades de velocidad: `velocidadX` y `velocidadY`.
+
 Cuando estamos creando una figura con unas propiedades `velocidadX`, `velocidadY` estamos diciendo que esa figura, a lo largo del tiempo, va a ver su posición afectada.
+
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
 
-El teorema de pitágoras es sencillo, nos dice que la velocidad a la que se mueve el rectángulo es : 
+Podemos realizar el cálculo de la velocidad total de la figura aplicando el teorema de pitágoras. El teorema de pitágoras dice que el cuadrado de la hipotenusa de un triángulo rectángulo es igual a la suma de los cuadrados de los catetos. En este caso los catetos seran `velocidadX` y `velocidadY`. 
+
+```
+hipotenusa^2 = velocidadX^2 + velocidadY^2
+```
+
+Trasladado a JavaScript:
 
 ```javascript
 var velocidadRectangulo = Math.sqrt(velocidadX * velocidadX + velocidadY * velocidadY )
 ```
 
-Para actualizar la posición de un elemento a lo largo del tiempo, en el método update modificaremos calcularemos el diferencial de posición, y lo añadiremos a la posición actual:
+Para añadir los componentes de velocidad a la figura deberemos tener en cuenta que tenemos que utilizar el diferencial de tiempo `dt`. 
+Tal y como hemos implementado nuestro motor `dt` normalmente rondará unos valores aproximados a `16` - en 16 tendríamos 60fps.
+
+A mi me gusta utilizar unidades elevadas para representar las velocidades de los objetos, es decir, prefiero crear objetos con una velocidad `500` que con velocidad `0.005`. Me resulta más cómodo a la hora de crearlos y mantenerlos.
+
+Por desgracia 500 es un valor muy elevado para incrementarlo directamente a la posición del objeto, así que utilizaremos una fracción de `dt` para actualizar la posición: `dt/1000`.
+
+Método update:
 
 ```javascript
-this.x += this.speedX * dt/1000;
-this.y += this.speedY * dt/1000;
+this.x += this.velocidadX * dt/1000;
+this.y += this.velocidatY * dt/1000;
 ```
 
 Implementación de la clase cuadrado, con alteración de posición a lo largo del tiempo:
@@ -42,6 +60,7 @@ Square.prototype.render = function(context){
   
   context.beginPath();
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
+
   context.rect( - this.width / 2, - this.width / 2, this.width, this.width);
   context.strokeStyle = 'red';
   context.fillStyle = 'blue';
@@ -83,3 +102,8 @@ myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
 myEngine.start();
 ```
+
+
+De esta manera ya podemos empezar a pensar a crear ejercicios más complejos, donde podamos tener partículas rotando por el canvas.
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/particles_moving.png)
