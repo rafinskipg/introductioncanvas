@@ -9,23 +9,24 @@ Cuando queremos trabajar con animaciones en `canvas` o crear algún videojuego, 
 Este bucle, siempre ejecutará 3 métodos básicos.
 
 - Update
+- Limpieza de pantalla
 - Render
-- LLamada al bucle
 
-**Ya conocemos la función Render de ejercicios anteriores, vamos a ver que hacen las otras dos**
+**Ya conocemos la función Render de ejercicios anteriores, pero hasta ahora no hemos animado ningún objeto, veamos como implementar los otros métodos necesarios.**
 
 ## El bucle
 
-Cuando se trata de hacer animaciones, necesitamos que la pantalla se repinte (cuantas más veces, mejor) con las nuevas posiciones calculadas de los elementos, a lo largo del tiempo.
+Cuando se trata de hacer animaciones, necesitamos que la pantalla se repinte (cuantas más veces, mejor) con los nuevos estados de los elementos a lo largo del tiempo.
 
-Como si se tratase de una película, son frames que se van sucediendo uno a otro:
+Como si se tratase de una película, una animación es producida por unos frames que se van sucediendo.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/horse.jpg)
 
-Para que esto funcione bien, no podemos llamar al bucle antes de que se haya acabado de pintar la escena anterior, porque empezariamos un proceso de consumo de memoria que acabaría por hacer que nuestra animación funcionase mal.
-Por eso no utilizamos `setTimeout` o `setInterval`, ya que estas funciones llaman a otra función **pasado un determinado tiempo**, pero nosotros no podemos asegurar cuanto tiempo le va a llevar al ordenador de otra persona el repintar la pantalla. Necesitamos pintar **solamente** después de que se haya completado el pintado anterior.
+Si quisieramos que la pantalla se pintase 60 veces por segundo, podriamos pensar que bastaría con realizar un `setTimeOut` con un intervalo de unos 16 milisegundos entre llamada y llamada.
 
-Los navegadores proveen de un mecanismo para ello, llamado `requestAnimationFrame`. 
+El problema es que esto no es tan trivial, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que le de tiempo a realizar todos los cálculos en 16 milisegundos pero en el otro quizá le cueste 30 milisegundos calcular las nuevas posiciones de los elementos. Esto llevaría a un punto en el que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
+
+Afortunadamente, los navegadores modernos proveen de un mecanismo que nos permite saber cuando se han terminado de ejecutar todas las operaciones de un ciclo. Este mecanismo es `requestAnimationFrame`.
 
 >###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante
 `requestAnimationFrame` es una función que recibe un callback que será ejecutado antes de repintar la pantalla.
@@ -33,12 +34,15 @@ Los navegadores proveen de un mecanismo para ello, llamado `requestAnimationFram
 window.requestAnimationFrame(callback);
 ```
 
-Veamos un ejemplo de como sería nuestra función de bucle
+De esta manera podemos construir animaciones que funcionaran bien independientemente del dispositivo en el que se ejecuten. Aunque si habrá diferencia de FPS - frames por segundo - entre uno y otro. En el ejemplo anterior, el dispositivo veloz podrá ejecutar una animación a 60fps mientras que el dispositivo lento quizá esté haciendo que funcionen a 30fps, pero en ningún caso se producirá un desbordamiento de memoria.
+
+Veamos un ejemplo de como sería nuestra función de bucle:
 
 ```javascript
 function loop(){
 
   //update();
+  //clear();
   //render();
 
   requestAnimationFrame(loop);
@@ -53,20 +57,25 @@ Un ejemplo de cosas que podría hacer esta función:
 
 - Cambiar el ángulo de renderizado de una figura
 - Cambiar su posición x,y a lo largo del tiempo
+- Calcular la interacción gravítica entre ella y el resto de partículas
 - ...
 
-Un dato muy importante es saber que toda actualización de estado va a ir ligada a una **variable de tiempo** que será la diferencia entre el estado anterior y el actual. Esta variable de tiempo es la que se usará en los cálculos para saber cuanto tenemos que desplazar la figura que queremos pintar.
+Un dato muy importante a tener en cuenta es que toda actualización de estado va a ir ligada a una **variable de tiempo** que será la diferencia entre el estado anterior y el actual. Esta variable de tiempo es la que se usará en los cálculos para saber cuanto tenemos que desplazar la figura que queremos pintar.
 
-Por poner un ejemplo, tenemos una figura que se desplaza a una velocidad de 200. Entre cada iteración del repitando solo se moverá una fracción de 200.
+Como queremos que nuestra aplicación, independientemente de los frames por segundo que tenga cada usuario, se anime a una velocidad similar, necesitaremos calcular cuanto tiempo ha pasado desde la ejecución anterior y modificar el estado de los objetos con respecto a ese diferencial de tiempo o **delta time**.
+
+Por poner un ejemplo, tenemos una figura que se desplaza a una velocidad de 200. Para calcular la nueva posición de la figura en cada iteración del bucle, multiplicaremos su velocidad por el diferencial de tiempo.
 
 ```javascript
 //Movimiento lineal
+var velocidad = 200;
 var nuevaPosicion = posicionActual + (velocidad * diferencialDeTiempo);
 ```
 
-La variable de tiempo se cálcula en cada iteración del bucle y se pasa como parámetro a la función `update`
+El diferencial de tiempo se cálcula en cada iteración del bucle y se pasa como parámetro a la función `update`
 
 ```javascript
+//Inicializamos los valores
 var now = then = Date.now();
 
 function loop(){
@@ -74,6 +83,7 @@ function loop(){
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
   var dt = now - then;
   update(dt);
+  clear();
   render();
 
   //Almacenamos el valor que de now para la siguiente iteración
@@ -83,6 +93,10 @@ function loop(){
 
 loop();
 ```
+
+Si no utilizasemos un diferencial de tiempo o `dt` y actualizamos los objetos con valores fijos - cosa que podriamos hacer si quisieramos - obtendriamos animaciones diferentes dependiendo de la velocidad de procesamiento del dispositivo.
+
+Es decir, si no usasemos `dt` y renderizasemos 60fps un objeto a una velocidad fija de 200 por frame, en un dispositivo rápido la animación duraría la mitad que en uno que va a 30fps.
 
 ## OOP
 
@@ -103,12 +117,18 @@ function Square(x, y, width){
 
 Square.prototype.render = function(context){
   //Dibuja un rectangulo azul con borde rojo
+  context.save();
+  context.translate(this.x, this.y);
+
   context.beginPath();
   context.rect( - this.width / 2, - this.width / 2, this.width, this.width);
+
   context.strokeStyle = 'red';
   context.fillStyle = 'blue';
   context.fill();
   context.stroke();
+
+  context.restore();
 }
 ```
 
@@ -126,7 +146,7 @@ function render(){
 render();
 ```
 
-**¿Bonito, verdad?** Sigamos trabajando así.
+**¿Queda más elegante, verdad?** Sigamos trabajando así.
 
 Veamos como añadiriamos una función de rotación mediante OOP.
 
@@ -196,16 +216,21 @@ render();
 
 ##Añadiendo lógica al loop
 
-Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites. 
+Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites.
+
+___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, quizá sería necesario abstraerlo un poco más.___
 
 Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación incluyendo el **`loop`** y **`update`**.
 
 ### app.js
 
+Utilizando programación orientada a objetos, nuestro loop y la clase cuadrado, creamos el siguiente ejemplo:
+
 ```javascript
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
+//Inicialización de las variables
 var now = then = Date.now();
 var square = new Square(100, 100, 300);
 
@@ -214,10 +239,12 @@ function update(dt){
   square.update(dt);
 }
 
+//Renderizado de los elementos
 function render(){
   square.render(context);
 }
 
+//Ciclo
 function loop(){
   now = Date.now();
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
@@ -250,7 +277,10 @@ Square.prototype.rotate = function(angle){
 }
 
 Square.prototype.update = function(dt){
-  //Incrementamos el ángulo a lo largo del tiempo
+  /*
+    Incrementamos el ángulo a lo largo del tiempo, multiplicando la velocidad
+    de rotación por el diferencial de tiempo
+  */
   this.angle += this.speed * dt;
 }
 
@@ -258,7 +288,8 @@ Square.prototype.render = function(context){
   context.save();
 
   var radians = Utils.degreeToRadian(this.angle);
- 
+  
+  //Translamos el origen de coordenadas al centro del cuadrado para rotarlo
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
   context.rotate(radians);
 
@@ -270,6 +301,7 @@ Square.prototype.render = function(context){
   context.fill();
   context.stroke();
 
+  //Restauramos el estado del contexto
   context.restore();
 }
 ```
@@ -282,7 +314,7 @@ Square.prototype.render = function(context){
 
 Estamos viendo lo que sucede cuando todos los frames se mantienen uno encima de otro. Quedan apilados, y al final se acaba dibujando un círculo, debido a la rotación del cuadrado.
 
-Para que veamos _un cuadrad rotando_ debemos borrar el canvas entre pintado y pintado.
+Para que veamos _un cuadrado rotando_ debemos limpiar el canvas entre pintado y pintado.
 
 ## Limpiando el canvas
 
