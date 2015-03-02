@@ -15,6 +15,7 @@
     * [Animaciones](chapter_animations/animations.md)
     * [Motor](chapter_animations/engine.md)
     * [Velocidad](chapter_animations/pitagoras.md)
+    * [Múltiples elementos](chapter_animations/multiple.md)
     * [Aceleración! Una historia de rectángulolandia](chapter_animations/acceleration.md)
     * [Gravedad, Herencia y Vector2D](chapter_animations/vector2d.md)
 * [Patrones visuales, comportamientos emergentes, cosas chulas](chapter_patterns/README.md)
