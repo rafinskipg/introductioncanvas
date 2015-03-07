@@ -102,11 +102,82 @@ Es decir, si no usasemos `dt` y renderizasemos 60fps un objeto a una velocidad f
 
 En cuanto empezamos a usar una lógica más compleja, es conveniente empezar a estructurar el código mediante programación orientada a objetos. De esta manera es más sencillo comprender el código, aislar funcionalidades y evitar que acabemos creando un monstruo.
 
-### Usando Prototype
+### Usando Prototype / Clases en EcmaScript 5
 
 Vamos a definir nuestra clase `Square` que será la encargada de representar el objeto _cuadrado_, almacenando sus datos (posición, ángulo de rotación y tamaño de los lados) y encapsulando la lógica de pintado.
 
-**Esta sería la represenctación de la clase cuadrado**
+Para definir los métodos de una clase, en JavaScript (EcmaScript 5) podemos hacerlo de varias maneras.
+
+Podriamos directamente definir todos los métodos y propiedades dentro de la función constructora, por ejemplo: 
+
+```javascript
+function MiClase(){
+  this.color = 'red';
+  this.lineWidth = 5;
+
+  this.miMetodo = function(){
+    console.log(this.color);
+  }
+}
+
+var miInstancia = new MiClase();
+miInstancia.miMetodo();
+//red
+```
+
+Pero esta manera, además de que no es la más óptima para organizar clases grandes de código tiene un handicap, cada nueva instancia de `MiClase` tendrá una copia de la función miMetodo.
+
+Mientras que si usamos `prototype` para añadir métodos a la clase cada uno de esos métodos añadidos será añadido de forma estática. Es decir, todas las instancias de `MiClase` usarán la misma función (hay que tener cuidado de no modificar el método de prototype ya que afectaría a todas las instancias).
+
+
+```javascript
+function MiClase(){
+  this.color = 'red';
+  this.lineWidth = 5;
+}
+
+MiClase.prototype.miMetodo = function(){
+  console.log(this.color);
+}
+
+var miInstancia = new MiClase();
+miInstancia.miMetodo();
+//red
+```
+Usando `prototype` podemos además tener el concepto de herencia de clases en JavaScript - crear clases que extienden de clases, reutilizando sus **métodos** originales -, usando esta aproximación:
+
+```javascript
+function MiClaseEspecial(opts){
+  //Propiedades
+}
+
+MiClaseEspecial.prototype = new MiClase();
+
+MiClaseEspecial.prototype.nuevoMetodo = function(){
+  //
+}
+
+```
+
+Si además de los métodos queremos reutilizar su función constructora:
+
+```javascript
+
+function MiClaseEspecial(opts){
+  MiClase.prototype.constructor.call(this, opts);
+  //Otras propiedades
+}
+
+MiClaseEspecial.prototype = new MiClase();
+
+MiClaseEspecial.prototype.nuevoMetodo = function(){
+  //
+}
+
+```
+
+
+**Esta sería la represenctación de la clase cuadrado usando prototype**
 
 ```javascript
 function Square(x, y, width){
