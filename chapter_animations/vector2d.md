@@ -1,6 +1,15 @@
-# Gravedad, Herencia y Vector2D
+# Gravedad y Vector2D
 
-En esta implementación vamos a ver como utilizar una librería para Vector2, algunos principios sobre herencia en JavaScript y como implementar una simulación de la gravedad.
+En esta implementación vamos a ver como utilizar una librería para Vector2D y como implementar una simulación de la gravedad.
+
+Una librería para Vector2D es una herramienta para facilitar los cálculos con vectores de 2 dimensiones. Un vector de dos dimensiones no es más que un objeto con 2 coordenadas, por ejemplo la posición o la velocidad:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
+
+
+Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones en Javascript suelen llevar la suya propia o alguna opensource.
+
+Hemos elegido la librería VictorJS, esta librería nos provee de utilidades para realizar operaciones matemáticas. Nos facilitará trabajar con velocidades, posiciones y ángulos a la hora de mover nuestros elementos por el canvas.
 
 Lo primero vamos a instalar las librerías que necesitaremos
 
@@ -18,17 +27,16 @@ Luego las referenciaremos en nuestro index.html
 <script src="../../lib/Engine.js"></script>
 ```
 
-
-Hemos elegido la librería VictorJS, esta librería nos provee de utilidades para realizar operaciones matemáticas. Nos facilitará trabajar con velocidades, posiciones y ángulos a la hora de mover nuestros elementos por el canvas.
-
-Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones en Javascript suelen llevar la suya propia o alguna opensource.
+## VictorJS
 
 Podemos instanciar un nuevo vector de la siguiente manera:
 
 ```javascript
 var vec = new Victor(42, 1337);
-vec.x;
+vec.x
 // => 42
+vec.y
+// => 1337
 ```
 
 Lo bueno que nos da la librería es que podemos realizar operaciones de adición de valores de una forma sencilla.
