@@ -1,7 +1,9 @@
 # Aceleración!
 
 >Cuando un objeto no tiene una propiedad de aceleración, se mantiene a una velocidad constante, lo que se conoce como movimiento rectilineo uniforme.
-Si queremos crear efectos como la gravedad, cohetes espaciales, pelotas que botan, etc, necesitaremos incorporar el factor de modificación de la velocidad a lo largo del tiempo.
+Si queremos crear efectos como la gravedad, cohetes espaciales, pelotas que botan, etc, necesitaremos incorporar el concepto de aceleración.
+
+La aceleración es la modificación de la velocidad a lo largo del tiempo:
 
 ```javascript
 //update
@@ -12,13 +14,13 @@ this.x += this.speedX * dt/1000;
 this.y += this.speedY * dt/1000;
 ```
 
-Imaginemos por un momento que vivimos en _rectángulolandia_.
+Vamos a ilustrar esta sencilla explicación con una historia. Imaginemos por un momento que vivimos en _rectángulolandia_.
 
 ```javascript
 var canvas = document.getElementById('canvas');
 ```
 
- _Rectángulolandia_ es un mundo aburrido, compuesto de rectángulos de colores que se desplazan y rotan a una velocidad uniforme por su plano.
+ _Rectángulolandia_ es un mundo aburrido, compuesto de rectángulos de colores que se desplazan con un movimiento rectilíneo uniforme.
 
 ```javascript
 var rectangles = [];
@@ -37,7 +39,7 @@ function start(){
 }
 ```
 
-En _rectángulolandia_ nadie tiene muy claro a que se dedican los otros, ni siquiera saben muy bien que hacen ellos mismos, todo el día desplazandose hacia algún que otro lugar. 
+En _rectángulolandia_ todos sus ciudadanos son rectángulos:
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/rectangleland_1.png)
 
@@ -60,7 +62,7 @@ Rectangle.prototype.update = function(dt, globalAcc){
 }
 ```
 
-Así vivían estos seres, unos yendo hacia arriba, otros hacia abajo, cada uno se dirigía a su inevitable soledad, perdido en su cosmos.
+Así vivían estos seres, unos yendo hacia arriba, otros hacia abajo,pero cada uno se dirigía a su inevitable soledad, perdido en su cosmos.
 
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/rectangleland_1_directions.png)
@@ -79,6 +81,6 @@ Nadie se explica que está pasando, pero todos tienen la sensación de que a cad
 
 Y así, todos los habitantes tomaron el mismo rumbo y se dirigieron juntos hacia otros planos, más coloridos y llenos de otros polígonos más animados.
 
-_Y con esta historieta tu has aprendido como aplicar la aceleración a cuerpos en movimiento._
+_Y con esta historieta has visto cual es el efecto de aplicar aceleración a un cuerpo._
 
 **Fin**
