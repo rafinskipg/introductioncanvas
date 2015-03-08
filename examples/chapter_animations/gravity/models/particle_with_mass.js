@@ -17,13 +17,6 @@ ParticleWithMass.prototype.update = function(dt) {
   }
 };
 
-ParticleWithMass.prototype.calculateNewForce = function(allParticles, G, context){
-  this.newAcceleration = this.force(allParticles, G, context);
-}
-ParticleWithMass.prototype.updateForce = function () {
-  this.acceleration = this.newAcceleration.clone();
-}
-
 ParticleWithMass.prototype.render = function(context){
   var color, radius;
 
@@ -51,6 +44,16 @@ ParticleWithMass.prototype.render = function(context){
   context.restore();
 }
 
+ParticleWithMass.prototype.calculateNewForce = function(allParticles, G, context){
+  this.newForce = this.force(allParticles, G, context);
+}
+ParticleWithMass.prototype.updateForce = function () {
+  //F = m * a => a = F/m
+  this.acceleration = this.newForce
+    .clone()
+    .multiply(new Victor(1 / this.mass,1 / this.mass));
+}
+
 //Calcula la fuerza de gravedad que le estan aplicando las otras particulas
 ParticleWithMass.prototype.force = function(allParticles, G, context){
   var result = new Victor(0,0)
@@ -65,9 +68,9 @@ ParticleWithMass.prototype.force = function(allParticles, G, context){
       
       var force = (G * this.mass * allParticles[i].mass) / Math.pow(distance, 2);
 
-      result.x += force * distanceX / this.mass;
-      result.y += force * distanceY / this.mass;
-
+      result.x += force * Math.sign(distanceX);
+      result.y += force * Math.sign(distanceY);
+      
       context.beginPath();
       context.strokeStyle = 'black';
       context.lineWidth = force ;
@@ -82,5 +85,3 @@ ParticleWithMass.prototype.force = function(allParticles, G, context){
 
   return result;
 }
-
-//http://kaeru.neritic.net/projects/short-experiments/glxy/

@@ -287,7 +287,6 @@ También se demostró que grandes cuerpos de forma esférica atraen y son atraid
 
 
 
-
 ```javascript
 var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Math.pow(distanciaEntreCentroDeObjetos, 2);
 //Unidad de masa = kilogramos - kg
@@ -296,15 +295,89 @@ var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Ma
 //CONSTANTE_GRAVEDAD G, 6.67 x 10^-11 N·(m/kg)^2
 ```
 
-Para implementar una atracción gravitica con partículas deberemos tener en cuenta ciertas cuestiones:
+Para implementar una atracción gravitica con partículas deberemos tener que:
 
-- Debemos actualizar las nuevas posiciones de todos los objetos antes de recalcular las fuerzas de gravedad y actualizar las velocidades
+- Debemos calcular las fuerzas de atracción primero para todos los elementos que interactuan
+- Una vez hayamos calculado la fuerza que interacciona con todos los elementos, actualizaremos la aceleración de cada uno de las partículas
+- Posteriormente podremos calcular las nuevas posiciones de todos los elementos.
 
-http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation
+En nuestra aplicación añadimos las siguientes llamadas: 
 
-http://codeflow.org/entries/2010/aug/28/integration-by-example-euler-vs-verlet-vs-runge-kutta/
+```javascript
+function update(dt, context, canvas){
+  
+  //Calcula la nueva fuerza de interacción entre partículas
+  particles.forEach(function(particle){
+    particle.calculateNewForce(particles, GRAVITY_CONSTANT, context);
+    return particle;
+  });
 
-http://kaeru.neritic.net/projects/short-experiments/glxy/
+  //Actualiza cada partícula con la nueva fuerza
+  particles.forEach(function(particle){
+    particle.updateForce(particles, GRAVITY_CONSTANT, context);
+    return particle;
+  });
+
+  //Actualizamos el movimiento
+  particles.forEach(function(particle){
+    particle.update(dt);
+    return particle;
+  });
+
+}
+```
+
+Añadimos en la clase `ParticleWithMass` los métodos necesarios:
+
+```javascript
+ParticleWithMass.prototype.calculateNewForce = function(allParticles, G, context){
+  this.newForce = this.force(allParticles, G, context);
+}
+
+ParticleWithMass.prototype.updateForce = function () {
+  //Fuerza = masa * aceleracion => aceleracion = Fuerza / masa.
+  this.acceleration = this.newForce
+    .clone()
+    .multiply(new Victor(1 / this.mass,1 / this.mass));
+}
+```
+
+Y en la llamada a `this.force` ejecutaremos el cálculo según la ley de gravitación universal.
+
+Tomaremos un valor para `G` de `1`, puedes probar a alterar este valor y ver que pasa.
+
+*Hemos añadido una propiedad con un valor único llamada `id` en `ParticleWithMass` para poder diferenciar entre los distintos objetos*
+
+```javascript
+//Calcula la fuerza de gravedad que le estan aplicando las otras particulas
+ParticleWithMass.prototype.force = function(allParticles, G, context){
+  //Vector2D de aceleración resultante
+  var result = new Victor(0,0)
+
+  for(var i = 0; i < allParticles.length; i++){
+    //Por cada otra partícula:
+    if(allParticles[i].id !== this.id){
+
+      var distanceX = allParticles[i].pos.distanceX(this.pos);
+      var distanceY = allParticles[i].pos.distanceY(this.pos);
+      var distance = allParticles[i].pos.distance(this.pos);
+      
+      var force = (G * this.mass * allParticles[i].mass) / Math.pow(distance, 2);
+
+      result.x += force * Math.sign(distanceX);
+      result.y += force * Math.sign(distanceY);
+    }
+  }
+
+  return result;
+}
+```
+
+Conseguido :) 
+
+Tenemos nuestra primera implementación de la ley de gravitación universal. Este sería el resultado:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/gravity_particles_network2.png)
 
 
 **Bola extra:** Queremos que al hacer click en el canvas se añada una nueva particula donde estamos haciendo click, y cuanto más mantengamos presionado el ratón, más grande sea esa partícula.
@@ -448,5 +521,196 @@ function render(context){
 
 Listo! Ya tenemos nuestra máquina de crear partículas.
 
-**:) Yay! otra vez.**
+**Código final**
 
+
+```javascript
+//Archivo ParticleWithMass.js
+function ParticleWithMass(opts){
+  //Llamamos al constructor de BaseEntity
+  BaseEntity.prototype.constructor.call(this, opts);
+  this.mass = opts.mass || 1;
+  this.id = Utils.uid();
+  this.autoIncrement = opts.autoIncrement || false;
+}
+
+ParticleWithMass.prototype = new BaseEntity({x: 0, y : 0});
+ParticleWithMass.prototype.constructor = ParticleWithMass;
+ParticleWithMass.prototype.parent = BaseEntity.prototype;
+
+ParticleWithMass.prototype.update = function(dt) {
+  this.parent.update.call(this, dt);
+  if(this.autoIncrement){
+    this.mass += dt/10;
+  }
+};
+
+ParticleWithMass.prototype.render = function(context){
+  var color, radius;
+
+  radius = Math.pow(this.mass,1/2);
+
+  if(radius < 10){
+    color = 'black';
+  }else if(radius >= 10 && radius < 20){
+    color = 'yellow';
+  }else if(radius >= 20 && radius < 30){
+    color = 'rgb(121, 55, 0)';
+  }else if(radius >= 30 && radius < 40){
+    color = 'orange';
+  }else{
+    color = 'red';
+  }
+
+  context.save();
+  context.translate(this.pos.x, this.pos.y);
+  context.beginPath();
+  context.arc(0, 0, radius, 0, 2 * Math.PI);
+  context.fillStyle = color;
+  context.fill();
+  context.closePath();
+  context.restore();
+}
+
+ParticleWithMass.prototype.calculateNewForce = function(allParticles, G, context){
+  this.newForce = this.force(allParticles, G, context);
+}
+ParticleWithMass.prototype.updateForce = function () {
+  //F = m * a => a = F/m
+  this.acceleration = this.newForce
+    .clone()
+    .multiply(new Victor(1 / this.mass,1 / this.mass));
+}
+
+//Calcula la fuerza de gravedad que le estan aplicando las otras particulas
+ParticleWithMass.prototype.force = function(allParticles, G, context){
+  var result = new Victor(0,0)
+
+  context.save();
+
+  for(var i = 0; i < allParticles.length; i++){
+    if(allParticles[i].id !== this.id){
+      var distanceX = allParticles[i].pos.distanceX(this.pos);
+      var distanceY = allParticles[i].pos.distanceY(this.pos);
+      var distance = allParticles[i].pos.distance(this.pos);
+      
+      var force = (G * this.mass * allParticles[i].mass) / Math.pow(distance, 2);
+
+      result.x += force * Math.sign(distanceX);
+      result.y += force * Math.sign(distanceY);
+      
+      context.beginPath();
+      context.strokeStyle = 'black';
+      context.lineWidth = force ;
+      context.moveTo(this.pos.x, this.pos.y);
+      context.lineTo(allParticles[i].pos.x, allParticles[i].pos.y);
+      context.closePath();
+      context.stroke(); 
+    }
+  }
+  
+  context.restore();
+
+  return result;
+}
+```
+
+
+```javascript
+//Archivo app.js
+var canvas = document.getElementById('canvas');
+var particles = [], MAX_PARTICLES = 30;
+var addingParticle;
+var GRAVITY_CONSTANT = 1;
+
+function start(context, canvas){
+  for(var i = 0; i < MAX_PARTICLES; i++){
+    var newParticle = new ParticleWithMass({
+      mass : Utils.randomInteger(5, 10),
+      x : Utils.randomInteger(0, canvas.width),
+      y : Utils.randomInteger(0, canvas.height)
+    });
+
+    addParticle(newParticle);
+  }
+  addEventListeners();
+}
+
+function addParticle(particle){
+  particles.push(particle);
+}
+
+function update(dt, context, canvas){
+
+  particles.forEach(function(particle){
+    particle.calculateNewForce(particles, GRAVITY_CONSTANT, context);
+    return particle;
+  });
+
+  particles.forEach(function(particle){
+    particle.updateForce(particles, GRAVITY_CONSTANT, context);
+    return particle;
+  });
+
+  particles.forEach(function(particle){
+    particle.update(dt);
+    return particle;
+  });
+
+  if(addingParticle){
+    addingParticle.update(dt);
+  }
+}
+
+function render(context){
+  particles.forEach(function(particle){
+    particle.render(context);
+  });
+
+  if(addingParticle){
+    addingParticle.render(context);
+  }
+}
+
+function addEventListeners(){
+  canvas.addEventListener('mousedown', handleMouseDown, false);
+  canvas.addEventListener('mousemove', handleMouseMove, false);
+  canvas.addEventListener('mouseup', handleMouseUp, false);
+}
+
+function handleMouseDown(e){
+  var mouse = Utils.getMouseCoords(canvas, e);
+  
+  addingParticle = new ParticleWithMass({
+    x : mouse.x,
+    y : mouse.y,
+    mass : 1, 
+    autoIncrement : true
+  });
+}
+
+function handleMouseMove(e){
+  if(addingParticle){
+    var mouse = Utils.getMouseCoords(canvas, e);
+    addingParticle.pos.x = mouse.x;
+    addingParticle.pos.y = mouse.y;
+  }
+}
+
+function handleMouseUp(e){
+  var newParticle = new ParticleWithMass({
+    x : addingParticle.pos.x,
+    y : addingParticle.pos.y,
+    mass : addingParticle.mass
+  });
+
+  addParticle(newParticle);
+  addingParticle = null;
+}
+
+var myEngine = new Engine(canvas);
+myEngine.addStartCallback(start);
+myEngine.addUpdateCallback(update);
+myEngine.addRenderCallback(render);
+myEngine.start();
+```
