@@ -2,23 +2,23 @@
 
 En esta implementación vamos a ver como utilizar una librería para Vector2D y como implementar una simulación de la gravedad.
 
-Una librería para Vector2D es una herramienta para facilitar los cálculos con vectores de 2 dimensiones. Un vector de dos dimensiones no es más que un objeto con 2 coordenadas, por ejemplo la posición o la velocidad:
+Una librería para Vector2D es una herramienta para facilitar los cálculos con vectores de 2 dimensiones. Un vector de dos dimensiones no es más que un objeto con 2 coordenadas, por ejemplo las coordenadas de posición o los valores de velocidad:
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
 
 
-Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones en Javascript suelen llevar la suya propia o alguna opensource.
+Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones suelen llevar la suya propia o reutilizan alguna librería opensource.
 
 Hemos elegido la librería VictorJS, esta librería nos provee de utilidades para realizar operaciones matemáticas. Nos facilitará trabajar con velocidades, posiciones y ángulos a la hora de mover nuestros elementos por el canvas.
 
-Lo primero vamos a instalar las librerías que necesitaremos
+Primero vamos a instalar las librerías que necesitaremos
 
 ```
 bower install --save lodash
 bower install --save victor
 ```
 
-Luego las referenciaremos en nuestro index.html
+Luego las referenciaremos en el archivo index.html
 
 ```html
 <script src="../../../bower_components/lodash/lodash.js"></script>
@@ -39,9 +39,7 @@ vec.y
 // => 1337
 ```
 
-Lo bueno que nos da la librería es que podemos realizar operaciones de adición de valores de una forma sencilla.
-
-Se puede utilizar el método `clone` si no deseamos alterar el objeto inicial.
+Se puede utilizar el método `clone` si no deseamos alterar el objeto inicial al realizar una adición de vectores.
 
 ```javascript
 var vec = new Victor(100, 200);
@@ -61,7 +59,8 @@ vec.toString();
 Otros métodos de la API de Victor que podremos necesitar son `vector.substract`, `vector.divide`, `vector.limit`, `vector.multiply`... 
 Puedes encontrar más información sobre los métodos disponibles en su documentación online. 
 
-https//github.com/maxkueng/victor
+Puedes encontrar más información sobre la API de VictorJS en : 
+ - https//github.com/maxkueng/victor
 
 ## Nuestra entidad base
 
@@ -72,8 +71,11 @@ En la carpeta `lib` vamos a dejar la siguiente entidad creada
 ```javascript
 //BaseEntity.js
 function BaseEntity(opts){
+  //Vector de posición
   this.pos = new Victor(opts.x, opts.y);
+  //vector de velocidad
   this.speed = new Victor(opts.speedX || 0, opts.speedY || 0);
+  //vector de aceleración
   this.acceleration = new Victor(opts.accX || 0, opts.accY || 0);
 }
 
@@ -84,11 +86,12 @@ BaseEntity.prototype.update = function(dt){
   //Calculamos el diferencial de posición 
   var posDt = this.speed.clone().multiply(new Victor(dt/1000, dt/1000));
 
+  //Añadimos la diferencia de posición a la posición actual
   this.pos = this.pos.add(posDt);
 }
 
 BaseEntity.prototype.render = function(context, canvas){
-  //Implement
+  //Implementar
 }
 ```
 
@@ -103,9 +106,8 @@ Ahora crearemos nuestras entidades para este ejercicio heredando del constructor
 
 ### Herencia
 
-Al crear nuestra clase `ParticleWithMass`, que será la que defina el comportamiento individual de cada partícula que pintemos, reutilizaremos el prototipo de `BaseEntity`.
+Tal y como vimos en el apartado de introducción a animaciones, subsección OOP, utilizaremos la herencia prototipal de JavaScript para crear nuestra nueva entidad `ParticleWithMass`.
 
-Podemos heredar el constructor y métodos de la clase base haciendo lo siguiente
 
 ```javascript
 //models/ParticleWithMass.js
@@ -178,7 +180,7 @@ ParticleWithMass.prototype.render = function(context){
     color = 'red';
   }
 
-  //Un circulo :P
+  //Expresamos la particula con un circulo
   context.save();
   context.translate(this.pos.x, this.pos.y);
   context.beginPath();
@@ -205,7 +207,10 @@ Ahora que ya tenemos el modelo creado, lo incluiremos en la aplicación.
 
 ## La aplicación
 
-El canvas inicial aparecerá con 10 partículas aleatorias
+Inicializaremos la aplicación con un número de partículas situadas de forma aleatoria en el canvas.
+
+Las inicializaremos en la función `start` y utilizaremos lo aprendido en la subsección "multiples elementos" de este capítulo para estructurar la aplicación.
+
 
 ```javascript
 //app.js
@@ -244,9 +249,9 @@ myEngine.addRenderCallback(render);
 myEngine.start();
 ```
 
-Con esto tendriamos unas bonitas partículas, que no se mueven ni interactuan.
+Con esto tendriamos unas bonitas partículas esparcidas por el canvas pero que no se mueven ni interactuan.
 
-Si quisieramos que tuvieran una velocidad inicial aleatoria: 
+Si quisieramos que tuvieran una velocidad inicial aleatoria deberiamos pasar como parámetros al constructor los valores de velocidad.
 
 ```javascript
 //app.js
@@ -272,7 +277,7 @@ De esta manera ya nuestras partículas se mueven en el canvas!
 > <br/>
 > <div class="float: right; font-weight: bold">@mrheston</span>
 
-**Bola extra:** Queremos que al hacer click en el canvas se añada una nueva particula donde estsmos haciendo click, y cuanto más mantengamos presionado el ratón, más grande sea esa partícula.
+**Bola extra:** Queremos que al hacer click en el canvas se añada una nueva particula donde estamos haciendo click, y cuanto más mantengamos presionado el ratón, más grande sea esa partícula.
 
 Para ello debemos almacenar una particula temporal
 
@@ -308,7 +313,7 @@ function addEventListeners(){
 Cuando escuchamos un evento "mouse" para obtener sus coordenadas solo tenemos la información sobre las cordenadas de la página.
 Para saber en que coordenadas del canvas estamos haciendo click usaremos esta función, que guardaremos en nuestro fichero de `Utils` para poder reutilizarla más adelante en otros ejemplos.
 
-Tendremos que restarle a las coordenadas del ratón el offset que tiene el canvas (padding, margin) con respecto a la página.
+Tendremos que restarle a las coordenadas del ratón el offset que tiene el canvas (padding, margin) con respecto a la página, de esta manera las coordenadas serán relativas al canvas y no a toda la página.
 
 ```javascript
 //lib/Utils.js
@@ -324,10 +329,10 @@ Utils.getMouseCoords = function(canvas, e){
 }
 ```
 
-Implementemos los callback de los eventos.
+Implementemos los callback que se dispararán con cada uno de los eventos:
+
 
 ```javascript
-//app.js
 function handleMouseDown(e){
   var mouse = Utils.getMouseCoords(canvas, e);
   
@@ -339,7 +344,9 @@ function handleMouseDown(e){
     autoIncrement : true
   });
 }
+```
 
+```javascript
 //Al mover el ratón actualizamos la posición de la partícula
 function handleMouseMove(e){
   if(addingParticle){
@@ -348,7 +355,9 @@ function handleMouseMove(e){
     addingParticle.pos.y = mouse.y;
   }
 }
+```
 
+```javascript
 //Al soltar el ratón creamos la partícula
 function handleMouseUp(e){
   var newParticle = new ParticleWithMass({
@@ -372,13 +381,14 @@ Como podéis ver se ha creado una nueva propiedad `autoIncrement` en el modelo d
 ParticleWithMass.prototype.update = function(dt) {
   this.parent.update.call(this, dt);
   
+  //Si la partícula tiene la propiedad autoIncrement le incrementamos su masa
   if(this.autoIncrement){
     this.mass += dt/100;
   }
 };
 ```
 
-Ahora solo faltará añadir esa partícula temporal a los métodos del engine.
+Ahora solo faltará añadir esa partícula temporal a los métodos del engine para que se vea afectada por la ejecución del ciclo de animación:
 
 ```javascript
 //app.js
@@ -388,6 +398,7 @@ function update(dt){
     return particle;
   });
 
+  //Actualizamos la particula temporal
   if(addingParticle){
     addingParticle.update(dt);
   }
@@ -398,6 +409,7 @@ function render(context){
     particle.render(context);
   });
 
+  //Renderizamos la particula temporal
   if(addingParticle){
     addingParticle.render(context);
   }
