@@ -62,11 +62,12 @@ Puedes encontrar más información sobre los métodos disponibles en su document
 Puedes encontrar más información sobre la API de VictorJS en : 
  - https//github.com/maxkueng/victor
 
+
 ## Nuestra entidad base
 
-Crearemos una entidad base, de la que luego heredaremos para crear nuestras siguientes entidades.
+Crearemos una entidad base llamada `BaseEntity`, de la que luego heredaremos para crear nuestras siguientes entidades.
 
-En la carpeta `lib` vamos a dejar la siguiente entidad creada
+Trasladaremos las implementaciones de posición, velocidad y aceleración a la sintaxis de la librería de Vector2D.
 
 ```javascript
 //BaseEntity.js
@@ -103,9 +104,6 @@ Implementaremos el modelo para cada una de las partículas con masa que se mover
 
 Ahora crearemos nuestras entidades para este ejercicio heredando del constructor de `BaseEntity` 
 
-
-### Herencia
-
 Tal y como vimos en el apartado de introducción a animaciones, subsección OOP, utilizaremos la herencia prototipal de JavaScript para crear nuestra nueva entidad `ParticleWithMass`.
 
 
@@ -117,12 +115,6 @@ function ParticleWithMass(opts){
   //Otras inicializaciones propias de ParticleWithMass
   this.mass = opts.mass || 1;
 }
-```
-
-Ahora vamos a heredar el prototipo de la clase BaseEntity
-
-```javascript
-//models/ParticleWithMass.js
 /*
   Inicializamos el prototipo de ParticleWithMass 
   con el prototipo por defecto de BaseEntity
@@ -277,6 +269,44 @@ De esta manera ya nuestras partículas se mueven en el canvas!
 > <br/>
 > <div class="float: right; font-weight: bold">@mrheston</span>
 
+##Implementando Gravedad
+
+Vamos a repasar primero algunos conceptos de física básica:
+
+### Ley de gravitación universal
+
+En 1687 fue publicado el libro **Philosophiæ Naturalis Principia Mathematica** de mano de *Sir Isaac Newton*. En este libro, Newton recogía las tres leyes del movimiento y la que sería llamada "ley de gravitación universal", deducida empíricamente a través de la observación.
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/newton.jpg)
+
+La ley de gravitación universal de Newton dice que "dos cuerpos en el universo se atraen el uno al otro con una fuerza que es directamente proporcional al producto de sus masas e inversamente proporcional al cuadrado de la distancia entre sus dos centros".
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/gravity2.png)
+
+También se demostró que grandes cuerpos de forma esférica atraen y son atraidos como si toda su masa se concentrase en su centro.
+
+
+
+
+```javascript
+var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Math.pow(distanciaEntreCentroDeObjetos, 2);
+//Unidad de masa = kilogramos - kg
+//Unidad de fuerza de la gravedad = newtons - N
+//Unidad de distancia metros
+//CONSTANTE_GRAVEDAD G, 6.67 x 10^-11 N·(m/kg)^2
+```
+
+Para implementar una atracción gravitica con partículas deberemos tener en cuenta ciertas cuestiones:
+
+- Debemos actualizar las nuevas posiciones de todos los objetos antes de recalcular las fuerzas de gravedad y actualizar las velocidades
+
+http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation
+
+http://codeflow.org/entries/2010/aug/28/integration-by-example-euler-vs-verlet-vs-runge-kutta/
+
+http://kaeru.neritic.net/projects/short-experiments/glxy/
+
+
 **Bola extra:** Queremos que al hacer click en el canvas se añada una nueva particula donde estamos haciendo click, y cuanto más mantengamos presionado el ratón, más grande sea esa partícula.
 
 Para ello debemos almacenar una particula temporal
@@ -420,33 +450,3 @@ Listo! Ya tenemos nuestra máquina de crear partículas.
 
 **:) Yay! otra vez.**
 
-##Implementando Gravedad
-
-Vamos a repasar primero algunos conceptos de física básica:
-
-### Newton al rescate
-
-La ley de gravitación universal de Newton dice que "dos cuerpos en el universo se atraen el uno al otro con una fuerza que es directamente proporcional al producto de sus masas e inversamente proporcional al cuadrado de la distancia entre sus dos centros".
-
-También se demostró que grandes cuerpos de forma esférica atraen y son atraidos como si toda su masa se concentrase en su centro.
-
-Estos principios se pueden encontrar en su libro **Philosophiæ Naturalis Principia Mathematica**, publicado por primera vez en 1687. 
-
-
-```javascript
-var fuerzaEntreObjetos = (CONSTANTE_GRAVEDAD * masaObjeto * masaOtroObjeto) / Math.pow(distanciaEntreCentroDeObjetos, 2);
-//Unidad de masa = kilogramos - kg
-//Unidad de fuerza de la gravedad = newtons - N
-//Unidad de distancia metros
-//CONSTANTE_GRAVEDAD G, 6.67 x 10^-11 N·(m/kg)^2
-```
-
-Para implementar una atracción gravitica con partículas deberemos tener en cuenta ciertas cuestiones:
-
-- Debemos actualizar las nuevas posiciones de todos los objetos antes de recalcular las fuerzas de gravedad y actualizar las velocidades
-
-http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation
-
-http://codeflow.org/entries/2010/aug/28/integration-by-example-euler-vs-verlet-vs-runge-kutta/
-
-http://kaeru.neritic.net/projects/short-experiments/glxy/
