@@ -19,7 +19,7 @@
     * [Aceleración! Una historia de rectángulolandia](chapter_animations/acceleration.md)
     * [Gravedad y Vector2D](chapter_animations/vector2d.md)
 * [Patrones visuales, comportamientos emergentes, cosas chulas](chapter_patterns/README.md)
-    * [Fibonacci](chapter_patterns/fibonacci.md)
+    * [Espiral y Fibonacci](chapter_patterns/spiral.md)
     * [Programando por fases](chapter_patterns/hexagons.md)
     * [Grid de hexágonos](chapter_patterns/hexagons.md)
     * [Fractales](chapter_patterns/fractals.md)
