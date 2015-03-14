@@ -1,5 +1,5 @@
 /**
- * Exercise 1 solution
+ * De cero a canvas solution
  */
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
