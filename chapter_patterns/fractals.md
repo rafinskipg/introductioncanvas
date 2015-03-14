@@ -55,6 +55,14 @@ La curva de Koch fue descrita por el matemático sueco Helge von Koch en 1904.
 
 Se trata de una curva fractal, construida a partir de un proceso iterativo en el que se divide una recta en 3 partes t la parte central se divide en un triángulo equilátero. Se repite este proceso infinidad de veces.
 
+## Copo de nieve de Koch
+
+Utilizando la implementación de la curva de Koch, podemos generar el copo de nieve de Koch. 
+
+Para hacerlo solo tenemos que unir 3 curvas de Koch formando un triángulo equilátero
+
+http://es.wikipedia.org/wiki/Copo_de_nieve_de_Koch
+
 <div style="width: 30%; float: left;">![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/koch_star_1.png)</div>
 <div style="width: 30%; float: left;">![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/koch_star_2.png)</div>
 <div style="width: 30%; float: left;">![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/koch_star_3.png)</div>
