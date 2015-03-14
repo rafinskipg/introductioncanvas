@@ -54,3 +54,7 @@ http://www.alexi.ch/projects/html5_fractgen/html5_fractgen.html
 Fractal de mandelbrot: https://github.com/cslarsen/mandelbrot-js
 
 http://es.wikipedia.org/wiki/Fractal
+
+WAU: http://en.wikipedia.org/wiki/List_of_fractals_by_Hausdorff_dimension
+
+https://github.com/ndrwhr/simple-fractals/blob/master/source/carpet.js
