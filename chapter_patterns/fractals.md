@@ -8,6 +8,11 @@ Podréis encontrar todos los ejemplos implementados en la carpeta de ejemplos de
 
 Un fractal es un patrón que nunca se termina y que se repite de forma indefinida a diferentes escalas. La palabra fractal procede del latín "fractus" que significa quebrado o fracturado.
 
+Un objeto geométrico fractal tiene ciertas propiedades:
+- Es demasiado irregular para expresarlo en términos geométricos tradicionales.
+- Es autosimilar, su forma es hecha de copias más pequeñas de la misma figura.
+- Se definen mediante un algoritmo recursivo
+
 ** En la naturaleza aparece la geometría fractal - Fuente Wikipedia **
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/romanescu.jpg)
@@ -43,6 +48,21 @@ La alfombra de Sierpinski es el límite de este proceso tras un número infinito
 ```javascript
 TODO
 ```
+
+## Curva de Koch
+
+La curva de Koch fue descrita por el matemático sueco Helge von Koch en 1904. 
+
+Se trata de una curva fractal, construida a partir de un proceso iterativo en el que se divide una recta en 3 partes t la parte central se divide en un triángulo equilátero. Se repite este proceso infinidad de veces.
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fractal_tree.png)
+
+### Implementación
+
+```javascript
+TODO
+```
+
 
 
 //http://andrew-hoyer.com/experiments/fractals/

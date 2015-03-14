@@ -67,7 +67,7 @@ function render(){
   //Limit of iterations
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  var order = 5;
+  var order = 6;
   //Initialize carpet
   var carpet = new Carpet(order, canvas);
   carpet.render(context, canvas);
