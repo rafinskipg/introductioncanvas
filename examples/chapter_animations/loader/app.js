@@ -43,13 +43,12 @@ function renderCallback(context, canvas){
   triangles.forEach(function(triangle){
     triangle.render(context, canvas);
   });
-
 }
+
 function updateCallback(dt){
   triangles.forEach(function(triangle){
     triangle.update(dt);
   });
-
 }
 
 function clear(context, canvas){

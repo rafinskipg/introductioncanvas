@@ -34,6 +34,7 @@ function handleMouseDown(e){
   dragging = true;
   cords = [mouse];
 }
+
 function handleMouseMove(e){
   console.log('move')
   if(dragging){

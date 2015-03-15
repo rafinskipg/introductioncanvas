@@ -73,6 +73,20 @@ http://es.wikipedia.org/wiki/Copo_de_nieve_de_Koch
 TODO
 ```
 
+## Conjunto de Mandelbrot
+https://github.com/cslarsen/mandelbrot-js
+https://github.com/cslarsen/mandelbrot-js/blob/master/mandelbrot.js
+http://linas.org/art-gallery/escape/smooth.html
+http://rosettacode.org/wiki/Mandelbrot_set#JavaScript
+http://en.wikibooks.org/wiki/Pictures_of_Julia_and_Mandelbrot_Sets
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fractal_tree.png)
+
+### Implementación
+
+```javascript
+TODO
+```
 
 
 //http://andrew-hoyer.com/experiments/fractals/
