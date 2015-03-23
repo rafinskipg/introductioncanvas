@@ -30,7 +30,7 @@ function Item(opts ){
   this.clockSize = 0;
 
   //The painting method
-  this.paintMethod = 'gradient';
+  this.paintMethod = 'points';
 }
 
 Item.prototype.render = function(context, canvas){
@@ -87,8 +87,13 @@ Item.prototype.getPoints = function(){
 Item.prototype.paint = function(context, canvas, point, nextPoint){
   nextPoint = nextPoint ? nextPoint : new Victor(0,0);
 
-  if(this.paintMethod !== 'gradient'){
+  if(this.paintMethod === 'lean'){
     context.strokeStyle = this.color;
+    context.stroke();
+  }else if(this.paintMethod ==='points'){
+    context.fillStyle = this.color;
+    context.arc(point.x, point.y, 2, 0, 2*Math.PI);
+    context.fill();
   }else{
   
     var gradient = context.createLinearGradient(point.x,  point.y, nextPoint.x, nextPoint.y);
@@ -107,8 +112,9 @@ Item.prototype.paint = function(context, canvas, point, nextPoint){
     radgrad.addColorStop(1, 'rgba(1,159,98,0)');
     context.strokeStyle = this.color;
     context.lineWidth = 2;
+    context.stroke();
   }
-  context.stroke();
+  
 }
 
 Item.prototype.update = function(dt){
