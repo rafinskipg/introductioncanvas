@@ -1,14 +1,22 @@
 #Dibujando espirales
 
-
-Para dibujar una espiral en canvas, aunque no sea de fibonacci, debemos mover el cursor por una serie de puntos, calculados e incrementados en distancia y ángulo desde el origen de coordenadas.
+Canvas no dispone de un método para dibujar espirales directamente, para poder crear una espiral deberemos calcular "todos" los puntos por los que deberá pasar la curva, y pintar una línea que los una.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral.png)
 
-En cada uno de estos pasos trazaremos una línea al anterior mediante `context.lineTo(x, y);`
+Esto significa que cuanto mayor número de puntos usemos para trazar una espiral, mayor calidad tendrá ese renderizado de la espiral.
+
+Veamos como calcular los puntos para una espiral en la que el ángulo se va incrementando 1 grado entre punto y punto.
+
+```javascript
+var spiral_angle = Utils.degreeToRadian(1);
+```
+
+Tomaremos un máximo de puntos `MAX_POINTS = 1000` y un radio máximo de espiral `var spiral_radius = 300`.
 
 ```javascript
 var MAX_POINTS = 1000;
+var spiral_radius = 300;
 
 function render(context, canvas){
   //angulo entre los puntos, resulta interesante ver que pasa al variarlo...
@@ -17,11 +25,16 @@ function render(context, canvas){
   context.beginPath();
 
   for (var i = 1; i <= MAX_POINTS; ++i) {
+    //Calculamos la distancia del centro a la que está el punto
     var ratio = i / MAX_POINTS;
-    var angle = i * spiral_angle;
     var distanceFromCenter = ratio * spiral_radius;
-    var x = centerX + Math.cos(angle) * distanceFromCenter
-    var y = centerY + Math.sin(angle) * distanceFromCenter
+    //Angulo que tiene la espiral en este punto
+    var angle = i * spiral_angle;
+
+    var x = centerX + Math.cos(angle) * distanceFromCenter;
+    var y = centerY + Math.sin(angle) * distanceFromCenter;
+
+    //Trazamos una línea hasta este nuevo punto
     context.lineTo(x, y);
   }
 
