@@ -1,10 +1,10 @@
 #Dibujando espirales
 
-Canvas no dispone de un método para dibujar espirales directamente, para poder crear una espiral deberemos calcular "todos" los puntos por los que deberá pasar la curva, y pintar una línea que los una.
+Canvas no dispone de un método para dibujar espirales directamente, para poder crear una espiral deberemos calcular "todos" los puntos por los que deberá pasar la curva, y pintar una línea que los una utilizando `context.lineTo`
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral.png)
 
-Esto significa que cuanto mayor número de puntos usemos para trazar una espiral, mayor calidad tendrá ese renderizado de la espiral.
+El hecho de que la espiral esté compuesta de puntos indica que cuanto mayor cantidad de puntos usemos para trazar una espiral, mayor definición tendran sus curvas.
 
 Veamos como calcular los puntos para una espiral en la que el ángulo se va incrementando 1 grado entre punto y punto.
 
@@ -95,8 +95,10 @@ __Ejemplo de una espiral de fibonacci dentro de un rectángulo áureo__
 Conforme avanzamos en la sucesión, el ratio entre los números sucesivos tiende hacia una constante (1.61803 aprox), conocida como el _número áureo ϕ _. 
 Esta sucesión tiene múltiples aplicaciones, tanto en música como en ciencia, en la naturaleza podemos encontrarla en las ramas de los árboles, en la disposición de los pétalos de las flores, en la cantidad de pétalos de flores...
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci2.jpg)
-
+<div style="width: 50%;float:left">
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci2.jpg)</div>
+<div style="width: 50%;float:left">
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)</div>
 
 ## El número áureo
 
@@ -110,7 +112,61 @@ var phi = ( 1 + Math.sqrt(5) ) / 2;
 
 A lo largo del tiempo se ha utilizado el número áureo para generar obras que guardan unas proporciones estéticas adecuadas.
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
+Si, utilizando nuestro código de generación de espirales, cambiamos el ángulo que se incrementa entre punto y punto, dándole un valor ϕ, obtendremos las siguiente figura.
+
+```javascript
+var phi = ( 1 + Math.sqrt(5) ) / 2;
+var spiral_angle = phi;
+```
+
+- 1500 puntos y phiº
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_phidegrees.png)
+
+Ahora bien, si en vez de trazar una línea... decidimos pintar círculos en cada uno de los puntos calculados...
+
+```javascript
+var MAX_POINTS = 1500;
+var spiral_radius = 300;
+var phi = ( 1 + Math.sqrt(5) ) / 2;
+
+function render(context, canvas){
+  var points =[];
+  var spiral_angle = phi;
+  
+  for (var i = 1; i <= MAX_POINTS; ++i) {
+    //Calculamos la distancia del centro a la que está el punto
+    var ratio = i / MAX_POINTS;
+    var distanceFromCenter = ratio * spiral_radius;
+    //Angulo que tiene la espiral en este punto
+    var angle = i * spiral_angle;
+
+    var x = centerX + Math.cos(angle) * distanceFromCenter;
+    var y = centerY + Math.sin(angle) * distanceFromCenter;
+
+    //Añadimos un nuevo punto
+    var opacity = 1 * ratio;
+
+    points.push({
+      width : 10 * ratio,
+      x : x,
+      y : y,
+      color : 'rgba(221, 194, 7,'+ opacity +')'
+    })
+  }
+
+  for(var i = 0; i < points.length; i++){
+    context.beginPath();
+    context.arc(points[i].x, points[i].y, points[i].width, 0, 2*Math.PI );
+    context.fillStyle = points[i].color;
+    context.fill();
+    context.closePath();
+  }
+}
+
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/fibonacci_flower.png)
 
 ## Espiral de fibonacci
 
@@ -122,10 +178,6 @@ Es decir, que por cada cuarto de vuelta (o cada fase de esa vuelta), se incremen
 
 Tenemos que tener claro que si el extremo más alejado de la espiral tiene un ángulo de φ, el cuarto anterior tendrá un ángulo de 1/φ, el anterior 1/φ^2 y el más pequeño 1/φ^3.
 
-
-- 1500 puntos y phiº
-
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/spiral_phidegrees.png)
 
 Las curvas logaritmicas, se encuentra presente en la naturaleza, por ejemplo en los brazos de una galaxia, en las conchas de los moluscos, siguiendo el mismo patrón que la espiral de fibonacci pero a veces con otros ángulos.
 
