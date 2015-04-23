@@ -241,14 +241,6 @@ Devuelve el canvas a su origen de coordenadas inicial.
 
 
 
-
-# Flor con ángulo dorado
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_patterns/giocconda.jpg)
-
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/flower.gif)
-
-http://krazydad.com/tutorials/circles/
-
 ## Ammann Beenker 
 
 https://geometricolor.wordpress.com/2012/06/11/morphing-the-ammann-beenker-tiling/
