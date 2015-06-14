@@ -15,6 +15,7 @@
     * [Animaciones y OOP](chapter_animations/animations.md)
     * [Motor de renderizado](chapter_animations/engine.md)
     * [Velocidad](chapter_animations/pitagoras.md)
+    * [Moviendo un personale](chapter_animations/moving_character.md)
     * [Múltiples elementos](chapter_animations/multiple.md)
     * [Aceleración! Una historia de rectángulolandia](chapter_animations/acceleration.md)
     * [Gravedad y Vector2D](chapter_animations/vector2d.md)

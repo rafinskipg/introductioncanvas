@@ -1,4 +1,9 @@
-# Hi test
+# Hi
+## Serve
+
+```
+gitbook serve
+```
 
 ## Capturing gifs
 

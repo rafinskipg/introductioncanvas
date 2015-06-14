@@ -92,6 +92,13 @@ Utils.randomColor = function(){
     color += letters[Utils.randomInteger(0, letters.length - 1)]
   }
   return color;
-}
+};
+
+Utils.arraymove = function (arr, fromIndex, toIndex) {
+  var element = arr[fromIndex];
+  arr.splice(fromIndex, 1);
+  arr.splice(toIndex, 0, element);
+};
+
 
 window.Utils = Utils;
