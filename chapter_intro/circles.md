@@ -20,9 +20,13 @@ context.arc(posicionX, posicionY, radio, anguloComienzo, anguloFinal);
 }
 > ```
 
-_Ángulos en radianes_
+_Ángulos en radianes en el sentido antihorario tradicional_
 
-![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arco_1.png)
+![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/radians_normal.png)
+
+_Ángulos en radianes en sentido horario, usado en canvas_
+
+![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/radians_canvas.png)
 
 
 __En la imagen superior se puede apreciar que `Math.PI * 2` radianes equivale a un ángulo 360 grados, `(Math.PI * 3)/2` radianes son 270 grados,  `Math.PI` radianes son 180 grados y `Math.PI / 2` radianes son 90 grados.__
