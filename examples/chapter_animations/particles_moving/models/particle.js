@@ -108,7 +108,7 @@ Particle.prototype.render = function(context){
 
   context.fillStyle = radgrad; 
   
-  context.arc(0,0,radius, 0, Math.PI)
+  context.rect(0,0,radius, radius)
   
   context.fill();
   context.closePath();
