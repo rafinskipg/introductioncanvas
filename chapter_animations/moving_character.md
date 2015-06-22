@@ -122,9 +122,90 @@ Estos eventos responderan al `keydown` y `keyup` del teclado, permitiendonos mov
 
 Para ambientar más la escena crearemos un fondo animado que se desplazará cuando el personaje se desplace.
 
-Para ello crearemos una nueva entidad llamada `scenario` que se compondrá de varios rectángulos de colores que actuarán de fondo.
+Para ello crearemos una nueva entidad llamada `scenario` que se compondrá de varios rectángulos de colores que actuarán de fondo. Estos fondos se iran sucediendo uno detrás de otro y deberemos manejar una pila de elementos que iremos rotando.
 
-//TODO: Explicar en que consiste el fondo y como funciona la pila de cuadrados
+Creamos la clase `Scenario`: 
+```javascript
+function Scenario(options){
+  this.x = options.x;
+  this.speedX = options.speedX || 0;
+  this.moving = false;
+  this.direction = 'right';
+
+  this.squaresWidth = window.innerWidth / 2;
+  this.squares = [];
+  this.initSquares();
+}
+```
+
+La pila de elementos `squares` almacenará los fondos que iran rotando, instanciaremos tantos fondos como queramos:
+
+```javascript
+Scenario.prototype.addSquare = function(color, start, width){
+  this.squares.push({
+    x : start,
+    color : color,
+    width : width
+  });
+};
+
+Scenario.prototype.initSquares = function(){
+  this.addSquare('red', 0, this.squaresWidth);
+  this.addSquare('green', this.squaresWidth, this.squaresWidth);
+  this.addSquare('navy', this.squaresWidth * 2, this.squaresWidth);
+  this.addSquare('grey', this.squaresWidth * 3, this.squaresWidth);
+};
+```
+
+Lo más complicado del escenario será elegir en que momento mover un elemento de la pila delante o detrás en la lista. Para ello, en el método `update` chequearemos la posición actual y veremos si alguno de los fondos ha dejado de estar visible en la dirección de movimiento. 
+Si por ejemplo, el fondo se desplaza hacia la izquierda y el primer cuadrado de fondo ha dejado de estar visible, lo moveremos al final.
+
+En cada ejecución del método `update` actualizaremos la posición de los fondos:
+
+```javascript
+Scenario.prototype.update = function(dt){
+  if(this.moving === true){
+    var distance = this.speedX * dt/1000;
+
+    //Actualizamos la posición
+    for(var i = 0 ; i < this.squares.length; i++){
+      var square = this.squares[i];
+      square.x = this.direction === 'right' ? square.x + distance : square.x - distance;
+    }
+  
+  }
+};
+```
+
+Para chequear si un elemento ha dejado de estar visible añadiremos el siguiente código dentro del bucle `for`:
+
+```javascript
+  //Si el cuadrado sale del campo de visión lo reordenamos en el array
+  if(this.direction === 'left'  && (square.x + square.width < 0)){
+    //Si el fondo se dirige hacia la izquierda y la parte derecha del cuadrado ha salido del campo de vision
+    //Tomamos el ultimo elemento de la lista 
+    var lastSquare = this.squares[this.squares.length - 1];
+    
+    //Asignamos a este elemento la posición siguiente en el eje X
+    square.x = lastSquare.x + this.squaresWidth;
+
+    //Movemos este elemento al final de la lista
+    Utils.arraymove(this.squares, i, this.squares.length - 1);
+  }else if(this.direction === 'right' && (square.x > window.innerWidth)){
+
+    //Si el fondo se dirige a la derecha y la parte izquierda del cuadrado ha salido de la ventana
+    //Tomamos el primer elemento de la lista
+    var firstSquare = this.squares[0];
+
+    //Asignamos a este cuadrado la posición anterior al primer elemento
+    square.x = firstSquare.x - this.squaresWidth;
+
+    //Ponemos este cuadrado el primero de la lista
+    Utils.arraymove(this.squares, i, 0);
+  }
+```
+
+//TODO: Revisar las cod
 
 ```javascript
 //models/Scenario.js
@@ -168,7 +249,7 @@ Scenario.prototype.update = function(dt){
         var lastSquare = this.squares[this.squares.length - 1];
         square.x = lastSquare.x + this.squaresWidth;
         Utils.arraymove(this.squares, i, this.squares.length - 1);
-      }else if(this.direction === 'right' && (square.x > this.squaresWidth * 2)){
+      }else if(this.direction === 'right' && (square.x > window.innerWidth)){
         var firstSquare = this.squares[0];
         square.x = firstSquare.x - this.squaresWidth;
         Utils.arraymove(this.squares, i, 0);

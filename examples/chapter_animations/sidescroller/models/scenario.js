@@ -39,7 +39,7 @@ Scenario.prototype.update = function(dt){
         var lastSquare = this.squares[this.squares.length - 1];
         square.x = lastSquare.x + this.squaresWidth;
         Utils.arraymove(this.squares, i, this.squares.length - 1);
-      }else if(this.direction === 'right' && (square.x > this.squaresWidth * 2)){
+      }else if(this.direction === 'right' && (square.x > window.innerWidth)){
         var firstSquare = this.squares[0];
         square.x = firstSquare.x - this.squaresWidth;
         Utils.arraymove(this.squares, i, 0);
