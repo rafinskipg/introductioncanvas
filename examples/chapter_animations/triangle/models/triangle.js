@@ -3,14 +3,14 @@ function PointedPolygon(position, sideSize) {
   this.sideSize = sideSize;
   this.position = position;
 
-  this.leftTriangle1 = new triangle(this.position, sideSize, 'left', 'rgba(57, 151, 218, 0.7)',  50);
-  this.leftTriangle2 = new triangle(this.position, sideSize, 'left', 'rgba(255,255,255,0.4)',  30);
-  this.leftTriangle3 = new triangle(this.position, sideSize, 'left', 'white');
+  this.leftTriangle1 = new triangle(this.position, sideSize + 20, 'left', 'rgba(57, 151, 218, 0.7)',  50);
+  this.leftTriangle2 = new triangle(this.position, sideSize + 10, 'left', 'rgba(255,255,255,0.4)',  30);
+  this.leftTriangle3 = new triangle(this.position, sideSize , 'left', 'rgba(255,255,255,0.8)');
 
 
-  this.rightTriangle1 = new triangle(this.position, sideSize, 'right', 'rgba(57, 151, 218, 0.7)', -50);
-  this.rightTriangle2 = new triangle(this.position, sideSize, 'right', 'rgba(255,255,255,0.4)', -30);
-  this.rightTriangle3 = new triangle(this.position, sideSize, 'right',  'white');
+  this.rightTriangle1 = new triangle(this.position, sideSize + 20, 'right', 'rgba(57, 151, 218, 0.7)', -50);
+  this.rightTriangle2 = new triangle(this.position, sideSize + 10, 'right', 'rgba(255,255,255,0.4)', -30);
+  this.rightTriangle3 = new triangle(this.position, sideSize, 'right',  'rgba(255,255,255,0.8)');
 }
 
 PointedPolygon.prototype.update = function(dt) {
@@ -38,7 +38,7 @@ function triangle(position , sideSize, type, color, startingMovePositionModifier
   this.sideSize = sideSize;
   this.color = color;
   this.type = type;
-  this.speed = 0.1;
+  this.speed = 0.5;
   this.name = name;
   this.startingMovePositionModifier = startingMovePositionModifier ? startingMovePositionModifier : 0;
 
@@ -50,17 +50,17 @@ function triangle(position , sideSize, type, color, startingMovePositionModifier
 }
 
 triangle.prototype.beLeft = function(){
-  this.movePosition = this.position.x + this.startingMovePositionModifier;
-  this.firstPosition = this.position.x;
+  this.movePosition = this.position.x - this.sideSize + this.startingMovePositionModifier;
+  this.firstPosition = this.position.x  - this.sideSize;
   this.dir = 'right';
   this.points = [{
-    x: this.position.x,
+    x: this.position.x - this.sideSize,
     y: this.position.y
   }, {
-    x: this.position.x + this.sideSize,
+    x: this.position.x ,
     y: this.position.y
   }, {
-    x: this.position.x + this.sideSize,
+    x: this.position.x ,
     y: this.position.y - this.sideSize
   }];
 
@@ -70,17 +70,17 @@ triangle.prototype.beLeft = function(){
 
 };
 triangle.prototype.beRight = function(){
-  this.movePosition = this.position.x + this.sideSize * 2 + this.startingMovePositionModifier;
-  this.firstPosition = this.position.x + this.sideSize;
+  this.movePosition = this.position.x + this.sideSize  + this.startingMovePositionModifier;
+  this.firstPosition = this.position.x ;
   this.dir = 'left';
   this.points = [{
-    x: this.position.x + this.sideSize,
+    x: this.position.x,
+    y: this.position.y 
+  }, {
+    x: this.position.x ,
     y: this.position.y - this.sideSize
   }, {
-    x: this.position.x + this.sideSize,
-    y: this.position.y
-  }, {
-    x: this.position.x + this.sideSize * 2,
+    x: this.position.x + this.sideSize ,
     y: this.position.y
   }];
 

@@ -23,7 +23,7 @@ function start(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   
-  birdy = new PointedPolygon({ x : window.innerWidth / 2 - 300, y : 500}, 300);
+  birdy = new PointedPolygon({ x : window.innerWidth / 2 , y : 500}, 300);
 }
 
 var myEngine = new Engine(canvas);
