@@ -16,6 +16,12 @@ Utils.randomInteger = function(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+//Returns a random Float between min and max
+Utils.randomFloat = function(min, max){
+  return Math.random() * (max - min) + min;
+}
+
+
 //Calculates the bounce angle between a particle with a incidenceAngle and a wall with angleDest
 Utils.calculateBounceAngle = function(incidenceAngle, angleDest){
   reflectionAngle = 2 * angleDest - incidenceAngle;
