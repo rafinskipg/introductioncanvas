@@ -6,7 +6,7 @@ function HexagonalGrid(options, width, height){
   this.pieceHeight = this.pieceRadius * 2;
   this.pieceWidth = Math.sqrt(3)/2 * this.pieceHeight;
   this.maxPiecesX = Math.floor(width / this.pieceWidth) - 1;
-  this.maxPiecesY = Math.floor(height / this.pieceHeight);
+  this.maxPiecesY = Math.ceil(height / this.pieceHeight) + 3;
   this.origin = {
     x: 0,
     y: 10

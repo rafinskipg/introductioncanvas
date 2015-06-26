@@ -15,9 +15,7 @@ Walker.prototype.render = function(context) {
   context.save();
   context.beginPath();
   context.translate(this.position.x, this.position.y);
-
-  context.arc(-this.size / 2, -this.size / 2, this.size, 0, 2 * Math.PI);
-
+  context.rect(-this.size / 2, -this.size / 2, this.size, this.size);
   context.fillStyle = 'black';
   context.fill();
   context.restore();

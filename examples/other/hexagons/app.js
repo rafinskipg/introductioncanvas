@@ -14,12 +14,11 @@ function start(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   grid = new HexagonalGrid({pieceRadius: PIECE_RADIUS}, canvas.width, canvas.height);
-  canvas.addEventListener('click', handleClick, false);
+  setTimeout(function(){
+    grid.startAnimating();
+  }, 1000);
 }
 
-function handleClick(ev){
-  grid.startAnimating();
-}
 
 var myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);

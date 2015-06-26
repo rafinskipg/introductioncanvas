@@ -36,7 +36,22 @@ Engine.prototype.render = function() {
   this.renderCbs.forEach(function(cb) {
     cb(this.getContext(), this.getCanvas());
   }.bind(this));
+
+  if(this.processing){
+    this.renderLoader();
+  }
 };
+
+Engine.prototype.renderLoader = function(){
+  var percentage = this.currentIteration / this.processingIterations;
+  var barWidth = 200;
+  var completedWidth = percentage * 200;
+  this.loaderContext.fillStyle = 'red';
+  this.loaderContext.fillRect(canvas.width / 2 - barWidth / 2, canvas.height / 2, barWidth, 20);
+  this.loaderContext.fillStyle = 'green';
+  this.loaderContext.fillRect(canvas.width / 2 - barWidth / 2, canvas.height / 2, completedWidth, 20);
+}
+
 
 Engine.prototype.update = function(dt) {
   this.updateCbs.forEach(function(cb) {
@@ -120,16 +135,25 @@ Engine.prototype.preprocess = function(times) {
   this.cacheCanvas.height = this.canvas.height;
   this.cacheContext = this.cacheCanvas.getContext('2d');
 
-  this.canvasLoader = document.createElement('canvas');
-  this.canvasLoader.className = 'zero-to-canvas-loader';
-  this.canvasLoader.width = this.canvas.width;
-  this.canvasLoader.height = this.canvas.height;
-  this.loaderContext = this.canvasLoader.getContext('2d');
-  document.querySelector.appendChild(this.canvasLoader);
+  this.loaderCanvas = document.createElement('canvas');
+  this.loaderCanvas.className = 'zero-to-canvas-loader';
+  this.loaderCanvas.style.position = 'absolute';
+  this.loaderCanvas.style.left = '0px';
+  this.loaderCanvas.style.top = '0px';
+  
+  //position absolute
+  this.loaderCanvas.width = this.canvas.width;
+  this.loaderCanvas.height = this.canvas.height;
+  this.loaderContext = this.loaderCanvas.getContext('2d');
+  document.querySelector('body').appendChild(this.loaderCanvas);
 }
 
 Engine.prototype.endProcessing = function() {
   this.context.drawImage(this.cacheCanvas, 0, 0);
   this.processing = false;
-  //TODO Remove the loader and the cached canvas
+  this.cacheCanvas = null;
+  this.cacheContext = null;
+  this.loaderCanvas = null;
+  this.loaderContext = null;
+  document.querySelector('.zero-to-canvas-loader').remove();
 }

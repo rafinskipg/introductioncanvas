@@ -6,8 +6,6 @@ function update(dt) {
 }
 
 function render(context) {
-  
-
   walker.render(context);
 }
 
@@ -29,10 +27,8 @@ function start(context) {
   context.fill();
 }
 
-function clear(context){
+function clear(context) {
   context.globalAlpha = 0.1;
-  //context.save();
-  //context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 var myEngine = new Engine(canvas);
@@ -40,5 +36,5 @@ myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.setClearingMethod(clear);
 myEngine.addRenderCallback(render);
-myEngine.preprocess(100);
+myEngine.preprocess(200);
 myEngine.start();

@@ -17,7 +17,7 @@ h1, h2, h3{
 }
 
 .img-background{
-  background: url('space.jpg');
+  background: rgb(152, 215, 234);
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
