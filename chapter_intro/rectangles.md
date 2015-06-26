@@ -1,5 +1,7 @@
 # Rectángulos
 
+Empezaremos con unos conceptos básicos de formas geométricas. _Si ya conoces lo básico de `canvas` puedes saltar directamente al capítulo 3 - Animaciones_
+
 Vamos a dibujar un cuadrado en el canvas y vamos a pintarlo de color rojo.
 
 Para ello usaremos el método `rect` que permite la creación de un rectángulo pasandole sus coordenadas de inicio y su tamaño.
@@ -64,3 +66,24 @@ El rectángulo debe tener un borde rojo y estar relleno de azul.
 Puedes cambiar el valor de `context.fillStyle` con un color y rellenar el rectángulo con el método `context.fill()`
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_1_exercise_1.png)
+
+
+## Solución
+
+Como está indicado en la ayuda, se puede rellenar el rectángulo usando `context.fill()`
+
+```javascript
+
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+function render(){
+  context.rect(100, 100, 300, 300);
+  context.strokeStyle = 'red';
+  context.fillStyle = 'blue';
+  context.fill();
+  context.stroke();
+}
+
+render();
+```

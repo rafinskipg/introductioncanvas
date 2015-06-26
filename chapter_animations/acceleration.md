@@ -13,6 +13,7 @@ this.speedY += this.accY;
 this.x += this.speedX * dt/1000;
 this.y += this.speedY * dt/1000;
 ```
+//TODO: añadir la expliacion de particles_moving en vez de esto
 
 Vamos a ilustrar esta sencilla explicación con una historia. Imaginemos por un momento que vivimos en _rectángulolandia_.
 

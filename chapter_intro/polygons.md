@@ -1,16 +1,19 @@
 # Polígonos, gradientes y sombras.
 
-Después de aprender a hacer círculos y líneas empezamos a ver algunas de las características del funcionamiento de `canvas`.
+En la última sección hemos visto algunas de las características esenciales para dibujar en canvas, tales como `stroke`, `fill`, `arc`, `beginPath`... 
 
-Vamos a pasar a dibujar formas más complejas y utilizar nuevas propiedades de pintado, como añadir sombreados a las figuras, crear gradientes de color, etc.
+Pero eso es sólo una parte de _la base_ para poder producir cosas más complejas.
 
-Un buen recurso para generar gradientes de color `http://briangrinstead.com/gradient/`
+Vamos a pasar a dibujar formas más variadas y a utilizar nuevas propiedades de pintado, como sombreados, gradientes de color, etc.
+
+>###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante 
+>Un buen recurso para generar gradientes de color `http://briangrinstead.com/gradient/`
 
 ##Dibujando un polígono
 
 Para crear un polígono usaremos la siguiente fórmula: sabemos que un polígono regular está contenido dentro de un círculo, y que la suma de los ángulos de sus lados forman 360 grados - o `2 * Math.PI` radianes -.
 
-Así que podemos saber que, determinado el número de lados del polígono, podemos hallar la separacion de sus ángulos.
+Así que podemos saber que, determinado el número de lados del polígono, podemos hallar el ángulo de cada uno de sus lados dividiendo `Math.PI * 2` radianes por el número de lados.
 
 
 ```javascript
@@ -54,7 +57,7 @@ drawPolygon(150, 150, 50, 6);
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked.png)
 
-`canvas` nos proporciona herramientas para realizar cosas visualmente más apetecibles como dar sombras a los objetos, colores degradados, fondos de imagenes, etc.
+`canvas` nos proporciona herramientas para realizar cosas visualmente más apetecibles como dar sombras a los objetos, colores degradados, fondos con imágenes, etc.
 
 Introduzcamos algo de profundidad en nuestro hexágono, para ello empecemos dándole una sombra, añadiendo este código antes de `context.stroke`:
 
@@ -73,7 +76,7 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked_shadow.png)
 
-Cambiamos las propiedades del pintado de línea.
+Estamos empezando a ver algo mejor :). Veamos que pasa si cambiamos las propiedades del pintado de línea.
 
 ```javascript
 context.strokeStyle = 'rgb(56, 29, 181)';
@@ -84,6 +87,20 @@ context.stroke();
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked_shadow_newstroke.png)
 
 Y finalmente, creamos un gradiente. Este gradiente irá desde el origen de la figura hasta su final, y cambiará de color en el centro:
+
+Para crear un gradiente usaremos el método `context.createLinearGradient` que recibe los siguientes parámetros :
+
+```javascript
+var gradient = context.createLinearGradient(xOrigen, yOrigen, xFin, yFin);
+```
+
+Una vez tenemos un gradiente creado, añadiremos puntos de transición entre colores usando `gradient.addColorStop` que recibe los siguientes parámetros:
+
+```javascript
+gradient.addColorStop(porcentajeEntreCeroYUno, color);
+```
+
+Veamos la implementación del gradiente:
 
 ```javascript
 //Podemos cambiar la dirección del gradiente cambiando las coordenadas
@@ -102,7 +119,7 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon.png)
 
-Veamos como quedaría en conjunto: 
+Y así quedaría la aplicación en conjunto: 
 
 ```javascript
 //app.js
@@ -160,7 +177,8 @@ function render(){
 
 render();
 ```
-Recuerda que sirve para generar cualquier polígono regular, tan solo has de parametrizarlo:
+
+Recuerda que este código sirve para generar cualquier polígono regular, tan solo has de parametrizarlo:
 
 ```javascript
 drawPolygon(150, 100, 50, 6, 0);
@@ -174,10 +192,3 @@ drawPolygon(370, 300, 50, 12, 0);
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/polygons.png)
 
-##TODO : To check
-
-http://scienceprimer.com/drawing-regular-polygons-javascript-canvas
-
-http://stackoverflow.com/questions/4839993/how-to-draw-polygons-on-an-html5-canvas
-
-http://www.storminthecastle.com/2013/07/24/how-you-can-draw-regular-polygons-with-the-html5-canvas-api/

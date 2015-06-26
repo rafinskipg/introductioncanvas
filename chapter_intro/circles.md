@@ -10,19 +10,49 @@ context.arc(posicionX, posicionY, radio, anguloComienzo, anguloFinal);
 
 `context.arc` traza un arco, en las coordenadas `posicionX` e `posicionY`. `radio` es el radio de la circunferencia y `anguloComienzo` y `anguloFinal` son los ángulos en radianes de inicio y fin de pintado. 
 
+>El radián es la unidad de ángulo plano en el Sistema Internacional de Unidades. Representa el ángulo central en una circunferencia y abarca un arco cuya longitud es igual a la del radio. El radián es una unidad sumamente útil para medir ángulos, puesto que simplifica los cálculos, ya que los más comunes se expresan mediante sencillos múltiplos o divisores de π.Esta unidad se utiliza primordialmente en física, cálculo infinitesimal, trigonometría, goniometría, etc.
+
 > ###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante 
-> Para cambiar de grados a radianes podemos usar la siguiente función
+> Para cambiar de grados a  radianes podemos usar la siguiente función
 > ```
 > Utils.degreeToRadian = function(degree){
   return degree/(180/Math.PI);
 }
 > ```
 
+_Ángulos en radianes en el sentido antihorario tradicional_
 
-__`Math.PI * 2` radianes equivale a un ángulo 360 grados, `Math.PI` radianes son 180 grados.__
+![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/radians_normal.png)
+
+_Ángulos en radianes en sentido horario, usado en canvas_
+
+![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/radians_canvas.png)
 
 
-El ángulo de giro es en sentido horario, como podemos ver en las siguientes figuras:
+__En la imagen superior se puede apreciar que `Math.PI * 2` radianes equivale a un ángulo 360 grados, `(Math.PI * 3)/2` radianes son 270 grados,  `Math.PI` radianes son 180 grados y `Math.PI / 2` radianes son 90 grados.__
+
+
+Cuando vayamos a trazar un arco de X radianes en canvas, debemos tener en cuenta el sentido de giro de ese ángulo: El ángulo de giro es en sentido horario, como podemos ver en los siguientes ejemplos:
+
+- Trazamos un arco en las coordenadas `X=100,Y=100`, que comience en el ángulo 0 y termine en un ángulo de 270 grados o (`(Math.PI * 3)/2` radianes).
+
+```javascript
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+function render() {
+  context.arc(100, 100, 50, 0, (Math.PI * 3)/2);
+  context.fill();
+}
+
+render();
+```
+
+Este seria el resultado, se aprecia que el ángulo de giro ha sido en sentido horario:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc0.png)
+
+Veamos más ejemplos, un arco en las coordenadas `X=100,Y=100`, de `50` píxeles de radio desde el ángulo 90 hasta el 360.
 
 ```javascript
 context.arc(100,100, 50, Utils.degreeToRadian(90), 2 * Math.PI)
@@ -31,6 +61,8 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc1.png)
 
+Idem, desde el ángulo 90 al 180.
+
 ```javascript
 context.arc(100,100, 50, Utils.degreeToRadian(90), Math.PI)
 context.fill();
@@ -38,8 +70,7 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc2.png)
 
-
-Imaginemos que quisieramos dibujar un círculo completo, con un borde de un color cualquiera
+Con esto queda claro el funcionamiento básico del método `context.arc`, vamos a dibujar círculos completos:
 
 > ###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante 
 > Podemos usar `context.lineWidth` para cambiar la anchura de las líneas
@@ -83,11 +114,11 @@ context.stroke();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_withoutBeginPath.png)
 
-Vemos que se produce una linea entre las dos figuras. Esto está sucendiendo por que cuando estamos pintando en canvas, estamos actuando sobre el mismo trazado. Necesitamos decirle a canvas que vamos a "levantar el lapiz del lienzo", de otra manera lo realiza como si fuese la misma figura.
+Vemos que aparece una línea entre las dos figuras. Esto está sucede porque cuando hemos invocado al método `context.arc` hemos empezado a dibujar figuras sobre un **trazado**, cada figura siguiente está actuando sobre el mismo trazado. Para evitar estas uniones entre figuras necesitamos decirle a canvas que vamos a "levantar el lápiz del lienzo" entre cada figura.
 
 Para indicarle a canvas que hemos comenzado un nuevo trazado utilizaremos el método `beginPath`
 
-___`beginPath` indica a canvas que comienza un nuevo trazado.___
+___`beginPath` invoca a `closePath` e inicia un nuevo trazado.___
 
 ```javascript
 context.strokeStyle = '#69D2E7';
@@ -104,9 +135,9 @@ context.stroke();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_beginPath1.png)
 
-Como vemos, solo se ha pintado el último...  :(
+¿Qué ha sucedido?, sólo se ha pintado el último...  :(
 
-Es debido a que cada vez que hacemos un `stroke` o `fill`, pintamos el último trazo que le hemos indicado al canvas.
+Es debido a que cada vez que hacemos un `stroke` o `fill`, pintamos el último trazado que hemos ejecutado en el contexto. Para solucionarlo debemos pintar cada trazado por separado.
 
 Vamos a solucionarlo:
 
@@ -138,7 +169,15 @@ Para pintar **líneas**, tendremos que aprender a usar los métodos `context.mov
 - `moveTo` mueve el cursor del canvas a una coordenada (pero sin actualizar el origen 0,0 como ocurre con `context.translate`)
 - `lineTo` traza una línea desde el cursor hasta las coordenadas que se le pasen como parámetro.
 
-Ejemplo
+Por ejemplo, si quisieramos trazar una línea desde la coordenada (0, 0) hasta la coordenada (100, 100) podríamos hacer lo siguiente:
+
+```javascript
+context.moveTo(0, 0);
+context.lineTo(100, 100);
+context.stroke();
+```
+
+En este otro ejemplo, vamos a pintar un círculo y una línea desde un punto aleatorio a su centro (200, 200):
 
 ```javascript
 //app.js
@@ -168,10 +207,37 @@ Dibuja 3 circulos de 50 píxeles de radio, el tercero estará pintado solo hasta
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_1_exercise_2.png)
 
-_Recuerda que puedes visitar las soluciones de los ejercicios cuando lo creas conveniente :)_
+##Solución
 
+```javascript
+/**
+ * Exercise 2 solution
+ */
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
 
-//TODO: More on lines
-http://perfectionkills.com/exploring-canvas-drawing-techniques/
-Line cap line join 
-https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.lineCap
+function render() {
+  context.strokeStyle = '#69D2E7';
+  context.lineWidth = 5;
+
+  context.beginPath();
+  context.arc(100, 200, 50, 0, 2 * Math.PI);
+  context.stroke();
+
+  context.beginPath();
+  context.arc(200, 200, 50, 0, 2 * Math.PI);
+  context.stroke();
+
+  context.beginPath();
+  context.arc(300, 200, 50, 0, (3 / 2) * Math.PI);
+
+  context.moveTo(350, 200);
+  context.lineTo(400, 200);
+
+  //Este stroke pinta el último circulo y la línea a la vez
+  context.stroke();
+}
+
+render();
+```
+
