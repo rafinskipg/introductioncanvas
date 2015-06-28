@@ -12,11 +12,11 @@ function render(context) {
 function start(context) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  var probabilities = [];
+
   walker = new Walker({
     x: window.innerWidth / 2,
-    y: 500
-  }, probabilities);
+    y: window.innerHeight / 2
+  });
 
   var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
   gradient.addColorStop(0, 'rgb(115, 109, 145)');

@@ -1,6 +1,5 @@
-function Walker(position, probabilities) {
+function Walker(position) {
   this.position = position;
-  this.probabilities = probabilities;
   this.size = 10;
 }
 

@@ -1,6 +1,6 @@
 # Rotaciones
 
-En esta sección vamos a ver como rotar los elementos que vayamos creando.
+## Los cimientos.
 
 Los métodos que vamos a estudiar son los siguientes
 
@@ -12,10 +12,6 @@ Los métodos que vamos a estudiar son los siguientes
 ## Rotate
 
 El método rotate recibe un parámetro, que es el ángulo en  radianes. Todo lo que pintemos después de aplicar el método rotate estará afectado por el cambio del ángulo.
-
-Normalmente estamos acostumbrados a trabajar en grados cuando hablamos de ángulos
-
-> Un ángulo de 1 radián corresponde al arco de circunferencia cuya longitud es su radio. Una circunferencia completa corresponde a 2π radianes. 
 
 Para realizar transformaciones entre grados y radianes - y viceversa -, usaremos las siguientes fórmulas. 
 
