@@ -38,6 +38,9 @@ http://www.professorcloud.com/mainsite/cache-canvas.htm
 //Canvas optimization
 http://code.tutsplus.com/tutorials/html5-canvas-optimization-a-practical-example--active-11893
 
+//Walkers, explicar varios canvas y composite-out operation
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
+
 # Building tasks
 
 TODO: 
