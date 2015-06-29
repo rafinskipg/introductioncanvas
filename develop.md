@@ -41,6 +41,11 @@ http://code.tutsplus.com/tutorials/html5-canvas-optimization-a-practical-example
 //Walkers, explicar varios canvas y composite-out operation
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
+//Perlin js
+https://github.com/josephg/noisejs
+http://stackoverflow.com/questions/8405526/javascript-simplex-perlin-noise
+http://www.somethinghitme.com/projects/canvasterrain/
+
 # Building tasks
 
 TODO: 
