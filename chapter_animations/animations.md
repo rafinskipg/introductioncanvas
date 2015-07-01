@@ -480,16 +480,24 @@ Canviar las dimensiones del canvas produce un borrado de lo que este contiene. A
 
 # Ejercicio 1
 
-Pinta un rectángulo en la posición `0, 0` y haz que su posición se incremente en cada ejecución del método update hasta llegar a `canvas.width, canvas.height`.
+Crea un circulo situado en `100, 100` que rote con respecto al punto `300, 300`.
 
 ## Ayuda
-Añade una propiedad `velocidad` al objeto y sumasela a la posición.
+
+````javascript
+//Translamos el origen de coordenadas para hacer una rotación
+context.save();
+context.translate(300, 300);
+context.rotate(radians);
+context.restore();
+````
+
 
 # Ejercicio 2
 
 Crea 4 círculos, cada uno de un tamaño distinto, como los de la siguiente imagen:
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_exercise_1.png)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_exercise_2.png)
 
 Cada uno de los círculos tendrá las siguientes propiedades:
   - Distancia al centro aleatoria entre 0 y 200

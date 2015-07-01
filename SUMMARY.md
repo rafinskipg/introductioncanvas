@@ -14,7 +14,7 @@
 * [Animaciones](chapter_animations/README.md)
     * [Animaciones y OOP](chapter_animations/animations.md)
     * [Motor de renderizado](chapter_animations/engine.md)
-    * [Velocidad](chapter_animations/pitagoras.md)
+    * [Velocidad](chapter_animations/velocity.md)
     * [Moviendo un personaje horizontalmente](chapter_animations/moving_character.md)
     * [Múltiples elementos](chapter_animations/multiple.md)
     * [Aceleración! ¿Son eso proyectiles?](chapter_animations/acceleration.md)
