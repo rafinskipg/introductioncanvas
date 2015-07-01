@@ -270,12 +270,15 @@ Y utilizaremos ese ángulo en el renderizado, **fijate en el uso de context.save
 
 ```javascript
 Square.prototype.render = function(context){
+  //Almacenamos el estado del contexto
   context.save();
 
   var radians = Utils.degreeToRadian(this.angle);
   
   //Ponemos el eje de coordenadas en el centro del cuadarado para rotar correctamente
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
+
+  //Rotamos el contexto
   context.rotate(radians);
 
   //Dibuja un rectangulo azul con borde rojo
@@ -286,6 +289,7 @@ Square.prototype.render = function(context){
   context.fill();
   context.stroke();
   
+  //Restauramos el contexto a su estado almacenado
   context.restore();
 }
 ```
@@ -313,7 +317,7 @@ render();
 
 Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites.
 
-___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, quizá sería necesario abstraerlo un poco más.___
+___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, sería recomendable abstraerlo un poco más.___
 
 Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación incluyendo el **`loop`** y **`update`**.
 
@@ -436,30 +440,38 @@ function clear(){
 }
 ```
 
-Existen varias maneras de limpiar el canvas
+Existen varios métodos de limpiar el canvas, el bueno, el feo y el malo.
 
 
 1) **El Bueno**: Utilizando clearRect
 
-Has de tener atención con haber usado `context.beginPath();` antes de pintar tus figuras, de otra manera canvas no tiene constancia de que tiene que borrarlas.
+`context.clearRect()` permite borrar un rectángulo del contexto. Deberás tener en mente utilizar `context.beginPath();` antes de pintar tus figuras, de otra manera canvas no tiene constancia de que existe algo que borrar.
 
 ```javascript
-//Recibe (coordenada_x, coordenada_y, anchura, altura)
+//Recibe (coordenada_x, coordenada_y, anchura, altura) y lo borra del canvas
 context.clearRect(0, 0, canvas.width, canvas.height);
 ```
 
-2) **El Feo**: Repintando todo el canvas con `fillRect`
+
+2) **El Feo**: Repintando todo el canvas con `fillRect` o `fill`
 
 ```javascript
 context.fillStyle = 'white';
 context.fillRect(0, 0, canvas.width, canvas.height);
+//O alternativamente
+context.rect(0, 0, canvas.width, canvas.height);
+context.fill();
 ```
 
-3) **El malo**: Cambiando el tamaño del canvas, esto lo resetea, pero consume más recursos.
+Tiene la desventaja de que añadimos más carga de pintado entre frame y frame.
+
+3) **El malo**: Cambiando el tamaño del canvas.
 
 ```javascript
 canvas.width = canvas.width;
 ```
+
+Canviar las dimensiones del canvas produce un borrado de lo que este contiene. Aunque añade una carga de consumo de recursos que deberíamos evitar si es posible.
 
 **Usaremos el bueno, siempre que podamos**
 
@@ -467,6 +479,13 @@ canvas.width = canvas.width;
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_good.gif)
 
 # Ejercicio 1
+
+Pinta un rectángulo en la posición `0, 0` y haz que su posición se incremente en cada ejecución del método update hasta llegar a `canvas.width, canvas.height`.
+
+## Ayuda
+Añade una propiedad `velocidad` al objeto y sumasela a la posición.
+
+# Ejercicio 2
 
 Crea 4 círculos, cada uno de un tamaño distinto, como los de la siguiente imagen:
 
@@ -483,7 +502,7 @@ Todos los circulos rotarán con respecto al centro del canvas, pero desplazados 
 
 ## Ayuda
 
-Create una nueva clase llamada `Circle` que será parecida a la que vimos del cuadrado.
+Create una nueva clase llamada `Circle`.
 
 Encapsula la inicialización de los objetos en una función `start` que será la primera en ser ejecutada:
 
@@ -512,7 +531,7 @@ function start(){
 
 ```
 
-Estos son los colores utilizados :)
+Estos son los colores utilizados en la imagen.
 
 ```javascript
 var bgColor = '#1CA692';
