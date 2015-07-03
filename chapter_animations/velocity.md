@@ -113,11 +113,11 @@ Point.prototype.update = function(dt){
 }
 ```
 
-Podemos ver que cada ejecución del ciclo tiene un coste distinto el el resultado producido:
+Podemos ver en la siguiente imagen que cada ejecución del ciclo tiene un coste distinto en tiempo, produciendo que la distancia entre los círculos de cada frame sea arbitraria:
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/velocity_circle_trail_dt_compared.png)
 
-En la imagen anterior se pueden ver 2 ejecuciones distintas del mismo código, en cada una de ellas el tiempo de procesado ha sido distinto entre cada iteración. Además podemos ver que las distancias entre puntos son muy grandes, esto es debido a las magnitudes de la variable `dt`.
+En la imagen anterior se pueden ver 2 ejecuciones distintas del mismo código, en cada una de ellas el tiempo de procesado ha sido distinto entre cada iteración. Además podemos ver que las distancias entre puntos son muy grandes, esto es debido a que las magnitudes de la variable `dt` son demasiado elevadas.
 
 En general suelo tener preferencia por utilizar unidades elevadas para representar las velocidades de los objetos, es decir, prefiero crear objetos con una velocidad `500` que con velocidad `0.005`. Me resulta más cómodo a la hora de leer su código.
 
@@ -224,6 +224,6 @@ myEngine.start();
 ```
 
 
-Hemos actualizado nuestras capacidades, ahora seremos capaces de seguir aprendiendo y creando cosas más y más complejas.
+Hemos actualizado nuestras capacidades, ahora seremos capaces de seguir aprendiendo y creando cosas más y más complejas. Para muestra, un botón:
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/particles_moving.png)
