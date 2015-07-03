@@ -1,18 +1,18 @@
 # Animaciones
 
-Aprender a manejar los conceptos básicos es necesario, pero donde realmente vamos a aprovechar el potencial de `canvas` es creando objetos animados.
+Aprender a manejar animaciones nos permitirá exprimir todo el potencial de `canvas`, a partir de este punto del libro es donde las cosas se irán poniendo cada vez más interesantes.
 
-En esta sección veremos como utiliar un `loop` o bucle para animar el contenido del `canvas`. Para la representación de las entidades utilizaremos programación orientada a objetos (OOP) y herencia basada en el `Prototype` de  JavaScript.
+En esta sección veremos como utiliar un `loop` o bucle para aplicar movimiento a elementos pintados en un `canvas`. Para la representación de las entidades utilizaremos programación orientada a objetos (OOP) y herencia basada en `Prototype` de  JavaScript.
 
-Como si se tratase de una película, una animación es producida por unos frames que se van sucediendo a  lo largo del tiempo.
+Los comienzos de la animación se remontan a 1640 pero su verdadera difusión comenzó en el siglo XIX cuando se descubrió el principio de persistencia de la visión. Este principio demuestra que el ojo humano percibe un movimiento como continuo si se reemplazan imágenes lo suficientemente rápido. De esta manera y como si se tratase de una película, una animación en `canvas` es producida por unos frames que se van sucediendo a lo largo del tiempo.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/horse.jpg)
 
-Cada uno de esos frames será la representación visual del estado de nuestras entidades. 
+Cada uno de esos frames será la representación visual del estado de nuestras entidades en un determinado momento de tiempo `t`.
 
 Una manera de organizar el código de una forma eficiente es diferenciar cada una de las etapas que se ven involucradas en la creación de cada frame. 
 
-Para crear un frame deberemos seguir los siguientes pasos:
+Para crear una sensación de animación deberemos seguir los siguientes pasos:
 - Necesitamos actualizar el estado de nuestras entidades.
 - Tenemos que borrar el frame anterior del canvas.
 - Pintaremos el estado actual de las entidades.
@@ -56,7 +56,7 @@ function bucle(){
 }
 ```
 
-Si nuestro código fuese eficiente y se renderizase muy rápido este método funcionaría bien. El problema es que no es tan trivial, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que la aplicación tenga tiempo de realizar todos los cálculos en 16 milisegundos pero en el otro dispositivo, más lento, le costará X milisegundos más calcular las nuevas posiciones de los elementos, borrar o pintar el canvas. Esta penalización en el tiempo de ejecución del bucle llevaría irremediablemente a una situación en la que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
+Si nuestro código fuese eficiente y se renderizase muy rápido este método funcionaría bien. Pero sucede que esto puede llevar a un problema muy común, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que la aplicación tenga tiempo de realizar todos los cálculos en 16 milisegundos pero en el otro dispositivo, más lento, le costará X milisegundos más calcular las nuevas posiciones de los elementos, borrar o pintar el canvas. Esta penalización en el tiempo de ejecución del bucle llevaría irremediablemente a una situación en la que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
 
 Afortunadamente, los navegadores modernos proveen de un mecanismo que nos permite saber cuando se han terminado de ejecutar todas las operaciones de un bucle. Este mecanismo es `requestAnimationFrame`.
 
