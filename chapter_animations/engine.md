@@ -1,12 +1,10 @@
 #Creando mi primer engine.
 
-Hemos aprendido a hacer animaciones, ahora querremos animar muchas cosas...!
-
-Para ser productivos de aquí en adelante, vamos a crearnos nuestro propio motor de animaciones que podremos reutilizar siempre que queramos. 
+Tras definir el funcionamiento del ciclo, vamos a refactorizarlo para evitar tener que reescribir el código del bucle en cada ejemplo siguiente, lo haremos creando nuestro propio motor de renderizado en canvas.
 
 ## Requisitos
 
-Necesitaremos, para una primera versión que nos permita hacer animaciones usando un sólo canvas:
+Necesitaremos, para una primera versión, que nos permita hacer animaciones usando un sólo canvas:
 - Que acepte callbacks en cada una de las fases update/render
 - Que acepte uno o varios callback de inicialización
 - Que permita crear tanto dibujos animados como no animados.

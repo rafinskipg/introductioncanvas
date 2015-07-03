@@ -1,32 +1,64 @@
 # Animaciones
 
-En esta sección veremos como utiliar un `loop` o bucle para animar el contenido del `canvas`. Utilizaremos programación orientada a objetos (OOP) para crear las clases que representarán los elementos.
+Aprender a manejar los conceptos básicos es necesario, pero donde realmente vamos a aprovechar el potencial de `canvas` es creando objetos animados.
 
-## Las etapas
+En esta sección veremos como utiliar un `loop` o bucle para animar el contenido del `canvas`. Para la representación de las entidades utilizaremos programación orientada a objetos (OOP) y herencia basada en el `Prototype` de  JavaScript.
 
-Cuando queremos trabajar con animaciones en `canvas` o crear algún videojuego, siempre vamos a utilizar un bucle que se ejecuta una y otra vez en el tiempo.
-
-Este bucle, siempre ejecutará 3 métodos básicos.
-
-- Update
-- Limpieza de pantalla
-- Render
-
-**Ya conocemos la función Render de ejercicios anteriores, pero hasta ahora no hemos animado ningún objeto, veamos como implementar los otros métodos necesarios.**
-
-## El bucle
-
-Cuando se trata de hacer animaciones, necesitamos que la pantalla se repinte (cuantas más veces, mejor) con los nuevos estados de los elementos a lo largo del tiempo.
-
-Como si se tratase de una película, una animación es producida por unos frames que se van sucediendo.
+Como si se tratase de una película, una animación es producida por unos frames que se van sucediendo a  lo largo del tiempo.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/horse.jpg)
 
+Cada uno de esos frames será la representación visual del estado de nuestras entidades. 
+
+Una manera de organizar el código de una forma eficiente es diferenciar cada una de las etapas que se ven involucradas en la creación de cada frame. 
+
+Para crear un frame deberemos seguir los siguientes pasos:
+- Necesitamos actualizar el estado de nuestras entidades.
+- Tenemos que borrar el frame anterior del canvas.
+- Pintaremos el estado actual de las entidades.
+
+Una vez pintado el frame, volveremos a ejecutar el mismo flujo de acciones una y otra vez para que se produzca la animación. En pseudo-código quedaría así:
+
+```
+antes = obtenFechaActual()
+
+bucle{
+  ahora = obtenFechaActual()
+  diferencialDeTiempo = ahora - antes
+  actualizarEntidades(diferencialDeTiempo)
+  borrarCanvas()
+  pintarCanvas()
+  antes = ahora
+  ejecutar bucle dentro de X milisegundos
+}
+```
+
+
+## El bucle
+
+
+Cuando se trata de hacer animaciones, necesitamos que la pantalla se repinte (cuantas más veces, mejor) con los nuevos estados de los elementos a lo largo del tiempo.
+
 Si quisieramos que la pantalla se pintase 60 veces por segundo, podriamos pensar que bastaría con realizar un `setTimeOut` con un intervalo de unos 16 milisegundos entre llamada y llamada.
 
-El problema es que esto no es tan trivial, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que le de tiempo a realizar todos los cálculos en 16 milisegundos pero en el otro quizá le cueste 30 milisegundos calcular las nuevas posiciones de los elementos. Esto llevaría a un punto en el que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
+```javascript
+var antes = Date.now();
 
-Afortunadamente, los navegadores modernos proveen de un mecanismo que nos permite saber cuando se han terminado de ejecutar todas las operaciones de un ciclo. Este mecanismo es `requestAnimationFrame`.
+function bucle(){
+  var ahora = Date.now();
+  var dt = ahora - antes;
+  actualizar(dt);
+  borrar();
+  pintar();
+
+  antes = ahora;
+  setTimeout(bucle, 16);
+}
+```
+
+Si nuestro código fuese eficiente y se renderizase muy rápido este método funcionaría bien. El problema es que no es tan trivial, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que la aplicación tenga tiempo de realizar todos los cálculos en 16 milisegundos pero en el otro dispositivo, más lento, le costará X milisegundos más calcular las nuevas posiciones de los elementos, borrar o pintar el canvas. Esta penalización en el tiempo de ejecución del bucle llevaría irremediablemente a una situación en la que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
+
+Afortunadamente, los navegadores modernos proveen de un mecanismo que nos permite saber cuando se han terminado de ejecutar todas las operaciones de un bucle. Este mecanismo es `requestAnimationFrame`.
 
 >###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante
 `requestAnimationFrame` es una función que recibe un callback que será ejecutado antes de repintar la pantalla.
@@ -34,16 +66,22 @@ Afortunadamente, los navegadores modernos proveen de un mecanismo que nos permit
 window.requestAnimationFrame(callback);
 ```
 
-De esta manera podemos construir animaciones que funcionaran bien independientemente del dispositivo en el que se ejecuten. Aunque si habrá diferencia de FPS - frames por segundo - entre uno y otro. En el ejemplo anterior, el dispositivo veloz podrá ejecutar una animación a 60fps mientras que el dispositivo lento quizá esté haciendo que funcionen a 30fps, pero en ningún caso se producirá un desbordamiento de memoria.
+De esta manera podemos construir animaciones que funcionaran bien independientemente del dispositivo en el que se ejecuten. Aunque entre ellos habrá diferencia de FPS - frames por segundo - dependiendo de su capacidad de procesamiento y renderizado. En el ejemplo anterior, el dispositivo veloz podrá ejecutar una animación a 60fps mientras que el dispositivo lento quizá esté haciendo que funcione a 30fps, pero en ningún caso se producirá un desbordamiento de memoria.
 
 Veamos un ejemplo de como sería nuestra función de bucle:
 
 ```javascript
+var antes = Date.now();
+
 function loop(){
 
-  //update();
-  //clear();
-  //render();
+  var ahora = Date.now();
+  var dt = ahora - antes;
+  update(dt);
+  clear();
+  render();
+
+  antes = ahora;
 
   requestAnimationFrame(loop);
 }
@@ -51,56 +89,42 @@ function loop(){
 
 ## Update
 
-La función update será la encargada de manejar la actualización de las posiciones de los elementos en cada iteración del bucle. 
+La función update será la encargada de manejar la actualización de los estados de los elementos en cada iteración del bucle. 
 
 Un ejemplo de cosas que podría hacer esta función:
 
 - Cambiar el ángulo de renderizado de una figura
 - Cambiar su posición x,y a lo largo del tiempo
 - Calcular la interacción gravítica entre ella y el resto de partículas
+- Cambiar el color de fondo del canvas
 - ...
 
-Un dato muy importante a tener en cuenta es que toda actualización de estado va a ir ligada a una **variable de tiempo** que será la diferencia entre el estado anterior y el actual. Esta variable de tiempo es la que se usará en los cálculos para saber cuanto tenemos que desplazar la figura que queremos pintar.
+Para que las animaciones sean consistentes, debemos proveer a la lógica de actualización de una variable llamada **tiempo delta** que será la diferencia entre el momento anterior de ejecución y el actual. Esta variable de tiempo es la que se usará en los cálculos para saber cuanto tenemos que desplazar la figura que queremos pintar o cuanto incrementar la velocidad de un objeto, etc.
 
-Como queremos que nuestra aplicación, independientemente de los frames por segundo que tenga cada usuario, se anime a una velocidad similar, necesitaremos calcular cuanto tiempo ha pasado desde la ejecución anterior y modificar el estado de los objetos con respecto a ese diferencial de tiempo o **delta time**.
-
-Por poner un ejemplo, tenemos una figura que se desplaza a una velocidad de 200. Para calcular la nueva posición de la figura en cada iteración del bucle, multiplicaremos su velocidad por el diferencial de tiempo.
+Por poner un ejemplo, imaginemos una figura que se desplaza a una velocidad de 200. 
 
 ```javascript
-//Movimiento lineal
-var velocidad = 200;
-var nuevaPosicion = posicionActual + (velocidad * diferencialDeTiempo);
-```
-
-El diferencial de tiempo se cálcula en cada iteración del bucle y se pasa como parámetro a la función `update`
-
-```javascript
-//Inicializamos los valores
-var now = then = Date.now();
-
-function loop(){
-  now = Date.now();
-  //Calcula el diferencial de tiempo entre esta ejecución y la anterior
-  var dt = now - then;
-  update(dt);
-  clear();
-  render();
-
-  //Almacenamos el valor que de now para la siguiente iteración
-  then = now;
-  requestAnimationFrame(loop);
+function update(){
+  var velocidad = 200;
+  personaje.x = personaje.x + velocidad;
 }
-
-loop();
 ```
 
-Si no utilizasemos un diferencial de tiempo o `dt` y actualizamos los objetos con valores fijos - cosa que podriamos hacer si quisieramos - obtendriamos animaciones diferentes dependiendo de la velocidad de procesamiento del dispositivo.
+Si incrementamos la posición del personaje `200` píxeles por ejecución del ciclo un dispositivo que sea capaz de alcanzar `60FPS` desplazará el personaje más rápido en el tiempo que uno que solo alcance `30FPS`. 
 
-Es decir, si no usasemos `dt` y renderizasemos 60fps un objeto a una velocidad fija de 200 por frame, en un dispositivo rápido la animación duraría la mitad que en uno que va a 30fps.
+Para lidiar con ello, deberemos condicionar todas las actualizaciones al **tiempo delta**.
+
+```javascript
+function update(dt){
+  var velocidad = 200;
+  personaje.x = personaje.x + velocidad * dt;
+}
+```
+
 
 ## OOP
 
-En cuanto empezamos a usar una lógica más compleja, es conveniente empezar a estructurar el código mediante programación orientada a objetos. De esta manera es más sencillo comprender el código, aislar funcionalidades y evitar que acabemos creando un monstruo.
+En cuanto empezamos a usar una lógica más compleja, es conveniente empezar a estructurar el código mediante programación orientada a objetos. De esta manera es más sencillo comprender los estados de la aplicación, aislar funcionalidades y evitar que acabemos creando un monstruo.
 
 ### Usando Prototype / Clases en EcmaScript 5
 
@@ -246,12 +270,15 @@ Y utilizaremos ese ángulo en el renderizado, **fijate en el uso de context.save
 
 ```javascript
 Square.prototype.render = function(context){
+  //Almacenamos el estado del contexto
   context.save();
 
   var radians = Utils.degreeToRadian(this.angle);
   
   //Ponemos el eje de coordenadas en el centro del cuadarado para rotar correctamente
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
+
+  //Rotamos el contexto
   context.rotate(radians);
 
   //Dibuja un rectangulo azul con borde rojo
@@ -262,6 +289,7 @@ Square.prototype.render = function(context){
   context.fill();
   context.stroke();
   
+  //Restauramos el contexto a su estado almacenado
   context.restore();
 }
 ```
@@ -289,7 +317,7 @@ render();
 
 Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites.
 
-___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, quizá sería necesario abstraerlo un poco más.___
+___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, sería recomendable abstraerlo un poco más.___
 
 Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación incluyendo el **`loop`** y **`update`**.
 
@@ -412,30 +440,38 @@ function clear(){
 }
 ```
 
-Existen varias maneras de limpiar el canvas
+Existen varios métodos de limpiar el canvas, el bueno, el feo y el malo.
 
 
 1) **El Bueno**: Utilizando clearRect
 
-Has de tener atención con haber usado `context.beginPath();` antes de pintar tus figuras, de otra manera canvas no tiene constancia de que tiene que borrarlas.
+`context.clearRect()` permite borrar un rectángulo del contexto. Deberás tener en mente utilizar `context.beginPath();` antes de pintar tus figuras, de otra manera canvas no tiene constancia de que existe algo que borrar.
 
 ```javascript
-//Recibe (coordenada_x, coordenada_y, anchura, altura)
+//Recibe (coordenada_x, coordenada_y, anchura, altura) y lo borra del canvas
 context.clearRect(0, 0, canvas.width, canvas.height);
 ```
 
-2) **El Feo**: Repintando todo el canvas con `fillRect`
+
+2) **El Feo**: Repintando todo el canvas con `fillRect` o `fill`
 
 ```javascript
 context.fillStyle = 'white';
 context.fillRect(0, 0, canvas.width, canvas.height);
+//O alternativamente
+context.rect(0, 0, canvas.width, canvas.height);
+context.fill();
 ```
 
-3) **El malo**: Cambiando el tamaño del canvas, esto lo resetea, pero consume más recursos.
+Tiene la desventaja de que añadimos más carga de pintado entre frame y frame.
+
+3) **El malo**: Cambiando el tamaño del canvas.
 
 ```javascript
 canvas.width = canvas.width;
 ```
+
+Canviar las dimensiones del canvas produce un borrado de lo que este contiene. Aunque añade una carga de consumo de recursos que deberíamos evitar si es posible.
 
 **Usaremos el bueno, siempre que podamos**
 
@@ -444,9 +480,24 @@ canvas.width = canvas.width;
 
 # Ejercicio 1
 
+Crea un circulo situado en `100, 100` que rote con respecto al punto `300, 300`.
+
+## Ayuda
+
+````javascript
+//Translamos el origen de coordenadas para hacer una rotación
+context.save();
+context.translate(300, 300);
+context.rotate(radians);
+context.restore();
+````
+
+
+# Ejercicio 2
+
 Crea 4 círculos, cada uno de un tamaño distinto, como los de la siguiente imagen:
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_exercise_1.png)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_exercise_2.png)
 
 Cada uno de los círculos tendrá las siguientes propiedades:
   - Distancia al centro aleatoria entre 0 y 200
@@ -459,7 +510,7 @@ Todos los circulos rotarán con respecto al centro del canvas, pero desplazados 
 
 ## Ayuda
 
-Create una nueva clase llamada `Circle` que será parecida a la que vimos del cuadrado.
+Create una nueva clase llamada `Circle`.
 
 Encapsula la inicialización de los objetos en una función `start` que será la primera en ser ejecutada:
 
@@ -488,7 +539,7 @@ function start(){
 
 ```
 
-Estos son los colores utilizados :)
+Estos son los colores utilizados en la imagen.
 
 ```javascript
 var bgColor = '#1CA692';

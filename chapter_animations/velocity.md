@@ -21,6 +21,8 @@ Trasladado a JavaScript:
 var velocidadRectangulo = Math.sqrt(velocidadX * velocidadX + velocidadY * velocidadY )
 ```
 
+//TODO: Es necesario explicar el teorema de pitagoras ahora? No tendria más sentido ponerlo para mostrar la velocidad del objeto ?
+
 Para añadir los componentes de velocidad a la figura deberemos tener en cuenta que tenemos que utilizar el diferencial de tiempo `dt`. 
 Tal y como hemos implementado nuestro motor `dt` normalmente rondará unos valores aproximados a `16` - en 16 tendríamos 60fps.
 
@@ -34,6 +36,20 @@ Método update:
 this.x += this.velocidadX * dt/1000;
 this.y += this.velocidatY * dt/1000;
 ```
+
+
+
+---
+**Ejercicio 1**
+
+Pinta un rectángulo en la posición `0, 0` y haz que su posición se incremente en cada ejecución del método update hasta llegar a `canvas.width, canvas.height`.
+
+_Ayuda_
+Añade una propiedad `velocidad` al objeto y sumasela a la posición.
+
+----
+
+
 
 Implementación de la clase cuadrado, con alteración de posición a lo largo del tiempo:
 
