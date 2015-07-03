@@ -1,27 +1,99 @@
 # Velocidad
 
-Hemos aprendido a rotar un elemento a lo largo del tiempo, pero seguramente nuestros siguientes ejemplos serán más exigentes. Una de las primeras cosas que querremos hacer con canvas es aprender a mover partículas a través de un espacio de dos dimensiones.
+La velocidad de un cuerpo que se mueve en un espacio de dos dimensiones, está compuesta por dos variables, `velocidadX` y `velocidadY`. Estas dos variables indicarán a que velocidad y en que dirección se moverá una entidad.
 
-Para ello, deberemos añadir a nuestra entidad unas propiedades de velocidad: `velocidadX` y `velocidadY`.
-
-Cuando estamos creando una figura con unas propiedades `velocidadX`, `velocidadY` estamos diciendo que esa figura, a lo largo del tiempo, va a ver su posición afectada.
-
-
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
-
-Podemos realizar el cálculo de la velocidad total de la figura aplicando el teorema de pitágoras. El teorema de pitágoras dice que el cuadrado de la hipotenusa de un triángulo rectángulo es igual a la suma de los cuadrados de los catetos. En este caso los catetos seran `velocidadX` y `velocidadY`. 
-
-```
-hipotenusa^2 = velocidadX^2 + velocidadY^2
-```
-
-Trasladado a JavaScript:
+Imagimenos una partícula `punto`. 
 
 ```javascript
-var velocidadRectangulo = Math.sqrt(velocidadX * velocidadX + velocidadY * velocidadY )
+function Point(){
+  this.x = 0;
+  this.y = 0;
+}
 ```
 
-//TODO: Es necesario explicar el teorema de pitagoras ahora? No tendria más sentido ponerlo para mostrar la velocidad del objeto ?
+Digamos que queremos que el punto tenga una velocidad de 10 píxeles / iteración. 
+
+```javascript
+function Point(){
+  this.x = 0;
+  this.y = 0;
+  this.speedX = 10;
+  this.speedY = 10;
+}
+```
+
+Para poder dotar de movimiento a esta partícula deberíamos utilizar nuestro `Engine` ( o un simple bucle ) e invocar a un método de actualización de la posición del punto.
+
+```javascript
+Point.prototype.update = function(dt){
+  this.x = this.x + this.speedX;
+  this.y = this.y + this.speedY;
+}
+```
+
+Este sería el resultado que se produciría :
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/velocity_circle_trail.png)
+
+Notese que el rastro de círculos se ha dejado para que en la imagen quede constancia del movimiento producido por la partícula.
+
+Este sería el código necesario para re-crear este mismo elemento:
+
+```javascript
+function Point(x, y){
+  this.x = x;
+  this.y = y;
+  this.speedX = 10;
+  this.speedY = 10;
+}
+
+//Actualizamos la posición
+Point.prototype.update = function(dt){
+  this.x = this.x + this.speedX;
+  this.y = this.y + this.speedY;
+}
+
+Point.prototype.render = function(context){
+  context.beginPath();
+  context.arc(this.x, this.y, 10, 0, 2 * Math.PI);
+  context.lineWidth = 4;
+  context.stroke(); 
+}
+```
+
+Instanciación de nuestro `Engine`:
+
+```javascript
+var canvas = document.getElementById('canvas');
+var entiy;
+
+function update(dt) {
+  entiy.update(dt);
+}
+
+function render(context) {
+  entiy.render(context);
+}
+
+function start() {
+  entiy = new Point(100, 100);
+}
+
+function clear(context, canvas) {
+  context.fillStyle = "rgba(255, 255, 255, 0.10)";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+var myEngine = new Engine(canvas, true, 10);
+myEngine.setClearingMethod(clear);
+myEngine.addStartCallback(start);
+myEngine.addUpdateCallback(update);
+myEngine.addRenderCallback(render);
+
+myEngine.start();
+```
+
+## Velocidad en el tiempo
 
 Para añadir los componentes de velocidad a la figura deberemos tener en cuenta que tenemos que utilizar el diferencial de tiempo `dt`. 
 Tal y como hemos implementado nuestro motor `dt` normalmente rondará unos valores aproximados a `16` - en 16 tendríamos 60fps.

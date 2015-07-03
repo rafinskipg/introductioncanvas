@@ -1,5 +1,7 @@
 # Aceleración!
 
+
+
 >Cuando un objeto no tiene una propiedad de aceleración, se mantiene a una velocidad constante, lo que se conoce como movimiento rectilineo uniforme.
 Si queremos crear efectos como la gravedad, cohetes espaciales, pelotas que botan, etc, necesitaremos incorporar el concepto de aceleración.
 
@@ -85,3 +87,19 @@ Y así, todos los habitantes tomaron el mismo rumbo y se dirigieron juntos hacia
 _Y con esta historieta has visto cual es el efecto de aplicar aceleración a un cuerpo._
 
 **Fin**
+
+### Velocidad Máxima
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
+
+Podemos realizar el cálculo de la velocidad total de la figura aplicando el teorema de pitágoras. El teorema de pitágoras dice que el cuadrado de la hipotenusa de un triángulo rectángulo es igual a la suma de los cuadrados de los catetos. En este caso los catetos seran `velocidadX` y `velocidadY`. 
+
+```
+hipotenusa^2 = velocidadX^2 + velocidadY^2
+```
+
+Trasladado a JavaScript:
+
+```javascript
+var velocidadRectangulo = Math.sqrt(velocidadX * velocidadX + velocidadY * velocidadY )
+```
