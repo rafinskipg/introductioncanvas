@@ -1,23 +1,8 @@
 #Creando mi primer engine.
 
-Tras definir el funcionamiento del ciclo, vamos a refactorizarlo para evitar tener que reescribir el código del bucle en cada ejemplo siguiente, lo haremos creando nuestro propio motor de renderizado en canvas.
+Una de las características de los programadores es que intentamos buscar siempre la optimización de los procesos repetitivos, minimizando de esta manera el esfuerzo necesario para producir el mismo resultado.
 
-## Requisitos
-
-Necesitaremos, para una primera versión, que nos permita hacer animaciones usando un sólo canvas:
-- Que acepte callbacks en cada una de las fases update/render
-- Que acepte uno o varios callback de inicialización
-- Que permita crear tanto dibujos animados como no animados.
-- Que tenga un método para disparar el renderizado.
-
-En futuras mejoras podremos añadir:
-- Que acepte uno o varios callback de limpieza del canvas
-- Que se pueda indicar un máximo de iteraciones a ejecutar
-- Que se pueda indicar un tiempo de espera antes de que empiece la animacion
-- Que tenga un método de pausado/continuación de la animación
-- Que se pueda alterar un modificador de la variable `dt` en el método de `update` de tal manera que la velocidad de la animación cambie.
-
-Recordemos el ejercicio del cuadrado animado:
+Recordemos el ejemplo de código necesario para orquestar una animación en canvas:
 
 ```javascript
 var canvas = document.getElementById('canvas');
@@ -56,7 +41,26 @@ function loop(){
 loop();
 ```
 
-La forma en la que tendría que quedar una refactorización de este código usando nuestro `Engine` debería ser algo así:
+Simplemente con un vistazo podemos ver que la cántidad de código que aporta valor, más allá de simplemente crear un ambiente propicio para la animación, es realmente mínimo. Tan solo estamos utilizando `square.render`, `square.update` y una función de borrado, el resto del código solo está allí porque es necesario para poder llamar a `clear`, `update` y `render`. 
+
+Podemos, y debemos, en ese caso abstraer esas funciones a una librería externa, creando nuestro primer motor de renderizado.
+
+## Requisitos
+
+Necesitaremos, para una primera versión, que nos permita hacer animaciones usando un sólo canvas:
+- Que acepte callbacks en cada una de las fases update/render
+- Que acepte uno o varios callback de inicialización
+- Que permita crear tanto dibujos animados como no animados.
+- Que tenga un método para disparar el renderizado.
+
+En futuras mejoras podremos añadir:
+- Que acepte uno o varios callback de limpieza del canvas
+- Que se pueda indicar un máximo de iteraciones a ejecutar
+- Que se pueda indicar un tiempo de espera antes de que empiece la animacion
+- Que tenga un método de pausado/continuación de la animación
+- Que se pueda alterar un modificador de la variable `dt` en el método de `update` de tal manera que la velocidad de la animación cambie.
+
+La forma en la que tendría que quedar una refactorización del código anterior  usando nuestro `Engine` podría ser así:
 
 ```javascript
 var canvas = document.getElementById('canvas');
