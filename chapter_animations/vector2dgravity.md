@@ -6,6 +6,48 @@ Una librería para Vector2D es una herramienta para facilitar los cálculos con 
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
 
+Un vector de 2 dimensiones es un objeto con 2 propiedades que representan esas dimensiones. Sirven para representar posiciones y velocidades. Además los vectores tienen una dirección y una magnitud.
+
+Imaginemos un objeto que tiene un vector para representar su velocidad `(3, 5)`, podemos calcular la velocidad total del objeto, o la magnitud del vector, utilizando el teorema de pitágoras.
+
+El teorema de pitágoras dice que el cuadrado de la hipotenusa de un triángulo rectángulo es igual a la suma de los cuadrados de los catetos. En este caso los catetos seran `velocidadX` y `velocidadY`. 
+
+```
+hipotenusa^2 = velocidadX^2 + velocidadY^2
+```
+
+
+>El teorema de pitágoras nos sirve para calcular la magnitud de cualquier vector de 2 dimensiones
+
+Trasladado a JavaScript:
+
+```javascript
+var vector = {
+  x : 3,
+  y : 5
+};
+var velocidadRectangulo = Math.sqrt(vector.x * vector.x + vector.y * vector.y )
+==> 5.830951894845301
+```
+
+Una vez hemos obtenido la magnitud de un vector, podemos **normalizarlo**. Normalizar un vector significa convertirlo en un **vector unitario** - cuya longitud es 1 - pero manteniendo la misma dirección del vector original.
+
+Para transformar un vector a un vector unitario solo hace falta dividir el vector por su magnitud. Por ejemplo, el **vector unitario** de `(3,5)` podría calcularse de la siguiente manera:
+
+```javascript
+var vector = {
+  x : 3,
+  y : 5
+};
+var magnitud = Math.sqrt(vector.x * vector.x + vector.y * vector.y );
+
+var unitario = {
+  x : vector.x / magnitud,
+  y : vector.y / magnitud
+}
+//==> Object {x: 0.5144957554275265, y: 0.8574929257125441}
+```
+
 
 Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones suelen llevar la suya propia o reutilizan alguna librería opensource.
 

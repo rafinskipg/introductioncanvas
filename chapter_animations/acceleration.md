@@ -88,18 +88,4 @@ _Y con esta historieta has visto cual es el efecto de aplicar aceleración a un 
 
 **Fin**
 
-### Velocidad Máxima
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/pitagoras.png)
-
-Podemos realizar el cálculo de la velocidad total de la figura aplicando el teorema de pitágoras. El teorema de pitágoras dice que el cuadrado de la hipotenusa de un triángulo rectángulo es igual a la suma de los cuadrados de los catetos. En este caso los catetos seran `velocidadX` y `velocidadY`. 
-
-```
-hipotenusa^2 = velocidadX^2 + velocidadY^2
-```
-
-Trasladado a JavaScript:
-
-```javascript
-var velocidadRectangulo = Math.sqrt(velocidadX * velocidadX + velocidadY * velocidadY )
-```
