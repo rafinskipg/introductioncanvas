@@ -85,6 +85,8 @@ Engine.prototype.loop = function() {
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
   var dt = this.now - this.then;
 
+  dt = dt ? dt : 16;
+
   //Evita que si cambiamos de pestaña recibamos un valor muy grande en delta
   if (dt > 100) {
     dt = 100;
@@ -108,12 +110,13 @@ Engine.prototype.loop = function() {
 }
 
 Engine.prototype.start = function() {
+  //Restart the loop variable
+  this.then = Date.now();
+  
   this.startCbs.forEach(function(cb) {
     cb(this.context, this.canvas)
   }.bind(this));
 
-  //Restart the loop variable
-  this.then = Date.now();
   this.clock = 0;
   this.loop();
 }

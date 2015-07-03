@@ -95,20 +95,53 @@ myEngine.start();
 
 ## Velocidad en el tiempo
 
-Para añadir los componentes de velocidad a la figura deberemos tener en cuenta que tenemos que utilizar el diferencial de tiempo `dt`. 
-Tal y como hemos implementado nuestro motor `dt` normalmente rondará unos valores aproximados a `16` - en 16 tendríamos 60fps.
+El movimiento que hemos creado funciona pero el resultado producido es algo distinto a un movimiento fluido, como se puede apreciar en la imagen anterior existe una distancia fija de `10` entre cada círculo en cada uno de los frames.
 
-A mi me gusta utilizar unidades elevadas para representar las velocidades de los objetos, es decir, prefiero crear objetos con una velocidad `500` que con velocidad `0.005`. Me resulta más cómodo a la hora de crearlos y mantenerlos.
+Esto sin embargo, al igual que antes hemos desaconsejado `setTimeout` porque ejecutaba un callback cada cierto tiempo **fijo**, es una práctica no muy recomendada para crear movimientos fluidos.
 
-Por desgracia 500 es un valor muy elevado para incrementarlo directamente a la posición del objeto, así que utilizaremos una fracción de `dt` para actualizar la posición: `dt/1000`.
+Cada ejecución del ciclo tiene un tiempo de procesado, y para crear una mejor sensación deberíamos ligar el método de actualización a ese tiempo de procesado.
 
-Método update:
+Para añadir los componentes de velocidad a la figura deberemos tener en mente que tenemos que utilizar el diferencial de tiempo `dt`. 
+Tal y como hemos implementado nuestro motor `dt` normalmente rondará unos valores aproximados a `16` unidades de tiempo (milisegundos).
+
+Teniendo en cuenta esto, podemos reimplementar el método `update` del punto.
 
 ```javascript
-this.x += this.velocidadX * dt/1000;
-this.y += this.velocidatY * dt/1000;
+Point.prototype.update = function(dt){
+  this.x = this.x + (this.speedX * dt);
+  this.y = this.y + (this.speedY * dt);
+}
 ```
 
+Podemos ver que cada ejecución del ciclo tiene un coste distinto el el resultado producido:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/velocity_circle_trail_dt_compared.png)
+
+En la imagen anterior se pueden ver 2 ejecuciones distintas del mismo código, en cada una de ellas el tiempo de procesado ha sido distinto entre cada iteración. Además podemos ver que las distancias entre puntos son muy grandes, esto es debido a las magnitudes de la variable `dt`.
+
+En general suelo tener preferencia por utilizar unidades elevadas para representar las velocidades de los objetos, es decir, prefiero crear objetos con una velocidad `500` que con velocidad `0.005`. Me resulta más cómodo a la hora de leer su código.
+
+Por desgracia 500, 50, o 10 son valores elevados para ser multiplicados por `dt`, así que utilizaremos una fracción de `speedX` con relación `dt` para actualizar la posición: `this.speedX / dt`.
+
+```javascript
+Point.prototype.update = function(dt){
+  this.x = this.x + (this.speedX / dt);
+  this.y = this.y + (this.speedY / dt);
+}
+```
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/velocity_circle_trail_dt.png)
+
+Lo ideal sería que esas unidades utilizadas para la velocidad fuesen en base a una relación unidad->segundo. Por ejemplo : `speedX = 100` significará `100` píxeles por segundo. Para ello podríamos actualizar el código de la siguiente manera:
+
+```javascript
+Point.prototype.update = function(dt){
+  this.x = this.x + ((this.speedX/1000) * dt);
+  this.y = this.y + ((this.speedY/1000) * dt);
+}
+```
+
+Así siempre nos será más cómodo asignar velocidades a los objetos. Una velocidad de `300` indicará `300` píxeles por segundo. Lo cuál contribuye a una mejor comprensión de los objetos animados.
 
 
 ---
@@ -116,14 +149,14 @@ this.y += this.velocidatY * dt/1000;
 
 Pinta un rectángulo en la posición `0, 0` y haz que su posición se incremente en cada ejecución del método update hasta llegar a `canvas.width, canvas.height`.
 
-_Ayuda_
-Añade una propiedad `velocidad` al objeto y sumasela a la posición.
+**Ejercicio 2**
+
+Cuando el cuadrado llege a la posición `x === canvas.width` o `y === canvas.height` invierte el valor de la velocidad.
 
 ----
 
 
-
-Implementación de la clase cuadrado, con alteración de posición a lo largo del tiempo:
+Otro ejemplo de implementación de velocidad con la clase `Square` que hemos usado en ejemplos anteriores.
 
 ```javascript
 //models/square.js
@@ -137,9 +170,8 @@ function Square(options){
 
 Square.prototype.update = function(dt){
   //Actualizamos la posicion en funcion de la velocidad
-  //Dividimos por mil la diferencial de tiempo porque es un valor muy grande
-  this.x += this.speedX * dt/1000;
-  this.y += this.speedY * dt/1000;
+  this.x += (this.speedX / 1000) * dt;
+  this.y += (this.speedY / 1000) * dt;
 }
 
 Square.prototype.render = function(context){
@@ -192,6 +224,6 @@ myEngine.start();
 ```
 
 
-De esta manera ya podemos empezar a pensar a crear ejercicios más complejos, donde podamos tener partículas rotando por el canvas.
+Hemos actualizado nuestras capacidades, ahora seremos capaces de seguir aprendiendo y creando cosas más y más complejas.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/particles_moving.png)
