@@ -41,6 +41,10 @@ http://code.tutsplus.com/tutorials/html5-canvas-optimization-a-practical-example
 //Walkers, explicar varios canvas y composite-out operation
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
+
+//DOuble exposure
+http://stackoverflow.com/questions/28207232/draw-border-around-nontransparent-part-of-image-on-canvas
+
 # Building tasks
 
 TODO: 

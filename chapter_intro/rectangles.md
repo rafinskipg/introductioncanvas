@@ -1,6 +1,6 @@
 # Rectángulos
 
-Empezaremos con unos conceptos básicos de formas geométricas. _Si ya conoces lo básico de `canvas` puedes saltar directamente al capítulo 3 - Animaciones_
+Empezaremos con unos conceptos básicos de formas geométricas. _Si ya conoces lo básico de `canvas` puedes saltar directamente al capítulo 2 - Animaciones_
 
 Vamos a dibujar un cuadrado en el canvas y vamos a pintarlo de color rojo.
 

@@ -1,7 +1,5 @@
 # Rotaciones
 
-## Los cimientos.
-
 Los métodos que vamos a estudiar son los siguientes
 
 - context.rotate(deg)
@@ -11,7 +9,7 @@ Los métodos que vamos a estudiar son los siguientes
 
 ## Rotate
 
-El método rotate recibe un parámetro, que es el ángulo en  radianes. Todo lo que pintemos después de aplicar el método rotate estará afectado por el cambio del ángulo.
+El método rotate recibe un parámetro, que es el ángulo en  radianes. Toda acción posterior a una rotación del contexto se verá afactada por esta rotación.
 
 Para realizar transformaciones entre grados y radianes - y viceversa -, usaremos las siguientes fórmulas. 
 
