@@ -48,6 +48,10 @@ var unitario = {
 //==> Object {x: 0.5144957554275265, y: 0.8574929257125441}
 ```
 
+## ¿Para que sirve un vector unitario?
+
+
+## VictorJS
 
 Existen múltiples implementaciones de librerías Vector2D y generalmente todos los motores de creación de Juegos o animaciones suelen llevar la suya propia o reutilizan alguna librería opensource.
 
@@ -68,8 +72,6 @@ Luego las referenciaremos en el archivo index.html
 <script src="../../lib/utils.js"></script>
 <script src="../../lib/Engine.js"></script>
 ```
-
-## VictorJS
 
 Podemos instanciar un nuevo vector de la siguiente manera:
 

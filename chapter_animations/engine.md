@@ -181,7 +181,104 @@ Engine.prototype.start = function(){
   }.bind(this));
 
   this.loop();
-} 
+}
 ```
 
-**De aquí en adelante, todos los ejemplos utilizarán `Engine` para orquestar el renderizado.** Evitandonos así el tener que reescribir el loop en cada ejemplo.
+**De aquí en adelante, todos los ejemplos utilizarán `Engine` para orquestar el renderizado.** 
+
+>La decisión de crear este Engine, si bien es propia, es por agilidad a la hora de reescribir los ejercicios, evitando tener que utilizar el `loop` en cada ejemplo, añadiendo un poco de azúcar sintáctico. Pero la decisión final de utilizarlo depende en cada caso del lector, sin duda alguna. 
+
+Vamos a añadir ahora un par de cosas más que serán útiles. 
+
+##Definir un método de limpieza custom
+
+```javascript
+Engine.prototype.setClearingMethod = function(cb) {
+  this.clearingMethod = cb;
+};
+
+Engine.prototype.clear = function() {
+
+  if (this.hasOwnProperty('clearingMethod')) {
+    this.clearingMethod(this.context, this.canvas);
+  } else {
+    // Store the current transformation matrix
+    this.context.save();
+
+    // Use the identity matrix while clearing the canvas
+    this.context.setTransform(1, 0, 0, 1, 0, 0);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Restore the transform
+    this.context.restore();
+  }
+};
+```
+
+De esta manera tendremos la capacidad de definir nuestros propios métodos de limpiado del canvas, veamos un ejemplo:
+
+```javascript
+function clear(context, canvas) {
+  //Pinta un rectángulo semi transparente dando una sensación de que el estado anterior se va difuminando
+  context.fillStyle = "rgba(255, 255, 255, 0.10)";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+var myEngine = new Engine(canvas);
+myEngine.setClearingMethod(clear);
+```
+
+## Aceptar un máximo de ciclos
+
+Sería útil disponer de un `Engine` capaz de pararse tras ejecutar N ciclos, para poder tomar capturas de pantalla, etc. 
+
+Añadiremos el parámetro `maxIterations` a la inicialización e ir incrementando una variable `currentIteration` tras cada ejecución del ciclo. Una vez se alcance la iteración máxima dejaremos de llamar al ciclo.
+
+```javascript
+function Engine(canvas, loopable, maxIterations) {
+  this.canvas = canvas;
+  this.context = canvas.getContext('2d');
+
+  this.renderCbs = [];
+  this.updateCbs = [];
+  this.startCbs = [];
+
+  //Nueva propiedad maxIterations
+  this.maxIterations = maxIterations || null;
+  this.currentIteration = 0;
+
+  this.now = Date.now();
+  this.then = Date.now();
+
+  this.loopable = (typeof(loopable) === 'undefined' || loopable !== false) ? true : false;
+}
+
+Engine.prototype.loop = function(){
+  this.now = Date.now();
+  var dt = this.now - this.then;
+  
+  this.update(dt);
+  this.clear();
+  this.render();
+  //Incrementamos la iteracion
+  this.currentIteration++;
+
+  this.then = this.now;
+
+  //Ejecutamos el ciclo otra vez si es loopable y si no hay restricción de iteraciones
+  if ((this.loopable && this.hasOwnProperty('maxIterations') === false) || (this.hasOwnProperty('maxIterations') && this.currentIteration <= this.maxIterations)) {
+    requestAnimationFrame(this.loop.bind(this));
+  }
+}
+```
+
+Un ejemplo de uso de esta nueva funcionalidad del engine:
+
+```javascript
+//El motor se parará tras 100 ciclos
+var myEngine = new Engine(canvas, true, 100);
+```
+
+
+Como ya he comentado la decisión de utilizarlo, extenderlo, refactorizarlo y adaptarlo recae en tus manos. Si no estás conforme con la implementación del `Engine` eres libre de crear el tuyo propio o utilizar un bucle simple orquestar los renderizados. Lo verdaderamente importante es que podamos optimizar el proceso para centrarnos en la parte realmente importante, la modificación de las entidades. :)
+
