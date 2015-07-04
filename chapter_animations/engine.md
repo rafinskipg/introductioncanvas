@@ -232,7 +232,7 @@ myEngine.setClearingMethod(clear);
 
 Sería útil disponer de un `Engine` capaz de pararse tras ejecutar N ciclos, para poder tomar capturas de pantalla, etc. 
 
-Añadiremos el parámetro `maxIterations` a la inicialización e ir incrementando una variable `currentIteration` tras cada ejecución del ciclo. Una vez se alcance la iteración máxima dejaremos de llamar al ciclo.
+Añadiremos el parámetro `maxIterations` a la inicialización e iremos incrementando una variable `currentIteration` tras cada ejecución del ciclo. Una vez se alcance la iteración máxima dejaremos de llamar al ciclo.
 
 ```javascript
 function Engine(canvas, loopable, maxIterations) {
@@ -280,5 +280,5 @@ var myEngine = new Engine(canvas, true, 100);
 ```
 
 
-Como ya he comentado la decisión de utilizarlo, extenderlo, refactorizarlo y adaptarlo recae en tus manos. Si no estás conforme con la implementación del `Engine` eres libre de crear el tuyo propio o utilizar un bucle simple orquestar los renderizados. Lo verdaderamente importante es que podamos optimizar el proceso para centrarnos en la parte realmente importante, la modificación de las entidades. :)
+Como ya he comentado la decisión de utilizarlo, extenderlo, refactorizarlo y adaptarlo recae en tus manos. Si no estás conforme con la implementación del `Engine` eres libre de crear el tuyo propio o utilizar un bucle simple para orquestar los renderizados. Lo prioritario es que podamos optimizar el proceso para centrarnos en la parte realmente importante, la modificación de las entidades. :)
 

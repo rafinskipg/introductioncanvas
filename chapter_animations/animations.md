@@ -476,7 +476,7 @@ Canviar las dimensiones del canvas produce un borrado de lo que este contiene. A
 **Usaremos el bueno, siempre que podamos**
 
 ### Et voilà! Habemus animación
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_good.gif)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_clear.png)
 
 # Ejercicio 1
 
