@@ -11,14 +11,14 @@ function render(context) {
   player.render(context);
 }
 
-function start() {
+function start(context, canvas) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   //Draw scenario
   scenario = new Scenario({
     x: 0,
     speedX: 350
-  });
+  }, context);
 
   //Init player
   player = new Player({

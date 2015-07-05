@@ -5,6 +5,7 @@ function Player(options) {
   this.width = options.width;
   this.speedX = options.speedX || 0;
   this.moving = false;
+  this.img = document.getElementById("character");
 }
 
 Player.prototype.stop = function() {
@@ -35,8 +36,6 @@ Player.prototype.render = function(context) {
   context.save();
   context.beginPath();
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
-  context.rect(-this.width / 2, -this.width / 2, this.width, this.width);
-  context.fillStyle = 'blue';
-  context.fill();
+  context.drawImage(this.img, 0, 0, this.width, this.width);
   context.restore();
 };

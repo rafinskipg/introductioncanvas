@@ -1,27 +1,28 @@
 //models/Scenario.js
-function Scenario(options) {
+function Scenario(options, context) {
   this.x = options.x;
   this.speedX = options.speedX || 0;
   this.moving = false;
 
   this.squaresWidth = window.innerWidth / 2;
   this.squares = [];
-  this.initSquares();
+  this.initSquares(context);
 }
 
-Scenario.prototype.addSquare = function(color, start, width) {
+Scenario.prototype.addSquare = function(colorStart, colorEnd, start, width) {
   this.squares.push({
     x: start,
-    color: color,
+    colorStart: colorStart,
+    colorEnd: colorEnd,
     width: width
   });
 };
 
-Scenario.prototype.initSquares = function() {
-  this.addSquare('red', 0, this.squaresWidth);
-  this.addSquare('green', this.squaresWidth, this.squaresWidth);
-  this.addSquare('navy', this.squaresWidth * 2, this.squaresWidth);
-  this.addSquare('grey', this.squaresWidth * 3, this.squaresWidth);
+Scenario.prototype.initSquares = function(context) {
+  this.addSquare('rgb(97, 43, 119)', 'rgb(97, 46, 63)', 0, this.squaresWidth);
+  this.addSquare('rgb(97, 46, 63)', 'rgb(32, 80, 94)', this.squaresWidth, this.squaresWidth);
+  this.addSquare('rgb(32, 80, 94)', 'rgb(30, 113, 137)', this.squaresWidth * 2, this.squaresWidth);
+  this.addSquare('rgb(30, 113, 137)', 'rgb(97, 43, 119)', this.squaresWidth * 3, this.squaresWidth);
 };
 
 Scenario.prototype.update = function(dt) {
@@ -65,14 +66,19 @@ Scenario.prototype.move = function(dir) {
 };
 
 Scenario.prototype.render = function(context) {
-  context.save();
 
   this.squares.forEach(function(square) {
+    context.save();
+    context.translate(square.x, 0);
     context.beginPath();
-    context.rect(square.x, 0, square.width, window.innerHeight);
-    context.fillStyle = square.color;
+    context.rect(0, 0, square.width, window.innerHeight);
+
+    var gradient = context.createLinearGradient(0, 0, square.width, 0);
+    gradient.addColorStop(0, square.colorStart);
+    gradient.addColorStop(1, square.colorEnd);
+    context.fillStyle = gradient;
     context.fill();
+    context.restore();
   });
 
-  context.restore();
 };

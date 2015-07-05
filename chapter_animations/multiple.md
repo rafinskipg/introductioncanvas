@@ -111,3 +111,9 @@ function render(context){
 Cuando trabajamos con muchos es mejor utilizar funciones que consuman menos y por tanto sean más eficientes. Así pues es mejor utilizar bucles `for` normales en vez de `map` o `forEach`.
 
 Para colecciones pequeñas es despreciable este tipo de optimizaciones. Pero en cuanto empezamos a acumular muchas iteraciones a lo largo de la aplicación es mejor que sean lo más óptimas posibles.
+
+//Continuar el ejemplo del sidescroller, metiendo balas.
+
+//Luego capitulo de aceleracion metiendo aceleracion con el espacio 
+
+//Luego capítulo de sprites
