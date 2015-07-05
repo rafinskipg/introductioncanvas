@@ -1,12 +1,17 @@
-/**
- * De cero a canvas solution
- */
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
+var imgCharacter;
 
 function render() {
-  var img = document.getElementById("character");
-  context.drawImage(img, 10, 10);
+  context.drawImage(imgCharacter, 10, 10);
 }
 
-render();
+function loadImages(){
+  imgCharacter = new Image();
+  imgCharacter.src = 'images/character.png';
+  imgCharacter.onload = function(){
+    render();
+  }
+}
+
+loadImages();
