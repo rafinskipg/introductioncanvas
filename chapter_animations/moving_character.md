@@ -454,12 +454,14 @@ Para finalizar, añadimos en el archivo `index.html`  los scripts de la aplicaci
 ```
 
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_sidescroller.png)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/sidescroller.png)
 
 
 ## Ejercicio 1
 
 Mejora el aspecto de tu `Sidescroller` para que sea como el de la siguiente imagen:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_2_sidescroller.png)
 
 
 **Ayuda**
