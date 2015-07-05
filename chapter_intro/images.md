@@ -92,7 +92,62 @@ function loadImages(){
 loadImages();
 ```
 
-## Poniendo color
+## Poniendo todo junto
+
+Veamos como pre-cargar todas las imágenes antes de ejecutar el método `render`. 
+```javascript
+var images = {
+  hero: 'images/character.png',
+  bg: 'images/background.png',
+  enemy: 'images/enemy.png',
+  loaded : []
+};
+
+function preload() {
+  Object.keys(images).forEach(function(imgName) {
+    var img = new Image(images[imgName]);
+    images[imgName] = img;
+  });
+}
+
+preload();
+```
+
+Necesitaremos detectar cuando se han cargado todos los recursos necesarios para el renderizado. Para ello podriamos implementar distintos mecanismos utilizando el método `onload`, una solución elegante sería utilizar `promesas`. 
+_Para más información acerca de como utilizar la nueva API de `Promise` de `EcmaScript6` puedes dirigirte a este artículo de HTML5Rocks `http://www.html5rocks.com/en/tutorials/es6/promises/`._
+
+```javascript
+var images = {
+  hero: 'images/character.png',
+  bg: 'images/background.png',
+  enemy: 'images/enemy.png'
+};
+
+var loadedResources = [];
+
+function preload() {
+  Object.keys(images).forEach(function(imgName) {
+    var img = new Image(images[imgName]);
+    images[imgName] = img;
+
+    var deferred = new Promise(function(resolve, reject) {
+      img.onload = function() {
+        resolve(imgName);
+      };
+
+      img.onerror = function() {
+        reject('Not loaded' + imgName);
+      };
+    });
+  });
+
+  Promise.all(loadedResources).then(function(arrayOfResults) {
+    alert('loaded');
+  });
+}
+
+preload();
+```
 
 ```javascript
 var gradient = context.createLinearGradient(-radius, -radius, radius, radius );
