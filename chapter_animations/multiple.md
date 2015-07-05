@@ -110,7 +110,7 @@ function update(dt){
   var remainingParticles = [];
   for(var i = 0; i < particles.length; i++){
     particles[i].update(dt);
-    if(particle.combustible <= 0){
+    if(particle.combustible >= 0){
       remainingParticles.push(particle);
     }
   }
@@ -180,7 +180,7 @@ function update(dt){
 }
 ```
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles:combustible.png)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible.png)
 
 ##Ejercicio 1
 
