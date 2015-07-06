@@ -30,7 +30,7 @@ Para ejecutar los ejercicios tan solo necesitarás un editor de texto simple y u
 
 ## Sobre el autor
 
-Mi nombre es *Rafael Ventura Pedrola Gimeno* y soy un programador que lleva varios años centrados en tecnologías JavaScript, he hecho muchas aplicaciones web en cliente aunque últimamente estoy más centrado en NodeJS. 
+Mi nombre es *Rafael Ventura Pedrola Gimeno* y soy un programador que lleva varios años trabajando con tecnologías JavaScript, he hecho muchas aplicaciones web en cliente aunque últimamente estoy más centrado en NodeJS. 
 
 Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS* - *Express, Sails...*, he hecho mis recetas de *Gulp*, *Grunt*, he hecho generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
 
