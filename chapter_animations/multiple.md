@@ -2,11 +2,10 @@
 
 El manejo de múltiples elementos que pueden tener cierto tiempo de vida variable puede conllevar una cierta complejidad. Para lidiar con el manejo de estas situaciones se proveen a continuación de una serie de recursos útiles.
 
-Imaginemos el siguiente escenario: 
+Imaginemos el siguiente escenario en el que varias particulas se mueven con movimientos rectilíneos uniformes (sin aceleración), en distintas direcciónes y con distintas velocidades.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles.png)
 
-En esta situación varias particulas se mueven con movimientos rectilíneos uniformes (sin aceleración), en distintas direcciónes y con distintas velocidades.
 
 ```javascript
 function Particle(options) {
@@ -180,11 +179,63 @@ function update(dt){
 }
 ```
 
+Como se puede apreciar en la siguiente imagen, varias partículas han desaparecido al agotarse su combustible.
+
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible.png)
 
 ##Ejercicio 1
 
-Asocia la cantidad de combustible a un color utilizando
+- Asocia la cantidad de combustible restante en una partícula al tamaño de la misma.
+- Cambia el color de fondo del canvas.
+
+## Radial gradient
+
+Los gradientes radiales se diferencian de los lineares en que crean un área circular con un degradado alrededor. Al igual que `createLinearGradient`, `createRadialGradiente` tiene una API en la que se pueden añadir fases de color utilizando `gradient.addColorStop`.
+
+```javascript
+var gradient = context.createRadialGradient(xCirculoInicial, yCirculoInicial, radioCirculoInicial, xCirculoFinal, yCirculoFinal, radioCirculoFinal);
+```
+
+Veamos una implementación del gradiente circular o radial.
+
+<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/radial_gradient.png" style="width: 100%; margin: 20px">
+
+```javascript
+Particle.prototype.render = function(context) {
+
+  context.save();
+  context.translate(this.x - this.radius / 2, this.y - this.radius / 2);
+  context.beginPath();
+
+  var radius = this.radius;
+
+  var radgrad = context.createRadialGradient(
+    radius / 2,
+    radius / 2,
+    0,
+    radius / 2,
+    radius / 2,
+    radius / 2);
+
+  radgrad.addColorStop(0, 'white');
+  radgrad.addColorStop(0.4, 'red');
+  radgrad.addColorStop(0.6, 'orange');
+  radgrad.addColorStop(1, 'rgba(0,0,0,0)');
+
+  context.fillStyle = radgrad;
+
+  context.rect(0, 0, radius, radius);
+
+  context.fill();
+  context.closePath();
+  context.restore();
+}
+```
+
+#Ejercicio 2
+Renderiza las partículas utilizando un gradiente `context.createRadialGradient`.
+
+
 //TODO: meter imagen y funcion de int to color
 
 //Explicar como pintar una particula rollo estrella del otro ejercicio
