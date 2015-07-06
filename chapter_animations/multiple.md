@@ -198,7 +198,7 @@ var gradient = context.createRadialGradient(xCirculoInicial, yCirculoInicial, ra
 
 Veamos una implementación del gradiente circular o radial.
 
-<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/radial_gradient.png" style="width: 100%; margin: 20px">
+<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/radial_gradient.png" style="width: 100%;margin-top: 20px; margin-bottom: 20px;">
 
 ```javascript
 Particle.prototype.render = function(context) {
@@ -233,9 +233,10 @@ Particle.prototype.render = function(context) {
 ```
 
 #Ejercicio 2
-Renderiza las partículas con combustible utilizando un gradiente `context.createRadialGradient`.
+- Renderiza las partículas con combustible utilizando un gradiente `context.createRadialGradient`.
+- Añade a cada partícula una sombra.
 
-<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible_gradient.png" style="width: 100%; margin: 20px">
+<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible_gradient.png" style="width: 100%;margin-top: 20px; margin-bottom: 20px;">
 
 
 //TODO: explicar luego la aceleracion con estas particulas y hacer un ejercicio de meter particulas cuando una muera en una direccion random, y que sea el particles moving (cap aceleracion)

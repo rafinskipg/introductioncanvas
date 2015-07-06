@@ -37,10 +37,17 @@ Particle.prototype.render = function(context) {
   radgrad.addColorStop(1, 'rgba(0,0,0,0)');
 
   context.fillStyle = radgrad;
-
+  
   context.rect(0, 0, radius, radius);
 
+  //Draw a shadow
+  context.shadowColor = 'rgba(0,0,0,0.75)';
+  context.shadowOffsetX = 8;
+  context.shadowOffsetY = 8;
+  context.shadowBlur = 1;
+
   context.fill();
+
   context.closePath();
   context.restore();
 }
