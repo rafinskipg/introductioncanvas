@@ -38,7 +38,7 @@ function start() {
 }
 
 function clear(context, canvas) {
-  context.fillStyle = "rgba(255, 255, 255, 0.10)";
+  context.fillStyle = "rgb(40, 33, 82)";
   context.fillRect(0, 0, canvas.width, canvas.height);
 }
 

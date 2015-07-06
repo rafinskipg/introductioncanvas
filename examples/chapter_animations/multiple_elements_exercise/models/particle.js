@@ -13,13 +13,15 @@ Particle.prototype.update = function(dt){
   this.y = this.y + ((this.speedY/1000) * dt);
 }
 
+
 Particle.prototype.render = function(context) {
 
+  var radius = this.combustible;
+  
   context.save();
-  context.translate(this.x, this.y);
+  context.translate(this.x - radius / 2, this.y - radius / 2);
   context.beginPath();
 
-  var radius = this.combustible / 10;
 
   var radgrad = context.createRadialGradient(
     radius / 2,
@@ -30,8 +32,8 @@ Particle.prototype.render = function(context) {
     radius / 2);
 
   radgrad.addColorStop(0, 'white');
-  radgrad.addColorStop(0.4, 'white');
-  radgrad.addColorStop(0.4, 'orange');
+  radgrad.addColorStop(0.4, 'red');
+  radgrad.addColorStop(0.6, 'orange');
   radgrad.addColorStop(1, 'rgba(0,0,0,0)');
 
   context.fillStyle = radgrad;

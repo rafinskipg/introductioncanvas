@@ -233,14 +233,10 @@ Particle.prototype.render = function(context) {
 ```
 
 #Ejercicio 2
-Renderiza las partículas utilizando un gradiente `context.createRadialGradient`.
+Renderiza las partículas con combustible utilizando un gradiente `context.createRadialGradient`.
 
+<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible_gradient.png" style="width: 100%; margin: 20px">
 
-//TODO: meter imagen y funcion de int to color
-
-//Explicar como pintar una particula rollo estrella del otro ejercicio
-
-//Ejercicio 2 que cambie de tamaño segun el combustible
 
 //TODO: explicar luego la aceleracion con estas particulas y hacer un ejercicio de meter particulas cuando una muera en una direccion random, y que sea el particles moving (cap aceleracion)
 
