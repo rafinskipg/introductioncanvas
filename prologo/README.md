@@ -30,9 +30,12 @@ Para ejecutar los ejercicios tan solo necesitarás un editor de texto simple y u
 
 ## Sobre el autor
 
-Me llamo *Rafael Ventura Pedrola Gimeno* y soy programador web que lleva varios años trabajando con JavaScript a nivel profesional.
-Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS* - *Express, Sails...*, he hecho mis recetas de *Gulp*, *Grunt*, he publicado generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
+Mi nombre es *Rafael Ventura Pedrola Gimeno* y soy un programador que lleva varios años centrados en tecnologías JavaScript, he hecho muchas aplicaciones web en cliente aunque últimamente estoy más centrado en NodeJS. 
 
-Podéis seguirme en *GitHub* o en *Twitter* a través del, siempre repetido nickname, @rafinskipg 
+Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS* - *Express, Sails...*, he hecho mis recetas de *Gulp*, *Grunt*, he hecho generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
+
+Podéis encontrarme en *GitHub* o en *Twitter* a través del, siempre repetido nickname, @rafinskipg 
 
 __Disfrutad del viaje y cread cosas emocionantes__
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/author/author.png)
