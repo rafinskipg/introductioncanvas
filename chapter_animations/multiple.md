@@ -241,7 +241,7 @@ Particle.prototype.render = function(context) {
 
 //TODO: explicar luego la aceleracion con estas particulas y hacer un ejercicio de meter particulas cuando una muera en una direccion random, y que sea el particles moving (cap aceleracion)
 
-//Continuar el ejemplo del sidescroller, metiendo balas.
+//Continuar el ejemplo del sidescroller, metiendo balas que pueden ser como las esferas con sombras
 
 //Luego capitulo de aceleracion metiendo aceleracion con el espacio 
 
