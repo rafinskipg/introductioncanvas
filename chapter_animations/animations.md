@@ -4,7 +4,7 @@ Aprender a manejar animaciones nos permitirá exprimir todo el potencial de `can
 
 En esta sección veremos como utiliar un `loop` o bucle para aplicar movimiento a elementos pintados en un `canvas`. Para la representación de las entidades utilizaremos programación orientada a objetos (OOP) y herencia basada en `Prototype` de  JavaScript.
 
-Los comienzos de la animación se remontan a 1640 pero su verdadera difusión comenzó en el siglo XIX cuando se descubrió el principio de persistencia de la visión. Este principio demuestra que el ojo humano percibe un movimiento como continuo si se reemplazan imágenes lo suficientemente rápido. De esta manera y como si se tratase de una película, una animación en `canvas` es producida por unos frames que se van sucediendo a lo largo del tiempo.
+Los comienzos de la animación se remontan al año 1640, aunque su verdadera difusión comenzó en el siglo XIX cuando se descubrió el principio de persistencia de la visión. Este principio demuestra que el ojo humano es capaz de percibir un movimiento continuo a partir de una sucesión de imágenes si estas se reemplazan lo suficientemente rápido. De esta manera, y como si se tratase de una película, una animación en `canvas` se produce gracias a la transición de los frames en un periodo corto de tiempo.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/horse.jpg)
 

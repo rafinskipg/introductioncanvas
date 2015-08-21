@@ -11,7 +11,9 @@ Vamos a pasar a dibujar formas más variadas y a utilizar nuevas propiedades de 
 
 ##Dibujando un polígono
 
-Para crear un polígono usaremos la siguiente fórmula: sabemos que un polígono regular está contenido dentro de un círculo, y que la suma de los ángulos de sus lados forman 360 grados - o `2 * Math.PI` radianes -.
+Como ya sabemos, un polígono regular está contenido dentro de un círculo, por lo tanto la suma de los ángulos de sus ángulos es 360 grados. Conociendo el número de lados que queremos dibujar podemos calcular el ángulo que se forma entre lado y lado y así crear el polígono usando la siguiente fórmula
+
+> (2 *  Math.PI radianes) / lados
 
 Así que podemos saber que, determinado el número de lados del polígono, podemos hallar el ángulo de cada uno de sus lados dividiendo `Math.PI * 2` radianes por el número de lados.
 
@@ -178,7 +180,7 @@ function render(){
 render();
 ```
 
-Recuerda que este código sirve para generar cualquier polígono regular, tan solo has de parametrizarlo:
+Recuerda que este código sirve para generar cualquier polígono regular, tan solo tienes que parametrizarlo:
 
 ```javascript
 drawPolygon(150, 100, 50, 6, 0);

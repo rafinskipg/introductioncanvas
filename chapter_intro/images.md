@@ -157,7 +157,7 @@ En el capítulo de animaciones refactorizaremos el ejemplo anterior para crear n
 
 ## Poniendo todo junto.
 
-Lo primero de todo, crearemos un fondo un poco más atractivo.
+Para empezar, crearemos un fondo un poco más atractivo
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/images/background_gradient.png)
 

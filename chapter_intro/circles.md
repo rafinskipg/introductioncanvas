@@ -114,7 +114,7 @@ context.stroke();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_withoutBeginPath.png)
 
-Vemos que aparece una línea entre las dos figuras. Esto está sucede porque cuando hemos invocado al método `context.arc` hemos empezado a dibujar figuras sobre un **trazado**, cada figura siguiente está actuando sobre el mismo trazado. Para evitar estas uniones entre figuras necesitamos decirle a canvas que vamos a "levantar el lápiz del lienzo" entre cada figura.
+Vemos que aparece una línea entre las dos figuras. Esto sucede porque al invocar el método `context.arc` hemos empezado a dibujar figuras sobre un **trazado**. En canvas, cada figura actúa sobre un único trazado, para evitar estas uniones entre figuras necesitamos “levantar el lápiz del lienzo” y crear un nuevo trazado para la siguiente figura
 
 Para indicarle a canvas que hemos comenzado un nuevo trazado utilizaremos el método `beginPath`
 
@@ -200,10 +200,10 @@ context.stroke();
 
 # Ejercicio 2
 
-Dibuja 3 circulos de 50 píxeles de radio, el tercero estará pintado solo hasta 3/4 partes de su circunferencia. Desde donde acabe ese tercer círculo, pinta una línea horizontal de 50 píxeles de largo.
+Dibuja 3 círculos de 50 píxeles de radio, el tercero estará pintado sólo hasta 3/4 partes de su circunferencia. Desde donde acabe ese tercer círculo, pinta una línea horizontal de 50 píxeles de largo.
 
 ## Ayuda
-`context.beginPath()` actua como si levantases el lápiz del papel desde la figura anterior. Si no lo usas, canvas trazará una línea desde la figura anterior.
+`context.beginPath()` actúa como si levantases el lápiz del papel desde la figura anterior. Si no lo usas, canvas trazará una línea desde la figura anterior.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/exercises/chapter_1_exercise_2.png)
 
@@ -234,7 +234,7 @@ function render() {
   context.moveTo(350, 200);
   context.lineTo(400, 200);
 
-  //Este stroke pinta el último circulo y la línea a la vez
+  //Este stroke pinta el último círculo y la línea a la vez
   context.stroke();
 }
 

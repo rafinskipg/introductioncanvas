@@ -7,7 +7,7 @@
 * [La base](chapter_intro/README.md)
     * [¿Qué es canvas?](chapter_intro/introduction.md)
     * [Formas básicas: Rectángulos](chapter_intro/rectangles.md)
-    * [Circulos, trazados y lineas](chapter_intro/circles.md)
+    * [Círculos, trazados y líneas](chapter_intro/circles.md)
     * [Rotando](chapter_intro/rotating.md)
     * [Polígonos, gradientes y sombras](chapter_intro/polygons.md)
     * [Imágenes](chapter_intro/images.md)
