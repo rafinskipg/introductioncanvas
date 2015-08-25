@@ -127,57 +127,189 @@ miInstancia.miMetodo();
 
 Pero esta manera, además de que no es la más óptima para organizar clases grandes de código tiene un handicap, cada nueva instancia de `MiClase` tendrá una copia de la función miMetodo.
 
-Mientras que si usamos `prototype` para añadir métodos a la clase cada uno de esos métodos añadidos será añadido de forma estática. Es decir, todas las instancias de `MiClase` usarán la misma función (hay que tener cuidado de no modificar el método de prototype ya que afectaría a todas las instancias).
-
-
-```javascript
-function MiClase(){
-  this.color = 'red';
-  this.lineWidth = 5;
-}
-
-MiClase.prototype.miMetodo = function(){
-  console.log(this.color);
-}
-
-var miInstancia = new MiClase();
-miInstancia.miMetodo();
-//red
-```
-Usando `prototype` podemos además tener el concepto de herencia de clases en JavaScript - crear clases que extienden de clases, reutilizando sus **métodos** originales -, usando esta aproximación:
+Mientras que si usamos `prototype` para añadir métodos a la clase cada uno de esos métodos añadidos será añadido de forma estática. Es decir, todas las instancias de `MiClase` usarán la misma función.  Por ejemplo:
 
 ```javascript
-function MiClaseEspecial(opts){
-  //Propiedades
+function Thing(){
+  //Whatever
 }
 
-MiClaseEspecial.prototype = new MiClase();
-
-MiClaseEspecial.prototype.nuevoMetodo = function(){
-  //
+Thing.prototype.applyForce = function(force){
+  this.force = force;
+  console.log(this.force);
 }
 
-```
+var bar = new Thing();
 
-Si además de los métodos queremos reutilizar su función constructora:
-
-```javascript
-
-function MiClaseEspecial(opts){
-  MiClase.prototype.constructor.call(this, opts);
-  //Otras propiedades
-}
-
-MiClaseEspecial.prototype = new MiClase();
-
-MiClaseEspecial.prototype.nuevoMetodo = function(){
-  //
-}
-
+bar.applyForce(3); //=> 3
 ```
 
 
-**Esta sería la represenctación de la clase cuadrado usando prototype**
+Pero, ¿qué pasaría si una nueva instancia modificase el método `applyForce` del prototipo?
+
+```javascript
+function Thing(){
+  //Whatever
+}
+
+Thing.prototype.applyForce = function(force){
+  this.force = force;
+  console.log(this.force);
+}
+
+var bar = new Thing();
+var foo = new Thing();
+
+foo.constructor.prototype.applyForce = function(){
+  console.log('OK');
+}
+
+foo.applyForce(3); //=> 'OK'
+bar.applyForce(3); //=> 'OK'
+```
+
+
+En cambio, si modificamos el método de una instancia, no afectamos al resto de instancias de esa clase:
+
+```javascript
+function Thing(){
+  //Whatever
+}
+
+Thing.prototype.applyForce = function(force){
+  this.force = force;
+  console.log(this.force);
+}
+
+var bar = new Thing();
+var foo = new Thing();
+
+foo.applyForce = function(){
+  console.log('OK');
+}
+
+foo.applyForce(3); //=> 'OK'
+bar.applyForce(3); //=> 3
+
+```
+
+
+De todas maneras la modificación del prototipo y la asignación de métodos sobre instancias es algo que deberíamos evitar por rendimiento, en contadas ocasiones nos será necesario utilizarlo.
+
+Usando `prototype` podemos además implementar herencia de clases - crear clases que extienden de clases, reutilizando sus **métodos y propiedades** originales -, usando esta aproximación:
+
+*Clase padre*
+
+```javascript
+  function Material(opts){
+    //Propiedades
+    this.density = opts.density;
+    this.color = opts.color;
+    this.conductivity = opts.conductivity;
+  }
+
+  Material.prototype.paint = function(){
+    console.log('I am a ' + this.color + 'material ');
+  }
+```
+
+Imaginemos que queremos crear un nuevo material, y queremos reutilizar todos los métodos del prototipo de `Material`, una posible aproximación sería esta:
+
+```javascript
+//Instantiating a new material
+function Madera(opts){
+  this.x = opts.x;
+  this.y = opts.y;
+  this.weight = opts.weight;
+  this.radius = this.weight * this.density;
+}
+
+Madera.prototype = new Material({
+  density : 0.03,
+  color : 'brown-dark',
+  conductivity : '0'
+});
+
+Madera.prototype.paint = function(){
+  console.log(this.weight + ' kg of ' + this.color + ' wood found at ' + this.x + ', ' + this.y);
+  console.log('With a radius of ' + this.radius);
+}
+```
+
+¿Pero que pasaría aquí con el cálculo del `radius`? Recordémoslo: `radius` está utilizando la opción `this.densitiy` que está definida en la clase padre `Material`. 
+
+Cuando asignamos el prototypo de `Madera` a una nueva instancia de `Material` estamos prefijando a la `Madera` con ciertas propiedades fijas e invariables entre todas las instancias de madera : `density`, `color` y `conductivity`. Esto no es un fiel reflejo del mundo real, ya que existen incontables tonos de color en las maderas, pero nos sirve como ejemplo de como prefijar unas características para una nueva clase.
+
+Así crearemos una nueva instancia de madera:
+
+```javascript
+var madera = new Madera({
+  x : 10,
+  y : 10,
+  weight : 100
+});
+
+madera.paint();
+//=> 100 kg of brown-dark wood found at 10, 10
+//=> With a radius of 3
+```
+
+Si en cambio quisieramos que tanto la densidad, el color y la conductividad variase entre cada instancia de un nuevo material podríamos realizarlo de la siguiente manera:
+
+```javascript
+function Metal(opts){
+  Material.prototype.constructor.call(this, opts);
+  
+  this.name = opts.name;
+}
+
+Metal.prototype.paint = function(){
+  console.log('A good old ' + this.name + ' found at ' + this.x + ', ' + this.y);
+  console.log('It is ' + this.radius + ' meters large');
+}
+```
+
+Como podéis ver, hemos realizado una llamada al constructor de material utilizando `.call`.
+
+`Function.prototype.call` permite invocar a una función pasándole el contexto de `this` como primer argumento y los parámetros a continuación. Funciona como `Function.prototype.apply` salvo que esta última recibe los parámetros como un `Array`. 
+
+¿Qué significa que recibe el contexto? Significa que dentro de la función invocada se acceda al objeto `this` se estará accediendo al objeto pasado como primer parámetro en la función `.call`.
+
+De esta manera estamos consiguiendo que todas las variables que setea el constructor de `Material` se asignen a `Metal`.
+
+
+```javascript
+var can = new Metal({
+  density : 0.40,
+  color : 'grey',
+  conductivity : 10,
+  x : 40,
+  y : 40,
+  weight : 1,
+  name : 'can of beans'
+});
+
+var sword = new Metal({
+  density : 0.80,
+  color : 'light grey',
+  conductivity : 9,
+  x : 45,
+  y : 45,
+  weight : 10,
+  name : 'sword'
+});
+
+can.paint();
+//=> A good old can of beans found at 40, 40
+//=> It is 0.4 meters large
+sword.paint();
+//=> A good old sword found at 45, 45
+//=> It is 8 meters large
+```
+
+Aunque ya véis que puede llegar a ser un poco tedioso tener que pasar todos los valores cada vez que se crea una nueva instancia. Pero entiendo que para cada necesidad tengamos que utilizar la herramienta apropiada.
+
+Volviendo a nuestros ejemplos anteriores, esta sería **la represenctación de la clase cuadrado usando prototype**
 
 ```javascript
 function Square(x, y, width){
@@ -214,6 +346,7 @@ var square = new Square(100, 100, 300);
 function render(){
   square.render(context);
 }
+
 render();
 ```
 
