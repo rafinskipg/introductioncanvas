@@ -352,7 +352,7 @@ render();
 
 **¿Queda más elegante, verdad?** Sigamos trabajando así.
 
-Veamos como añadiriamos una función de rotación mediante OOP.
+Veamos como añadiríamos una función de rotación mediante el uso de OOP.
 
 Lo primero será añadir una nueva propiedad que indique el ángulo de rotación del cuadrado.
 
@@ -379,12 +379,16 @@ Y utilizaremos ese ángulo en el renderizado, **fijate en el uso de context.save
 
 ```javascript
 Square.prototype.render = function(context){
+  //Guardamos el contexto
   context.save();
 
+  //Pasamos el ángulo a radianes
   var radians = Utils.degreeToRadian(this.angle);
   
   //Ponemos el eje de coordenadas en el centro del cuadarado para rotar correctamente
   context.translate(this.x + this.width / 2, this.y + this.width / 2);
+
+  //Realizamos la rotación del contexto en radianes
   context.rotate(radians);
 
   //Dibuja un rectangulo azul con borde rojo
@@ -395,11 +399,12 @@ Square.prototype.render = function(context){
   context.fill();
   context.stroke();
   
+  //Restauramos el contexto
   context.restore();
 }
 ```
 
-Ahora podemos rotar el cuadrado usando nuestro nuevo y lujoso método:
+De esta manera, cualquier instancia del objeto `Square` expondrá un nuevo método rotate y podremos invocarlo como a continuación:
 
 ```javascript
 var canvas = document.getElementById('canvas');
@@ -420,7 +425,7 @@ render();
 
 ##Añadiendo lógica al loop
 
-Hemos alcanzado un punto en el que nuestra aplicación es fácil de escalar, de momento, hasta nuevos límites.
+Hemos alcanzado un punto en el que nuestra aplicación es más fácil de escalar, de momento, hasta nuevos límites.
 
 ___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, quizá sería necesario abstraerlo un poco más.___
 
