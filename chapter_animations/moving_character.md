@@ -17,7 +17,7 @@ html, body, canvas {
 }
 ```
 
-Creamos nuestro modelo de personale
+Creamos nuestro modelo de personaje
 
 
 ```javascript
