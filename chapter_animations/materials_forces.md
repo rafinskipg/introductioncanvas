@@ -293,3 +293,171 @@ function update(dt, context, canvas){
 Y así nuestros materiales empezarían a verse afectados por varias fuerzas
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_4.png)
+
+
+Echémosle un ojo al ejemplo completo:
+
+
+**BaseEntity.js**
+
+```javascript
+//BaseEntity.js
+function BaseEntity(opts) {
+  this.pos = opts.hasOwnProperty('pos') ? opts.pos : new Victor(0, 0);
+  this.speed = opts.hasOwnProperty('speed') ? opts.speed : new Victor(0, 0);
+  this.acceleration = opts.hasOwnProperty('acceleration') ? opts.acceleration : new Victor(0, 0);
+}
+
+BaseEntity.prototype.update = function(dt) {
+  //Añadimos la aceleración a la velocidad
+  this.speed.add(this.acceleration);
+
+  //Calculamos el diferencial de posición 
+  var posDt = this.speed.clone().multiply(new Victor(dt / 1000, dt / 1000));
+
+  //Añadimos el diferencial a la posición
+  this.pos = this.pos.add(posDt);
+
+  //Reseteamos la aceleración
+  this.acceleration.multiply(new Victor(0, 0));
+}
+
+BaseEntity.prototype.checkLimits = function(width, height) {
+  if (this.pos.x > width) {
+    this.pos.x = 0;
+  } else if (this.pos.x < 0) {
+    this.pos.x = width;
+  }
+
+  if (this.pos.y > height) {
+    this.pos.y = 0;
+  } else if (this.pos.y < 0) {
+    this.pos.y = height;
+  }
+}
+
+BaseEntity.prototype.applyForce = function(force) {
+  var acceleration = force.clone();
+  acceleration.divide(new Victor(this.mass, this.mass));
+  this.acceleration.add(acceleration);
+}
+```
+
+**Material.js**
+
+```javascript
+function Material(opts) {
+  BaseEntity.prototype.constructor.call(this, opts);
+
+  this.mass = opts.mass;
+  this.density = opts.density;
+  this.elasticity = opts.elasticity;
+  this.color = opts.color;
+  this.name = opts.name;
+}
+
+//Inherit all the methods
+Material.prototype = new BaseEntity({});
+
+//Reference the parent
+Material.prototype.parent = BaseEntity.prototype;
+
+//Render
+Material.prototype.render = function(context) {
+  var radius = this.mass / this.density;
+
+  context.save();
+  context.fillStyle = this.color;
+  context.beginPath();
+  context.arc(this.pos.x, this.pos.y, radius, 0, Math.PI * 2);
+  context.fill();
+  context.stroke();
+  context.restore();
+}
+
+//Update
+Material.prototype.update = function(dt) {
+  this.parent.update.call(this, dt);
+};
+
+//Check limits
+Material.prototype.checkLimits = function(width, height) {
+  var bounceValue = -1 * this.elasticity;
+  var reverse = new Victor(bounceValue, bounceValue);
+
+  if (this.pos.x > width || this.pos.x < 0) {
+    this.speed.multiplyX(reverse);
+  }
+
+  if (this.pos.y > height || this.pos.y < 0) {
+    this.speed.multiplyY(reverse);
+  }
+}
+```
+
+**app.js**
+
+```javascript
+var canvas = document.getElementById('canvas');
+var particles = [];
+var gravity = new Victor(0, 0.9);
+var wind = new Victor(0.4, 0);
+var width, height;
+
+function start(context, canvas) {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+
+  var metal = new Material({
+    mass: Utils.randomInteger(5, 10),
+    pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
+    color: 'grey',
+    name: 'metal',
+    density: 1,
+    elasticity: 0.9
+  });
+
+  var wood = new Material({
+    mass: Utils.randomInteger(5, 10),
+    pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
+    color: 'brown',
+    name: 'wood',
+    density: 0.7,
+    elasticity: 0.7
+  });
+
+  var cotton = new Material({
+    mass: Utils.randomInteger(5, 10),
+    pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
+    color: 'white',
+    name: 'cotton',
+    density: 0.1,
+    elasticity: 0.6
+  });
+
+  particles.push(metal);
+  particles.push(wood);
+  particles.push(cotton);
+}
+
+function update(dt, context, canvas) {
+  for (var i = 0; i < particles.length; i++) {
+    particles[i].applyForce(wind);
+    particles[i].applyForce(gravity);
+    particles[i].update(dt);
+    particles[i].checkLimits(width, height);
+  }
+}
+
+function render(context) {
+  for (var i = 0; i < particles.length; i++) {
+    particles[i].render(context);
+  }
+}
+
+var myEngine = new Engine(canvas);
+myEngine.addStartCallback(start);
+myEngine.addUpdateCallback(update);
+myEngine.addRenderCallback(render);
+myEngine.start();
+```
