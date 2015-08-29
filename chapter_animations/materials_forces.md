@@ -303,6 +303,26 @@ Y así nuestros materiales empezarían a verse afectados por varias fuerzas
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_4.png)
 
+**¿Qué tal si añadimos algo de texto para identificar los distintos materiales?**
+
+Podemos utilizar el método `fillText` del contexto para añadir texto:
+
+```javascript
+context.fillStyle = 'black';
+context.font = '12px Georgia';
+context.fillText(this.name, this.pos.x, this.pos.y);
+```
+
+Aunque los textos quedan mejor si están centrados, para poder calcular la longitud del texto en píxeles podemos utilizar `measureText` que devuelve las dimensiones de altura y anchura de un texto.
+
+```javascript
+var lineWidth = context.measureText(this.name).width;
+context.fillText(this.name, this.pos.x - lineWidth / 2, this.pos.y - radius - 10);
+```
+
+Quedando así: 
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_4.png)
 
 Echémosle un ojo al ejemplo completo:
 
@@ -381,6 +401,12 @@ Material.prototype.render = function(context) {
   context.arc(this.pos.x, this.pos.y, radius, 0, Math.PI * 2);
   context.fill();
   context.stroke();
+
+  context.fillStyle = 'black';
+  context.font = '12px Georgia';
+  var lineWidth = context.measureText(this.name).width;
+  context.fillText(this.name, this.pos.x - lineWidth / 2, this.pos.y - radius - 10);
+
   context.restore();
 }
 

@@ -61,5 +61,4 @@ var myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
-myEngine.trails();
 myEngine.start();

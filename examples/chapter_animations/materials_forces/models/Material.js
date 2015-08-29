@@ -24,6 +24,12 @@ Material.prototype.render = function(context) {
   context.arc(this.pos.x, this.pos.y, radius, 0, Math.PI * 2);
   context.fill();
   context.stroke();
+
+  context.fillStyle = 'black';
+  context.font = '12px Georgia';
+  var lineWidth = context.measureText(this.name).width;
+  context.fillText(this.name, this.pos.x - lineWidth / 2, this.pos.y - radius - 10);
+
   context.restore();
 }
 
