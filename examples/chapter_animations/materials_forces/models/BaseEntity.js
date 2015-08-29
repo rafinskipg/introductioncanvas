@@ -3,8 +3,6 @@ function BaseEntity(opts){
   this.pos = opts.hasOwnProperty('pos') ? opts.pos : new Victor(0,0);
   this.speed = opts.hasOwnProperty('speed') ? opts.speed : new Victor(0,0);
   this.acceleration = opts.hasOwnProperty('acceleration') ? opts.acceleration : new Victor(0,0);
-  //TODO use unitary value of speed 
-  this.angle = ots.hasOwnProperty('angle') ? opts.angle : false;
 }
 
 BaseEntity.prototype.update = function(dt){
@@ -14,11 +12,22 @@ BaseEntity.prototype.update = function(dt){
   //Calculamos el diferencial de posición 
   var posDt = this.speed.clone().multiply(new Victor(dt/1000, dt/1000));
 
-  if(this.angle !== false){
-    posDt.rotateDeg(this.angle);
+  //Añadimos el diferencial a la posición
+  this.pos = this.pos.add(posDt);
+}
+
+BaseEntity.prototype.checkLimits = function(width, height){
+  if(this.pos.x > width){
+    this.pos.x = 0;
+  }else if(this.pos.x < 0){
+    this.pos.x = width;
   }
 
-  this.pos = this.pos.add(posDt);
+  if(this.pos.y > height){
+    this.pos.y = 0;
+  }else if(this.pos.y < 0){
+    this.pos.y = height;
+  }
 }
 
 BaseEntity.prototype.applyForce = function(force){

@@ -1,91 +1,54 @@
 var canvas = document.getElementById('canvas');
-var particles = [], MAX_PARTICLES = 30;
-var addingParticle;
-var GRAVITY_CONSTANT = 1;
+var particles = [];
+var width, height;
 
 function start(context, canvas){
-  for(var i = 0; i < MAX_PARTICLES; i++){
-    var newParticle = new ParticleWithMass({
-      mass : Utils.randomInteger(5, 10),
-      x : Utils.randomInteger(0, canvas.width),
-      y : Utils.randomInteger(0, canvas.height)
-    });
+  width = canvas.width = window.innerWidth; 
+  height = canvas.height = window.innerHeight;
 
-    addParticle(newParticle);
-  }
-  addEventListeners();
-}
+  var metal = new Material({
+    mass : Utils.randomInteger(5, 10),
+    pos : new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
+    color : 'grey',
+    name : 'metal',
+    density : 1,
+    elasticity : 0.7
+  });
 
-function addParticle(particle){
-  particles.push(particle);
+  var wood = new Material({
+    mass : Utils.randomInteger(5, 10),
+    pos : new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
+    color : 'brown',
+    name : 'wood',
+    density : 0.7,
+    elasticity : 0.3
+  });
+
+  var cotton = new Material({
+    mass : Utils.randomInteger(5, 10),
+    pos : new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
+    color : 'white',
+    name : 'cotton',
+    density : 0.1,
+    elasticity : 0
+  });
+  
+  particles.push(metal);
+  particles.push(wood);
+  particles.push(cotton);
 }
 
 function update(dt, context, canvas){
-
-  particles.forEach(function(particle){
-    particle.calculateNewForce(particles, GRAVITY_CONSTANT, context);
-    return particle;
-  });
-
-  particles.forEach(function(particle){
-    particle.updateForce(particles, GRAVITY_CONSTANT, context);
-    return particle;
-  });
-
-  particles.forEach(function(particle){
-    particle.update(dt);
-    return particle;
-  });
-
-  if(addingParticle){
-    addingParticle.update(dt);
+  for(var i = 0; i < particles.length; i++){
+    particles[i].update();
+    particles[i].checkLimits(width, height);
   }
 }
 
 function render(context){
-  particles.forEach(function(particle){
-    particle.render(context);
-  });
-
-  if(addingParticle){
-    addingParticle.render(context);
+  for(var i = 0; i < particles.length; i++){
+    particles[i].render(context);
   }
-}
-
-function addEventListeners(){
-  canvas.addEventListener('mousedown', handleMouseDown, false);
-  canvas.addEventListener('mousemove', handleMouseMove, false);
-  canvas.addEventListener('mouseup', handleMouseUp, false);
-}
-
-function handleMouseDown(e){
-  var mouse = Utils.getMouseCoords(canvas, e);
-  
-  addingParticle = new ParticleWithMass({
-    x : mouse.x,
-    y : mouse.y,
-    mass : 1, 
-    autoIncrement : true
-  });
-}
-
-function handleMouseMove(e){
-  if(addingParticle){
-    var mouse = Utils.getMouseCoords(canvas, e);
-    addingParticle.pos.x = mouse.x;
-    addingParticle.pos.y = mouse.y;
-  }
-}
-
-function handleMouseUp(e){
-  var newParticle = new ParticleWithMass({
-    x : addingParticle.pos.x,
-    y : addingParticle.pos.y,
-    mass : addingParticle.mass
-  });
-
-  addParticle(newParticle);
-  addingParticle = null;
 }
 
 var myEngine = new Engine(canvas);
