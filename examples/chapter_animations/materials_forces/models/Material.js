@@ -1,4 +1,4 @@
-function Material(opts){
+function Material(opts) {
   BaseEntity.prototype.constructor.call(this, opts);
 
   this.mass = opts.mass;
@@ -15,7 +15,7 @@ Material.prototype = new BaseEntity({});
 Material.prototype.parent = BaseEntity.prototype;
 
 //Render
-Material.prototype.render = function(context){
+Material.prototype.render = function(context) {
   var radius = this.mass / this.density;
 
   context.save();
@@ -31,3 +31,17 @@ Material.prototype.render = function(context){
 Material.prototype.update = function(dt) {
   this.parent.update.call(this, dt);
 };
+
+//Check limits
+Material.prototype.checkLimits = function(width, height) {
+  var bounceValue = -1 * this.elasticity;
+  var reverse = new Victor(bounceValue, bounceValue);
+
+  if (this.pos.x > width || this.pos.x < 0) {
+    this.speed.multiplyX(reverse);
+  }
+
+  if (this.pos.y > height || this.pos.y < 0) {
+    this.speed.multiplyY(reverse);
+  }
+}

@@ -1,5 +1,7 @@
 var canvas = document.getElementById('canvas');
 var particles = [];
+var gravity = new Victor(0, 0.9);
+var wind = new Victor(0.4, 0);
 var width, height;
 
 function start(context, canvas){
@@ -12,7 +14,7 @@ function start(context, canvas){
     color : 'grey',
     name : 'metal',
     density : 1,
-    elasticity : 0.7
+    elasticity : 0.9
   });
 
   var wood = new Material({
@@ -21,7 +23,7 @@ function start(context, canvas){
     color : 'brown',
     name : 'wood',
     density : 0.7,
-    elasticity : 0.3
+    elasticity : 0.7 
   });
 
   var cotton = new Material({
@@ -30,7 +32,7 @@ function start(context, canvas){
     color : 'white',
     name : 'cotton',
     density : 0.1,
-    elasticity : 0
+    elasticity : 0.6
   });
   
   particles.push(metal);
@@ -40,7 +42,9 @@ function start(context, canvas){
 
 function update(dt, context, canvas){
   for(var i = 0; i < particles.length; i++){
-    particles[i].update();
+    particles[i].applyForce(wind);
+    particles[i].applyForce(gravity);
+    particles[i].update(dt);
     particles[i].checkLimits(width, height);
   }
 }
@@ -55,4 +59,5 @@ var myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
+myEngine.trails();
 myEngine.start();

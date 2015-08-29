@@ -32,17 +32,18 @@ Engine.prototype.getContext = function() {
 Engine.prototype.getCanvas = function() {
   return this.processing ? this.cacheCanvas : this.canvas;
 }
+
 Engine.prototype.render = function() {
   this.renderCbs.forEach(function(cb) {
     cb(this.getContext(), this.getCanvas());
   }.bind(this));
 
-  if(this.processing){
+  if (this.processing) {
     this.renderLoader();
   }
 };
 
-Engine.prototype.renderLoader = function(){
+Engine.prototype.renderLoader = function() {
   var percentage = this.currentIteration / this.processingIterations;
   var barWidth = 200;
   var completedWidth = percentage * 200;
@@ -51,7 +52,6 @@ Engine.prototype.renderLoader = function(){
   this.loaderContext.fillStyle = 'green';
   this.loaderContext.fillRect(canvas.width / 2 - barWidth / 2, canvas.height / 2, completedWidth, 20);
 }
-
 
 Engine.prototype.update = function(dt) {
   this.updateCbs.forEach(function(cb) {
@@ -126,6 +126,19 @@ Engine.prototype.setClearingMethod = function(cb) {
   this.clearingMethod = cb;
 }
 
+//Allows to create a bg with low opacity for debugging trails of objects
+Engine.prototype.trails = function() {
+
+  var clearWithTrails = function clear(context, canvas) {
+    context.globalAlpha = 0.3;
+    context.save();
+    context.fillStyle = "rgba(255, 255, 255, 0.10)";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+  };
+
+  this.setClearingMethod(clearWithTrails);
+}
+
 Engine.prototype.preprocess = function(times) {
   this.processing = true;
   this.processingIterations = times;
@@ -140,7 +153,7 @@ Engine.prototype.preprocess = function(times) {
   this.loaderCanvas.style.position = 'absolute';
   this.loaderCanvas.style.left = '0px';
   this.loaderCanvas.style.top = '0px';
-  
+
   //position absolute
   this.loaderCanvas.width = this.canvas.width;
   this.loaderCanvas.height = this.canvas.height;

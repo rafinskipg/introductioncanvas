@@ -39,6 +39,10 @@ function Material(opts){
   this.name = opts.name;
 }
 
+//Inherit all the methods
+Material.prototype = new BaseEntity({});
+
+//Identify the parent
 Material.prototype.parent = BaseEntity.prototype;
 
 //Render
@@ -73,7 +77,7 @@ function start(context, canvas){
     color : 'grey',
     name : 'metal',
     density : 1,
-    elasticity : 0.7
+    elasticity : 0.9
   });
 
   var wood = new Material({
@@ -82,7 +86,7 @@ function start(context, canvas){
     color : 'brown',
     name : 'wood',
     density : 0.7,
-    elasticity : 0.3
+    elasticity : 0.6
   });
 
   particles.push(metal);
@@ -91,7 +95,7 @@ function start(context, canvas){
 
 function update(dt, context, canvas){
   for(var i = 0; i < particles.length; i++){
-    particles[i].update();
+    particles[i].update(dt);
   }
 }
 
@@ -141,7 +145,7 @@ Ahora podemos actualizar la representación de nuestras partículas de materiale
 context.arc(this.pos.x, this.pos.y, radius, 0, Math.PI * 2);
 ```
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_1.png)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_2.png)
 
 Como podemos observar, el metal es más denso que la madera y si circunferencia es menor. Así mismo, si añadiesemos un nuevo material con una densidad muy baja, como el algodón, tendríamos un objeto mucho más grande pero con la misma masa.
 
@@ -149,23 +153,143 @@ Nuestros materiales aparecen con una velocidad inicial `0, 0` y no se ven afecta
 
 Debemos comprender primero, **¿qué es la fuerza?**.
 
-> La fuerza es el resultante de la masa de un objeto por su aceleración. F = m * A
+> La fuerza neta es igual a masa por aceleración. F = m * A
+ Sir Isaac Newton
 
 Todos los objetos del mundo estan sometidos a distintos tipos de fuerzas simultaneamente, la fuerza de la gravedad, la fuerza que ejerce el suelo contra el propio material, las fuerzas del viento, etc. Estas fuerzas modifican la aceleración de los objetos, a veces neutralizandose entre sí.
 
-Para que nuestros materiales puedan ser sometidos a múltiples fuerzas, añadiremos este método en nuestra entidad base: 
+Para que nuestros materiales puedan ser sometidos a múltiples fuerzas, añadiremos este método en nuestra entidad base, recuerda, aceleración es igual a la fuerza dividida por la masa:
 
 ```javascript
-BaseEntity.prototype.applyForce = function(force){
-  this.acceleration.add(force.clone());
+BaseEntity.prototype.applyForce = function(force) {
+  var acceleration = force.clone();
+  acceleration.divide(new Victor(this.mass, this.mass));
+  this.acceleration.add(acceleration);
 }
 ```
-Esto nos permitirá ejecutar sentencias como las siguientes:
 
-```javascript
-metal.applyForce(gravity);
-metal.applyForce(shotImpact);
-```
+Esto nos permitirá ejecutar sentencias como las siguientes:
 
 ## Añadiendo gravedad
 
+*El valor de la fuerza de la gravedad nos lo inventamos , ya que no estamos modelando el mundo tal y como es, si no una representación en la que las unidades son las que elijamos* : 
+
+```javascript
+
+var gravity = new Victor(0, 0.9);
+
+function update(dt, context, canvas){
+  for(var i = 0; i < particles.length; i++){
+    particles[i].applyForce(gravity);
+    particles[i].update(dt);
+  }
+}
+```
+
+Sin embargo, la aceleración no es un valor que deba incrementarse consecutivamente en cada ejecución, la aceleración que sufre un objeto por las fuerzas externas a la que es sometido es un valor fijo.
+Por lo tanto, en cada ejecución del método update deberemos resetear la aceleración del objeto.
+
+```javascript
+BaseEntity.prototype.update = function(dt) {
+  //Añadimos la aceleración a la velocidad
+  this.speed.add(this.acceleration);
+
+  //Calculamos el diferencial de posición 
+  var posDt = this.speed.clone().multiply(new Victor(dt / 1000, dt / 1000));
+
+  //Añadimos el diferencial a la posición
+  this.pos = this.pos.add(posDt);
+
+  //Reseteamos la aceleración
+  this.acceleration.multiply(new Victor(0, 0));
+}
+```
+
+Ya podemos ver nuestras párticulas de distintos materiales caer a una velocidad que se va incrementando a lo largo del tiempo gracias a la fuerza de la gravedad. Aunque estas desaparecen al salir del canvas, ¡que fastidio!.
+
+Hagamos un pequeño truco, añadiendo la siguiente función en `BaseEntity` e invocándola después del método update, evitaremos que las partículas se vayan muy lejos. Sencillamente, si una partícula sale de los límites del canvas, la devolvemos al borde opuesto.
+
+```javascript
+BaseEntity.prototype.checkLimits = function(width, height) {
+  if (this.pos.x > width) {
+    this.pos.x = 0;
+  } else if (this.pos.x < 0) {
+    this.pos.x = width;
+  }
+
+  if (this.pos.y > height) {
+    this.pos.y = 0;
+  } else if (this.pos.y < 0) {
+    this.pos.y = height;
+  }
+}
+```
+
+```javascript
+function update(dt, context, canvas){
+  for(var i = 0; i < particles.length; i++){
+    particles[i].applyForce(gravity);
+    particles[i].update(dt);
+    particles[i].checkLimits(width, height);
+  }
+}
+```
+
+
+## Rebotando
+
+Está bien eso de ver pelotas caer indefinidamente, pero quizá sea más divertido hacerlas rebotar. Vamos a sobreescribir la función `checkLimits` en la clase `Material`. En este caso lo que haremos es cambiar la dirección de la velocidad del objeto cuando llegue a un límite.
+
+```javascript
+//Check limits
+Material.prototype.checkLimits = function(width, height) {
+  var reverse = new Victor(-1, -1);
+  if (this.pos.x > width || this.pos.x < 0) {
+    this.speed.multiplyX(reverse);
+  }
+
+  if (this.pos.y > height || this.pos.y < 0) {
+    this.speed.multiplyY(reverse);
+  }
+}
+```
+
+Así de sencillo sería :)
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_3.png)
+
+Antes definimos en el objeto material una propiedad llamada `elasticity`, usemos esa propiedad para variar el factor de fuerza con el que rebotan los objetos.
+
+```javascript
+Material.prototype.checkLimits = function(width, height) {
+  var bounceValue = -1 * this.elasticity;
+  var reverse = new Victor(bounceValue, bounceValue);
+
+  if (this.pos.x > width || this.pos.x < 0) {
+    this.speed.multiplyX(reverse);
+  }
+
+  if (this.pos.y > height || this.pos.y < 0) {
+    this.speed.multiplyY(reverse);
+  }
+}
+```
+
+Si queremos además añadir algunas fuerzas que modifiquen la dirección horizontal de las pelotas, podemos probar añadiendo por ejemplo el viento:
+
+```javascript
+var wind = new Victor(0.4, 0);
+
+function update(dt, context, canvas){
+  for(var i = 0; i < particles.length; i++){
+    particles[i].applyForce(wind);
+    particles[i].applyForce(gravity);
+    particles[i].update(dt);
+    particles[i].checkLimits(width, height);
+  }
+}
+```
+
+Y así nuestros materiales empezarían a verse afectados por varias fuerzas
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_4.png)
