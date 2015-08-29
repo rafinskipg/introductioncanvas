@@ -321,8 +321,19 @@ Material.prototype.render = function(dt) {
 };
 
 //New method
-Material.prototype.render = function(context){
+Material.prototype.move = function(context){
   //Whatever
 }
 ```
 
+```javascript
+var bar = new Material({
+  color : 'red'
+});
+
+bar.render();
+//=> red
+//=> Extra line
+bar.destroy();
+//=> Destroyed!
+```
