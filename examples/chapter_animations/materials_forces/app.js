@@ -9,7 +9,7 @@ function start(context, canvas) {
   height = canvas.height = window.innerHeight;
 
   var metal = new Material({
-    mass: Utils.randomInteger(5, 10),
+    mass: Utils.randomInteger(5, 20),
     pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
     color: 'grey',
     name: 'metal',
@@ -18,7 +18,7 @@ function start(context, canvas) {
   });
 
   var wood = new Material({
-    mass: Utils.randomInteger(5, 10),
+    mass: Utils.randomInteger(5, 20),
     pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
     color: 'brown',
     name: 'wood',
@@ -27,7 +27,7 @@ function start(context, canvas) {
   });
 
   var cotton = new Material({
-    mass: Utils.randomInteger(5, 10),
+    mass: Utils.randomInteger(5, 20),
     pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
     color: 'white',
     name: 'cotton',
@@ -42,8 +42,10 @@ function start(context, canvas) {
 
 function update(dt, context, canvas) {
   for (var i = 0; i < particles.length; i++) {
+    var mass = particles[i].mass;
+    var particleGravityForce = gravity.clone().multiply(new Victor(mass, mass));
+    particles[i].applyForce(particleGravityForce);
     particles[i].applyForce(wind);
-    particles[i].applyForce(gravity);
     particles[i].update(dt);
     particles[i].checkLimits(width, height);
   }

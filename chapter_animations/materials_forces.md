@@ -170,9 +170,16 @@ BaseEntity.prototype.applyForce = function(force) {
 
 Esto nos permitirá ejecutar sentencias como las siguientes:
 
+```javascript
+particles[i].applyForce(gravity);
+particles[i].applyForce(wind);
+```
+
 ## Añadiendo gravedad
 
-*El valor de la fuerza de la gravedad nos lo inventamos , ya que no estamos modelando el mundo tal y como es, si no una representación en la que las unidades son las que elijamos* : 
+Definimos una constante que contenga el valor de la gravedad, pero a diferencia de otras fuerzas, la gravedad se calcula en base a la masa del objeto, ya que distintos cuerpos con distintas masas caen con la misma aceleración. Si usamos la implementación anterior de `applyForce` pasando solamente la constante de gravedad, esta fuerza se verá dividida por la masa del objeto y producirá distintas aceleraciones para distintas masas.
+
+Para ello, primero escalamos la gravedad según la masa de cada objeto:
 
 ```javascript
 
@@ -180,7 +187,9 @@ var gravity = new Victor(0, 0.9);
 
 function update(dt, context, canvas){
   for(var i = 0; i < particles.length; i++){
-    particles[i].applyForce(gravity);
+    var mass = particles[i].mass;
+    var particleGravityForce = gravity.clone().multiply(new Victor(mass, mass));
+    particles[i].applyForce(particleGravityForce);
     particles[i].update(dt);
   }
 }
@@ -409,7 +418,7 @@ function start(context, canvas) {
   height = canvas.height = window.innerHeight;
 
   var metal = new Material({
-    mass: Utils.randomInteger(5, 10),
+    mass: Utils.randomInteger(5, 20),
     pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
     color: 'grey',
     name: 'metal',
@@ -418,7 +427,7 @@ function start(context, canvas) {
   });
 
   var wood = new Material({
-    mass: Utils.randomInteger(5, 10),
+    mass: Utils.randomInteger(5, 20),
     pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
     color: 'brown',
     name: 'wood',
@@ -427,7 +436,7 @@ function start(context, canvas) {
   });
 
   var cotton = new Material({
-    mass: Utils.randomInteger(5, 10),
+    mass: Utils.randomInteger(5, 20),
     pos: new Victor(Utils.randomInteger(0, width), Utils.randomInteger(0, height)),
     color: 'white',
     name: 'cotton',
@@ -442,8 +451,10 @@ function start(context, canvas) {
 
 function update(dt, context, canvas) {
   for (var i = 0; i < particles.length; i++) {
+    var mass = particles[i].mass;
+    var particleGravityForce = gravity.clone().multiply(new Victor(mass, mass));
+    particles[i].applyForce(particleGravityForce);
     particles[i].applyForce(wind);
-    particles[i].applyForce(gravity);
     particles[i].update(dt);
     particles[i].checkLimits(width, height);
   }
