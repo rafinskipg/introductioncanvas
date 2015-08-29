@@ -91,26 +91,40 @@ bar.applyForce(3); //=> 3
 ```
 
 
-De todas maneras la modificación del prototipo y la asignación de métodos sobre instancias es algo que deberíamos evitar por rendimiento, en contadas ocasiones nos será necesario utilizarlo.
+## Herencia de métodos
 
 Usando `prototype` podemos además implementar herencia de clases - crear clases que extienden de clases, reutilizando sus **métodos y propiedades** originales -, usando esta aproximación:
 
 *Clase padre*
 
 ```javascript
-  function Material(opts){
-    //Propiedades
-    this.density = opts.density;
-    this.color = opts.color;
-    this.conductivity = opts.conductivity;
-  }
+function Material(opts){
+  //Propiedades
+  this.density = opts.density;
+  this.color = opts.color;
+  this.conductivity = opts.conductivity;
+}
 
-  Material.prototype.paint = function(){
-    console.log('I am a ' + this.color + 'material ');
-  }
+Material.prototype.paint = function(){
+  console.log('I am a ' + this.color + 'material ');
+}
+
+Material.prototype.remove = function(){
+  console.log('Destroying!');
+}
 ```
 
-Imaginemos que queremos crear un nuevo material, y queremos reutilizar todos los métodos del prototipo de `Material`, una posible aproximación sería esta:
+Imaginemos que queremos crear un nuevo material, querremos reutilizar todos los métodos de la clase `Material`, para ello necesitaremos igualar el prototipo de la clase hijo a la del padre.
+
+Por ejemplo :
+
+```javascript
+function MiClaseHija(){}
+
+MiClaseHija.prototype = new MiClasePadre();
+```
+
+Trasladado al ejemplo anterior: 
 
 ```javascript
 //Instantiating a new material
@@ -135,7 +149,7 @@ Madera.prototype.paint = function(){
 
 ¿Pero que pasaría aquí con el cálculo del `radius`? Recordémoslo: `radius` está utilizando la opción `this.densitiy` que está definida en la clase padre `Material`. 
 
-Cuando asignamos el prototypo de `Madera` a una nueva instancia de `Material` estamos prefijando a la `Madera` con ciertas propiedades fijas e invariables entre todas las instancias de madera : `density`, `color` y `conductivity`. Esto no es un fiel reflejo del mundo real, ya que existen incontables tonos de color en las maderas, pero nos sirve como ejemplo de como prefijar unas características para una nueva clase.
+Cuando asignamos el `prototype` de `Madera` a una nueva instancia de `Material` estamos prefijando a la `Madera` con ciertas propiedades fijas entre todas las instancias de madera : `density`, `color` y `conductivity`. Esto no es un fiel reflejo del mundo real, ya que existen incontables tonos de color en las maderas, pero nos sirve como ejemplo de como prefijar unas características para una nueva clase.
 
 Así crearemos una nueva instancia de madera:
 
@@ -150,6 +164,8 @@ madera.paint();
 //=> 100 kg of brown-dark wood found at 10, 10
 //=> With a radius of 3
 ```
+
+## Reutilizar el constructor
 
 Si en cambio quisieramos que tanto la densidad, el color y la conductividad variase entre cada instancia de un nuevo material podríamos realizarlo de la siguiente manera:
 
@@ -166,7 +182,7 @@ Metal.prototype.paint = function(){
 }
 ```
 
-Como podéis ver, hemos realizado una llamada al constructor de material utilizando `.call`.
+Como podéis ver, hemos realizado una llamada al constructor de `Material` en el constructor de `Metal` utilizando `.call`.
 
 `Function.prototype.call` permite invocar a una función pasándole el contexto de `this` como primer argumento y los parámetros a continuación. Funciona como `Function.prototype.apply` salvo que esta última recibe los parámetros como un `Array`. 
 
@@ -204,7 +220,6 @@ sword.paint();
 //=> It is 8 meters large
 ```
 
-Aunque ya véis que puede llegar a ser un poco tedioso tener que pasar todos los valores cada vez que se crea una nueva instancia. Pero entiendo que para cada necesidad tengamos que utilizar la herramienta apropiada.
 
 ## Invocando a los métodos de la clase padre
 
@@ -259,3 +274,55 @@ bar.render();
 //=> I am a bar, with a grey color
 //=> My weight? : 10
 ```
+
+## Ejemplo completo
+
+El siguiente ejemplo:
+- Reutiliza el constructor de la clase padre
+- Puede invocar a sus métodos
+- Puede referenciar al padre
+- Puede declarar nuevos métodos
+
+### Clase padre
+
+```javascript
+function BaseEntity(opts){
+  this.color = opts.color;
+}
+
+BaseEntity.prototype.render = function(){
+  console.log(this.color);
+}
+
+BaseEntity.prototype.destroy = function(){
+  console.log('Destroyed');
+}
+```
+
+### Clase hija
+
+```javascript
+function Material(opts){
+  BaseEntity.prototype.constructor.call(this, opts);
+
+  this.name = opts.name;
+}
+
+//Inherit all the methods
+Material.prototype = new BaseEntity({});
+
+//Reference the parent
+Material.prototype.parent = BaseEntity.prototype;
+
+//Call parent method
+Material.prototype.render = function(dt) {
+  this.parent.render.call(this, dt);
+  console.log('Extra line');
+};
+
+//New method
+Material.prototype.render = function(context){
+  //Whatever
+}
+```
+
