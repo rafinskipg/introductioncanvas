@@ -322,7 +322,7 @@ context.fillText(this.name, this.pos.x - lineWidth / 2, this.pos.y - radius - 10
 
 Quedando así: 
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_4.png)
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/materials/materials_5.png)
 
 Echémosle un ojo al ejemplo completo:
 
