@@ -13,6 +13,7 @@ function start(){
   square = new Square(100, 100, 300);
 }
 
+
 var myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);

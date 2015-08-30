@@ -41,10 +41,15 @@ http://code.tutsplus.com/tutorials/html5-canvas-optimization-a-practical-example
 //Walkers, explicar varios canvas y composite-out operation
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
+
+//DOuble exposure
+http://stackoverflow.com/questions/28207232/draw-border-around-nontransparent-part-of-image-on-canvas
+
 //Perlin js
 https://github.com/josephg/noisejs
 http://stackoverflow.com/questions/8405526/javascript-simplex-perlin-noise
 http://www.somethinghitme.com/projects/canvasterrain/
+
 
 # Building tasks
 

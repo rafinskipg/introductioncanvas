@@ -1,10 +1,10 @@
 # Rectángulos
 
-Empezaremos con unos conceptos básicos de formas geométricas. _Si ya conoces lo básico de `canvas` puedes saltar directamente al capítulo 3 - Animaciones_
+Empezaremos con unos conceptos básicos de formas geométricas. _Si ya conoces lo básico de `canvas` puedes saltar directamente al capítulo 2 - Animaciones_
 
-Vamos a dibujar un cuadrado en el canvas y vamos a pintarlo de color rojo.
+En este capítulo vamos a dibujar un cuadrado en el canvas y además vamos a pintar sus bordes de color rojo.
 
-Para ello usaremos el método `rect` que permite la creación de un rectángulo pasandole sus coordenadas de inicio y su tamaño.
+Para ello usaremos el método `rect` que permite la creación de un rectángulo pasándole sus coordenadas de inicio y su tamaño.
 
 ```javascript
 context.rect(xInicial, yInicial, Anchura, Altura);

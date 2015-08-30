@@ -17,12 +17,21 @@ function render() {
   });
 }
 
+function duplicateWalkers(){
+  walkers.forEach(function(walker){
+    
+      walkers.push(new Walker({
+        x: walker.position.x,
+        y: walker.position.y
+      }));
+    })
+  setTimeout(duplicateWalkers, 1000);
+}
 function createWalker(){
   walkers.push(new Walker({
     x: window.innerWidth / 2,
     y: window.innerHeight / 2
   }));
-  setTimeout(createWalker, 5000);
 }
 
 function start() {
@@ -34,6 +43,7 @@ function start() {
   context3 = canvas3.getContext('2d');
 
   createWalker();
+  duplicateWalkers();
  
   context.drawImage(imgBg, 0, 0, canvas.width, canvas.height);
   context2.drawImage(imgTop, 0, 0, canvas2.width, canvas2.height);
