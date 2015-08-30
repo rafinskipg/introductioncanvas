@@ -35,9 +35,9 @@ function start(context, canvas) {
     elasticity: 0.6
   });
 
-  particles.push(metal);
-  particles.push(wood);
   particles.push(cotton);
+  particles.push(wood);
+  particles.push(metal);
 }
 
 function update(dt, context, canvas) {
