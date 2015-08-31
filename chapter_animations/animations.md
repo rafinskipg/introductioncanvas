@@ -186,14 +186,31 @@ La aplicación que orquesta el renderizado de ese cuadrado sería la siguiente:
 ```javascript
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
+var antes = Date.now();
 
+//Inicialización del cuadrado
 var square = new Square(100, 100, 300);
+
+function update(dt){
+  //TODO
+}
 
 function render(){
   square.render(context);
 }
 
-render();
+function loop(){
+  var ahora = Date.now();
+  var dt = ahora - antes;
+
+  update(dt);
+  render();
+
+  antes = ahora;
+  requestAnimationFrame(loop);
+}
+
+loop();
 ```
 
 Veamos como añadiríamos una función de rotación del cuadrado mediante el uso de OOP.
@@ -248,36 +265,63 @@ Square.prototype.render = function(context){
 }
 ```
 
-De esta manera, cualquier instancia del objeto `Square` expondrá un nuevo método rotate y podremos invocarlo como a continuación:
+De esta manera, cualquier instancia del objeto `Square` expondrá un nuevo método `rotate`, añadiremos entonces la invocación a ese método en el método `update` que es el encargado de realizar las actualizaciones de estados:
 
 ```javascript
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
+var antes = Date.now();
 
+//Inicialización del cuadrado
 var square = new Square(100, 100, 300);
 
-function render(){
+function update(dt){
   square.rotate(14);
+}
+
+function render()
   square.render(context);
 }
 
-render();
+function loop(){
+  var ahora = Date.now();
+  var dt = ahora - antes;
+
+  update(dt);
+  render();
+
+  antes = ahora;
+  requestAnimationFrame(loop);
+}
+
+loop();
 ```
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotated_oop_1.png)
 
 
-##Añadiendo lógica al loop
+### Dinamismo
 
-Hemos alcanzado un punto en el que nuestra aplicación es más fácil de escalar, de momento, hasta nuevos límites.
+Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación trabajando con los conceptos de **`loop`** y **`update`**.
 
-___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, sería recomendable abstraerlo un poco más.___
+Partiendo del último ejemplo que acabamos de ver, modificamos la clase `Square` que tenga un método `update` que se encargue de encapsular la lógica de actualización del cuadrado.
 
-Hagamos uso de nuestros nuevos conocimientos y creemos nuestra primera animación incluyendo el **`loop`** y **`update`**.
+```javascript
+Square.prototype.update = function(dt){
+  /*
+    Incrementamos el ángulo a lo largo del tiempo, multiplicando la velocidad
+    de rotación por el diferencial de tiempo
+  */
+  this.angle += this.speed * dt;
+}
+```
+
+En este caso hemos decidido incrementar el ángulo de rotación del cuadrado, para ello hemos multiplicado la *velocidad de rotación* del objeto por el *tiempo delta*.
+
+Finalmente, quedando nuestro código fuente de la siguiente manera:
 
 ### app.js
 
-Utilizando programación orientada a objetos, nuestro loop y la clase cuadrado, creamos el siguiente ejemplo:
 
 ```javascript
 var canvas = document.getElementById('canvas');
@@ -361,6 +405,8 @@ Square.prototype.render = function(context){
 
 ### Resultado
 
+¡Sí! El cuadrado se mueve, gira y gira hasta crear un círculo.
+
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_noclear.png)
 
 **¿Por qué se muestra así?**
@@ -431,6 +477,11 @@ Canviar las dimensiones del canvas produce un borrado de lo que este contiene. A
 
 ### Et voilà! Habemus animación
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/square_rotating_clear.png)
+
+Hemos alcanzado un punto en el que nuestra aplicación es más fácil de escalar, de momento, hasta nuevos límites.
+
+___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, sería recomendable abstraerlo un poco más.___
+
 
 # Ejercicio 1
 
