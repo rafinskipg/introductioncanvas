@@ -2,7 +2,7 @@
 
 Aprender a manejar animaciones nos permitirá exprimir todo el potencial de `canvas`, a partir de este punto del libro es donde las cosas se irán poniendo cada vez más interesantes.
 
-En esta sección veremos como utiliar un `loop` o bucle para aplicar movimiento a elementos pintados en un `canvas`. Para la representación de las entidades utilizaremos programación orientada a objetos (OOP) y herencia basada en `Prototype` de  JavaScript.
+En esta sección veremos como utiliar un `loop` o bucle para aplicar movimiento a elementos pintados en un `canvas`. Para la representación de las entidades utilizaremos programación orientada a objetos (OOP) y herencia prototipal.
 
 Los comienzos de la animación se remontan al año 1640, aunque su verdadera difusión comenzó en el siglo XIX cuando se descubrió el principio de persistencia de la visión. Este principio demuestra que el ojo humano es capaz de percibir un movimiento continuo a partir de una sucesión de imágenes si estas se reemplazan lo suficientemente rápido. De esta manera, y como si se tratase de una película, una animación en `canvas` se produce gracias a la transición de los frames en un periodo corto de tiempo.
 
@@ -56,7 +56,7 @@ function bucle(){
 }
 ```
 
-Si nuestro código fuese eficiente y se renderizase muy rápido este método funcionaría bien. Pero sucede que esto puede llevar a un problema muy común, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que la aplicación tenga tiempo de realizar todos los cálculos en 16 milisegundos pero en el otro dispositivo, más lento, le costará X milisegundos más calcular las nuevas posiciones de los elementos, borrar o pintar el canvas. Esta penalización en el tiempo de ejecución del bucle llevaría irremediablemente a una situación en la que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
+Si nuestro código fuese eficiente y se ejecutase muy rápido no habría problemas en utilizar `setTimeout`. Pero sucede que esto puede llevar a un problema muy común, no todos los dispositivos renderizan y calculan a la misma velocidad. Por poner un ejemplo, imaginemos dos dispositivos con una capacidad de procesamiento diferente, uno mucho más veloz que el otro. En el dispositivo veloz es posible que la aplicación tenga tiempo de realizar todos los cálculos en 16 milisegundos pero en el otro dispositivo, más lento, le costará X milisegundos más calcular las nuevas posiciones de los elementos, borrar o pintar el canvas. Esta penalización en el tiempo de ejecución del bucle llevaría irremediablemente a una situación en la que el dispositivo lento estaría acumulando memoria entre ejecución y ejecución del ciclo, hasta el punto en el que se produciría un estado de inestabilidad o ruptura de la aplicación.
 
 Afortunadamente, los navegadores modernos proveen de un mecanismo que nos permite saber cuando se han terminado de ejecutar todas las operaciones de un bucle. Este mecanismo es `requestAnimationFrame`.
 
@@ -99,7 +99,7 @@ Un ejemplo de cosas que podría llevar a cabo esta función:
 - Cambiar el color de fondo del canvas
 - ...
 
-Por poner un ejemplo, imaginemos una figura que se desplaza a una velocidad de 200. 
+Por poner un ejemplo, imaginemos una figura que se desplaza a una velocidad determinada a lo largo del tiempo.
 
 El siguiente ejemplo incrementa la posición del `personaje` en el eje X `200` píxeles por cada *frame*.
 
@@ -116,7 +116,24 @@ Para lidiar con ello, deberemos condicionar todas las actualizaciones al **tiemp
 
 El **tiempo delta** es la diferencia de tiempo entre el momento anterior de ejecución y el actual. Ayuda a realizar cálculos condicionados por el tiempo real que ha pasado entre el frame anterior y el actual. De esta manera podemos conseguir que un objeto realice un movimiento a la misma velocidad independientemente de la cantidad de frames que se sucedan en un segundo.
 
-Veamos un ejemplo:
+```javascript
+var antes = Date.now();
+
+function loop(){
+  var ahora = Date.now();
+  //dt => deltaTime => tiempo delta
+  var dt = ahora - antes;
+  update(dt);
+  clear();
+  render();
+
+  antes = ahora;
+
+  requestAnimationFrame(loop);
+}
+```
+
+Veamos un ejemplo;
 
 ```javascript
 function update(dt){
@@ -124,6 +141,14 @@ function update(dt){
   personaje.x = personaje.x + velocidad * dt;
 }
 ```
+
+El tiempo delta, en un dispositivo que renderize a `60FPS`, será una variable de un valor aproximado a `16.66`, lo que haría que el personaje aumentase su posición en `16.66 * 200`, `3332` píxeles, cada iteración. Para trabajar con unidades más cómodas dividimos el valor del tiempo delta por `1000`.
+
+```javascript
+update(dt/1000);
+```
+
+Así en cada ejecución del método update el personaje estará desplazandose en el eje x `200 * 0.01666`, `3.33` píxeles, completando en un segundo un desplazamiento de `200` píxeles.
 
 ## Renderizado
 

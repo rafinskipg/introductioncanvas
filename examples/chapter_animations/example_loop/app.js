@@ -4,15 +4,15 @@ var context = canvas.getContext('2d');
 var now = then = Date.now();
 var square = new Square(100, 100, 300);
 
-function update(dt){
+function update(dt) {
   square.update(dt);
 }
 
-function render(){
+function render() {
   square.render(context);
 }
 
-function clear(){
+function clear() {
   // Store the current transformation matrix
   context.save();
 
@@ -24,11 +24,11 @@ function clear(){
   context.restore();
 }
 
-function loop(){
+function loop() {
   now = Date.now();
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
   var dt = now - then;
-  
+
   update(dt);
   clear();
   render();
