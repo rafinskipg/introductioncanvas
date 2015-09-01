@@ -190,7 +190,7 @@ Engine.prototype.start = function(){
 
 Vamos a añadir ahora un par de cosas más que serán útiles. 
 
-##Definir un método de limpieza custom
+## Definir un método de limpieza custom
 
 ```javascript
 Engine.prototype.setClearingMethod = function(cb) {

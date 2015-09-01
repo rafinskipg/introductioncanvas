@@ -1,13 +1,11 @@
 function Point(x, y) {
   this.x = x;
   this.y = y;
-  this.speedX = 100;
-  this.speedY = 100;
+  this.speedX = 200;
 }
 
 Point.prototype.update = function(dt){
   this.x = this.x + ((this.speedX/1000) * dt);
-  this.y = this.y + ((this.speedY/1000) * dt);
 }
 
 Point.prototype.render = function(context) {

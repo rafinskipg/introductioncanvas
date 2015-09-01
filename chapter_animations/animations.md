@@ -110,6 +110,9 @@ function update(){
 }
 ```
 
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/velocity_circle_trail.png)
+
 Supongamos que disponemos de un dispositivo que es capaz de alcanzar `60` frames por segundo de renderizado (`60FPS`), este dispositivo desplazará el personaje más veces en un segudo que otro dispositivo que pueda renderizar menos *frames por segundo*. 
 
 Para lidiar con ello, deberemos condicionar todas las actualizaciones al **tiempo delta**.
@@ -149,6 +152,15 @@ update(dt/1000);
 ```
 
 Así en cada ejecución del método update el personaje estará desplazandose en el eje x `200 * 0.01666`, `3.33` píxeles, completando en un segundo un desplazamiento de `200` píxeles.
+
+El resultado es un movimiento mucho más fluido:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/velocity_circle_trail_dt.png)
+
+Más adelante veremos como crear párticulas con movimientos y apariencias más guays:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/particles_moving.png)
+
 
 ## Renderizado
 
@@ -498,7 +510,16 @@ context.restore();
 ````
 
 
-# Ejercicio 2
+**Ejercicio 2**
+
+Pinta un rectángulo en la posición `0, 0` y haz que su posición se incremente en cada ejecución del método update hasta llegar a `canvas.width, canvas.height`.
+
+**Ejercicio 3**
+
+Cuando el cuadrado llege a la posición `x === canvas.width` o `y === canvas.height` invierte el valor de la velocidad.
+
+
+# Ejercicio 4
 
 Crea 4 círculos, cada uno de un tamaño distinto, como los de la siguiente imagen:
 

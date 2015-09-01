@@ -13,7 +13,6 @@
     * [Texto](chapter_intro/text.md)
     * [Imágenes](chapter_intro/images.md)
     * [OOP](chapter_intro/oop.md)
-    * [Imágenes](chapter_intro/images.md)
 * [Animaciones](chapter_animations/README.md)
     * [Animaciones](chapter_animations/animations.md)
     * [Motor de renderizado](chapter_animations/engine.md)
