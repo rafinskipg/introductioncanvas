@@ -56,4 +56,23 @@ http://www.somethinghitme.com/projects/canvasterrain/
 TODO: 
   - Create a jsbeautify task that beautifies all the examples
   - JSHINT all the examples
-  - 
+
+
+//Dividir DT x 1000 en el engine.
+
+//en nitro y aceleración, añadir movimiento vertical y que cuando se pulse la tecla E se active el nitro.
+
+//Continuar en vectores, rediseñar el ejemplo anterior del personaje  con vectores.
+
+//En "Son eso proyectiles?" hacer que el muñeco dispare proyectiles
+
+//En "Sprites" hacer que el muñeco mueva los brazos al disparar proyectiles
+
+//En materials-forces, terminar con un ejericicio de hacer que el muñeco dispare balas de un material u otro y que estas reboten en la pared de enfrente.
+
+//En "Gravedad" terminar con la continuación del ejercicio del sidescroller, añadiendo una habilidad que hace que el personaje actue como una fuerza gravitica grande, atrayendo a todas las balas que ha lanzado. Y cambie el dibujo a un muñeco con los brazos levantados.
+Terminar con un ejercicio de hacer que aparezca una zona con shadow negra detras del personaje, creciente a la vez que su habilidad está activada
+
+
+
+

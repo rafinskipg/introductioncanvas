@@ -495,11 +495,11 @@ Hemos alcanzado un punto en el que nuestra aplicación es más fácil de escalar
 ___Para realizar animaciones / aplicaciones que solo tengan una pantalla tendriamos más que suficiente con esta estructuración. Si se tratase de un juego con niveles y fases, sería recomendable abstraerlo un poco más.___
 
 
-# Ejercicio 1
+**Ejercicio 1**
 
-Crea un circulo situado en `100, 100` que rote con respecto al punto `300, 300`.
+Crea un círculo situado en `100, 100` que rote con respecto al punto `300, 300`.
 
-## Ayuda
+*Ayuda*
 
 ````javascript
 //Translamos el origen de coordenadas para hacer una rotación
@@ -519,7 +519,7 @@ Pinta un rectángulo en la posición `0, 0` y haz que su posición se incremente
 Cuando el cuadrado llege a la posición `x === canvas.width` o `y === canvas.height` invierte el valor de la velocidad.
 
 
-# Ejercicio 4
+**Ejercicio 4**
 
 Crea 4 círculos, cada uno de un tamaño distinto, como los de la siguiente imagen:
 
@@ -532,9 +532,9 @@ Cada uno de los círculos tendrá las siguientes propiedades:
   - Color aleatorio
   - Radio aleatorio
 
-Todos los circulos rotarán con respecto al centro del canvas, pero desplazados la distancia indicada.
+Todos los círculos rotarán con respecto al centro del canvas, pero desplazados la distancia indicada.
 
-## Ayuda
+*Ayuda*
 
 Create una nueva clase llamada `Circle`.
 
