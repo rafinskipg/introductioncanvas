@@ -57,10 +57,38 @@ TODO:
   - Create a jsbeautify task that beautifies all the examples
   - JSHINT all the examples
 
+//Cambiar el metodo de actualizacion de fondos es demasiado complejo y feo
+```
+Scenario.prototype.update = function(dt) {
+  if (this.moving === true) {
+    var distance = this.speedX * dt;
 
-//Dividir DT x 1000 en el engine.
+    //Update position
+    for (var i = this.squares.length - 1; i >= 0; i--) {
+      var square = this.squares[i];
+      square.x = square.x + distance;
 
-//en nitro y aceleración, añadir movimiento vertical y que cuando se pulse la tecla E se active el nitro.
+      //Si el cuadrado sale del campo de vision lo reordenamos en el array
+      if (this.speedX < 0 && (square.x + square.width < 0)) {
+        var lastSquare = this.squares[this.squares.length - 1];
+        square.x = lastSquare.x + this.squaresWidth;
+        Utils.arraymove(this.squares, i, this.squares.length - 1);
+      } else if (this.speedX > 0 && (square.x > window.innerWidth)) {
+        var firstSquare = this.squares[0];
+        square.x = firstSquare.x - this.squaresWidth;
+        Utils.arraymove(this.squares, i, 0);
+      }
+    }
+
+  }
+};
+
+```
+
+
+//En nitro y acelearcion continuar ocn el ejemplo del coche
+
+//en nitro y aceleración, como  ejericico, añadir movimiento vertical al sidescroller y que cuando se pulse la tecla E se active el nitro.
 
 //Continuar en vectores, rediseñar el ejemplo anterior del personaje  con vectores.
 
@@ -69,6 +97,8 @@ TODO:
 //En "Sprites" hacer que el muñeco mueva los brazos al disparar proyectiles
 
 //En materials-forces, terminar con un ejericicio de hacer que el muñeco dispare balas de un material u otro y que estas reboten en la pared de enfrente.
+
+//En materials-forces hacer que el muñeco ande por el suelo y salte y caiga con la gravedad.
 
 //En "Gravedad" terminar con la continuación del ejercicio del sidescroller, añadiendo una habilidad que hace que el personaje actue como una fuerza gravitica grande, atrayendo a todas las balas que ha lanzado. Y cambie el dibujo a un muñeco con los brazos levantados.
 Terminar con un ejercicio de hacer que aparezca una zona con shadow negra detras del personaje, creciente a la vez que su habilidad está activada

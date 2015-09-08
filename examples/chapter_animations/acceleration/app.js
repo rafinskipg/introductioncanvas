@@ -1,36 +1,45 @@
 var canvas = document.getElementById('canvas');
-var rectangles = [];
-var MAX_RECTANGLES = 20;
-var globalAcc = 0.3;
+var img = new Image();
+var car;
 
 function update(dt){
-  rectangles = rectangles.map(function(rectangle){
-    rectangle.update(dt, globalAcc);
-    return rectangle;
-  })
+  car.update(dt);
 }
 
-function render(context){
-  rectangles.forEach(function(rectangle){
-    rectangle.render(context);
+function render(context, canvas){
+  context.moveTo(0, 500);
+  context.lineTo(canvas.width, 500);
+  context.stroke();
+  
+  //Turbo bar
+  context.lineWidth = 5;
+  context.rect(10, 10, 100, 50);
+  context.fillStyle = 'red';
+  context.fillRect(10, 10, 100, 50);
+  context.fillStyle = 'green';
+  context.fillRect(10, 10, 90, 50);
+  context.stroke();
+  car.render(context, canvas);
+}
+
+function start() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  car = new Car({
+    x: 100,
+    y: 450,
+    img : img
   });
-}
-
-function start(){
-  for(var i = 0; i < MAX_RECTANGLES; i++){
-    rectangles.push(new Rectangle({
-      x : Utils.randomInteger(0, canvas.width),
-      y : Utils.randomInteger(0, canvas.height),
-      width : Utils.randomInteger(5, 50),
-      height : Utils.randomInteger(5, 50),
-      speedX : Utils.randomInteger(-30, 30),
-      speedY : Utils.randomInteger(-30, 30),
-    }))
-  }
 }
 
 var myEngine = new Engine(canvas, false);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
-myEngine.start();
+
+//Preload the image
+img.src = 'images/car.png';
+img.onload = function() {
+  myEngine.start();
+};

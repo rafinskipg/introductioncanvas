@@ -1,14 +1,11 @@
-# Aceleración!
+# Nitro y aceleración.
 
+En este capítulo del libro vamos a ver como manejar el concepto de aceleración de elementos.
+
+Cuando hablamos de aceleración estamos refiriendonos a la modificación de la velocidad a lo largo del tiempo. Un objeto puede acelerar positivamente, aumentando su velocidad, o negativamente haciendo lo contrario.
 
 >Cuando un objeto se mantiene a una velocidad constante decimos que tiene una aceleración 0 o nula.
-Si queremos ser capaces de crear efectos como la gravedad, fricción, etc necesitaremos usar la aceleración.
-
-La aceleración es la modificación de la velocidad a lo largo del tiempo:
-
-```
-velocidad = velocidad + aceleracion;
-```
+Si queremos ser capaces de crear efectos como la gravedad, fricción, etc necesitaremos incorporar aceleración a nuestros objetos.
 
 Cuando una aceleración es positiva la velocidad total del objeto se irá incrementando a lo largo del tiempo, un ejemplo claro sería cuando un conductor pisa el acelerador del vehículo y este comienza a ir cada vez más rápido. 
 
@@ -28,6 +25,7 @@ Car.prototype.accelerate = function(){
 }
 ```
 
+//TODO poner imagen.
 Una aceleración negativa implicará una bajada en la velocidad del vehículo
 
 ```javascript
@@ -39,10 +37,6 @@ function Car(){
 Car.prototype.update = function(dt){
   this.speed = this.speed + this.acceleration;
   this.x = this.x + this.speed * dt;
-}
-
-Car.prototype.accelerate = function(){
-  this.acceleration = 0.10;
 }
 
 Car.prototype.break = function(){

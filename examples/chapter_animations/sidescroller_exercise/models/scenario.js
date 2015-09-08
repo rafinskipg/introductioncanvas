@@ -30,7 +30,7 @@ Scenario.prototype.update = function(dt) {
     var distance = this.speedX * dt;
 
     //Update position
-    for (var i = 0; i < this.squares.length; i++) {
+    for (var i = this.squares.length - 1; i >= 0; i--) {
       var square = this.squares[i];
       square.x = square.x + distance;
 
