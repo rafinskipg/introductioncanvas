@@ -21,6 +21,15 @@ Utils.randomFloat = function(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+Utils.limit = function(value, min, max){
+  if(value < min){
+    return min;
+  }else if(value > max){
+    return max;
+  }else{
+    return value;
+  }
+};
 
 //Calculates the bounce angle between a particle with a incidenceAngle and a wall with angleDest
 Utils.calculateBounceAngle = function(incidenceAngle, angleDest) {

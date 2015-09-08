@@ -30,7 +30,7 @@ function loop(){
   now = Date.now();
   var dt = now - then;
   
-  update(dt);
+  update(dt/1000);
   clear();
   render();
 
@@ -41,17 +41,17 @@ function loop(){
 loop();
 ```
 
-Simplemente con un vistazo podemos ver que la cántidad de código que aporta valor, más allá de simplemente crear un ambiente propicio para la animación, es realmente mínimo. Tan solo estamos utilizando `square.render`, `square.update` y una función de borrado, el resto del código solo está allí porque es necesario para poder llamar a `clear`, `update` y `render`. 
+La mayor parte del código son los endamiajes necesarios para invocar las funciones del bucle una y otra vez. Sin embargo, la lógica que indica que es lo que pinta la aplicación es relativamente pequeña.
 
-Podemos, y debemos, en ese caso abstraer esas funciones a una librería externa, creando nuestro primer motor de renderizado.
+Si vamos a realizar más ejercicios sería conveniente no tener que duplicar una y otra vez la función `loop`, para ello vamos a crear un pequeño _motor_ de renderizado que reutilizaremos de aquí en adelante.
 
 ## Requisitos
 
-Necesitaremos, para una primera versión, que nos permita hacer animaciones usando un sólo canvas:
-- Que acepte callbacks en cada una de las fases update/render
+Necesitaremos, para una primera versión, que este motor nos permita orquestar animaciones usando, al menos, un canvas. Será necesario:
+- Que permita definir métodos para cada una de las fases update/render
 - Que acepte uno o varios callback de inicialización
-- Que permita crear tanto dibujos animados como no animados.
-- Que tenga un método para disparar el renderizado.
+- Que permita crear tanto dibujos animados como no animados (sin llamadas recursivas a `loop`).
+- Que tenga un método para inicializarlo.
 
 En futuras mejoras podremos añadir:
 - Que acepte uno o varios callback de limpieza del canvas
@@ -59,6 +59,71 @@ En futuras mejoras podremos añadir:
 - Que se pueda indicar un tiempo de espera antes de que empiece la animacion
 - Que tenga un método de pausado/continuación de la animación
 - Que se pueda alterar un modificador de la variable `dt` en el método de `update` de tal manera que la velocidad de la animación cambie.
+
+Miremos el problema de arriba hacia abajo. Necesitamos inicializar un `Engine`. Para ello podríamos abordarlo de distintas maneras, seguramente se nos ocurran muchas ideas sobre como resolverlo, a continuación he expuesto algunas de ellas:
+
+**Opción A - Parámetros en el constructor**
+
+Permitimos pasar parámetros a un constructor, como el ID del elemento HTML canvas o las fases update/render.
+
+```javascript
+/*
+  function update(){
+    ...
+  }
+  function render(){
+    render
+  }
+ */
+var engine = new Engine({
+  canvasId :'canvas',
+  update : update,
+  render : render
+});
+
+engine.start();
+```
+
+**Opción B - Añadiendo callbacks**
+
+Permitimos añadir callbacks a las fases.
+
+```javascript
+/*
+  function update(){
+    ...
+  }
+  function render(){
+    render
+  }
+ */
+var engine = new Engine(canvas);
+engine.addUpdateCallback(update);
+engine.addRenderCallback(render);
+
+engine.start();
+```
+
+**Opción C - Sin instancia**
+
+```javascript
+/*
+  function update(){
+    ...
+  }
+  function render(){
+    render
+  }
+ */
+Engine.addUpdateCallback(update);
+Engine.addRenderCallback(render);
+
+Engine.start();
+```
+
+En mi opinión personal, me decanto por utilizar una instancia, ya que permite controlar el estado para cada instancia en vez de utilizar un objeto global. Además prefiero también el método de añadir callbacks en vez de pasarselos en el constructor, ya que permite arquitecturizar tus soluciones de otra manera más flexible, permitiendo suscribir en cualquier momento a un objeto nuevo al ciclo de actualización/renderizado.
+
+Podríamos, sin embargo, tomar una opción mixta. Inicializar el motor con unos valores por defecto y poder añadir más hooks a cada fase posteriormente.
 
 La forma en la que tendría que quedar una refactorización del código anterior  usando nuestro `Engine` podría ser así:
 
@@ -94,7 +159,7 @@ myEngine.start();
 
 ## Implementación
 
-A continuación queda recogido un ejemplo de una implementación de un engine de renderizado en canvas.
+Vamos a ver un ejemplo de como podríamos haber solventado este caso de uso.
 
 Esta implementación no es otra que la que ha emergido de la refactorización de varios de mis ejercicios con canvas. Podéis realizar la vuestra propia según se adapte a vuestras necesidades.
 
@@ -160,7 +225,7 @@ Engine.prototype.clear = function(){
 Engine.prototype.loop = function(){
   this.now = Date.now();
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
-  var dt = this.now - this.then;
+  var dt = (this.now - this.then) / 1000;
   
   this.update(dt);
   this.clear();
@@ -184,9 +249,21 @@ Engine.prototype.start = function(){
 }
 ```
 
-**De aquí en adelante, todos los ejemplos utilizarán `Engine` para orquestar el renderizado.** 
+_Si te has fijado, en las fases de `update` y `render ` se está utilizando `Array.prototype.forEach` junto con un `bind` al contexto del `Engine`, sin embargo este método no es el más eficiente. Sería más eficiente utilizar un clásico bucle `for`:_
 
->La decisión de crear este Engine, si bien es propia, es por agilidad a la hora de reescribir los ejercicios, evitando tener que utilizar el `loop` en cada ejemplo, añadiendo un poco de azúcar sintáctico. Pero la decisión final de utilizarlo depende en cada caso del lector, sin duda alguna. 
+```javascript
+Engine.prototype.update = function(dt){
+  var maxItems = this.updateCbs.length;
+  for(var i = 0; i < maxItems; i++){
+    this.updateCbs[i](dt, this.context, this.canvas);
+  }
+}
+```
+
+
+
+
+>De aquí en adelante **todos los ejemplos utilizarán `Engine` para orquestar el renderizado**. Sin embargo la decisión de crear este Engine es por agilidad a la hora de reescribir los ejercicios, evitando tener que utilizar el `loop` en cada ejemplo, añadiendo un poco de azúcar sintáctico. Pero la decisión final de utilizarlo depende en cada caso del lector, sin duda alguna. 
 
 Vamos a añadir ahora un par de cosas más que serán útiles. 
 
@@ -255,7 +332,7 @@ function Engine(canvas, loopable, maxIterations) {
 
 Engine.prototype.loop = function(){
   this.now = Date.now();
-  var dt = this.now - this.then;
+  var dt = (this.now - this.then) / 1000;
   
   this.update(dt);
   this.clear();
@@ -282,3 +359,4 @@ var myEngine = new Engine(canvas, true, 100);
 
 Como ya he comentado la decisión de utilizarlo, extenderlo, refactorizarlo y adaptarlo recae en tus manos. Si no estás conforme con la implementación del `Engine` eres libre de crear el tuyo propio o utilizar un bucle simple para orquestar los renderizados. Lo prioritario es que podamos optimizar el proceso para centrarnos en la parte realmente importante, la modificación de las entidades. :)
 
+Podrás obtener una versión más completa del `Engine` en la carpeta `lib` de ejercicios del libro.

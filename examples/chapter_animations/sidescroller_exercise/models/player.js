@@ -27,7 +27,7 @@ Player.prototype.move = function(dir) {
 Player.prototype.update = function(dt) {
   //Actualizamos la posicion en funcion de la velocidad
   if (this.moving === true) {
-    var distance = (this.speedX / 1000) * dt;
+    var distance = this.speedX * dt;
     this.x = this.x + distance;
   }
 };

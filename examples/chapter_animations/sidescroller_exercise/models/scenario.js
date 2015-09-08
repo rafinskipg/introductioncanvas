@@ -27,7 +27,7 @@ Scenario.prototype.initSquares = function(context) {
 
 Scenario.prototype.update = function(dt) {
   if (this.moving === true) {
-    var distance = (this.speedX / 1000) * dt;
+    var distance = this.speedX * dt;
 
     //Update position
     for (var i = 0; i < this.squares.length; i++) {

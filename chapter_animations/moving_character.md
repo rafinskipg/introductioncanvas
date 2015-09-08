@@ -94,7 +94,7 @@ Player.prototype.move = function(dir) {
 Player.prototype.update = function(dt) {
   //Actualizamos la posicion en funcion de la velocidad
   if (this.moving === true) {
-    var distance = (this.speedX / 1000) * dt;
+    var distance = this.speedX * dt;
     this.x = this.x + distance;
   }
 };
@@ -248,7 +248,7 @@ En cada ejecución del método `update` actualizaremos la posición de los fondo
 ```javascript
 Scenario.prototype.update = function(dt){
   if(this.moving === true){
-    var distance = (this.speedX / 1000) * dt;
+    var distance = this.speedX * dt;
 
     //Actualizamos la posición
     for(var i = 0 ; i < this.squares.length; i++){
@@ -328,7 +328,7 @@ Scenario.prototype.initSquares = function() {
 
 Scenario.prototype.update = function(dt) {
   if (this.moving === true) {
-    var distance = (this.speedX / 1000) * dt;
+    var distance = this.speedX * dt;
 
     //Update position
     for (var i = 0; i < this.squares.length; i++) {

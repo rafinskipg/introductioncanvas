@@ -34,9 +34,11 @@ Engine.prototype.getCanvas = function() {
 }
 
 Engine.prototype.render = function() {
-  this.renderCbs.forEach(function(cb) {
-    cb(this.getContext(), this.getCanvas());
-  }.bind(this));
+
+  var maxItems = this.renderCbs.length;
+  for (var i = 0; i < maxItems; i++) {
+    this.renderCbs[i](this.getContext(), this.getCanvas());
+  }
 
   if (this.processing) {
     this.renderLoader();
@@ -54,9 +56,11 @@ Engine.prototype.renderLoader = function() {
 }
 
 Engine.prototype.update = function(dt) {
-  this.updateCbs.forEach(function(cb) {
-    cb(dt, this.getContext(), this.getCanvas())
-  }.bind(this));
+
+  var maxItems = this.updateCbs.length;
+  for (var i = 0; i < maxItems; i++) {
+    this.updateCbs[i](dt, this.getContext(), this.getCanvas());
+  }
 
   if (this.processing && this.currentIteration >= this.processingIterations) {
     this.endProcessing();
@@ -83,20 +87,13 @@ Engine.prototype.clear = function() {
 Engine.prototype.loop = function() {
   this.now = Date.now();
   //Calcula el diferencial de tiempo entre esta ejecución y la anterior
-  var dt = this.now - this.then;
-
-  dt = dt ? dt : 16;
-
-  //Evita que si cambiamos de pestaña recibamos un valor muy grande en delta
-  if (dt > 100) {
-    dt = 100;
-  }
+  var dt = Utils.limit(this.now - this.then, 1, 100);
 
   this.clock += dt;
 
   if (this.clock >= this.startDelay) {
     this.clear();
-    this.update(dt);
+    this.update(dt / 1000);
     this.render();
     this.currentIteration++;
   }
@@ -112,7 +109,7 @@ Engine.prototype.loop = function() {
 Engine.prototype.start = function() {
   //Restart the loop variable
   this.then = Date.now();
-  
+
   this.startCbs.forEach(function(cb) {
     cb(this.context, this.canvas)
   }.bind(this));
