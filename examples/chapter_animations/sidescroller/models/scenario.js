@@ -39,7 +39,6 @@ Scenario.prototype.update = function(dt) {
         square.x = lastSquare.x + this.squaresWidth;
         Utils.arraymove(this.squares, i, this.squares.length - 1);
       } else if (this.speedX > 0 && (square.x > window.innerWidth)) {
-        console.log('next', i, square.x);
         var firstSquare = this.squares[0];
         square.x = firstSquare.x - this.squaresWidth;
         Utils.arraymove(this.squares, i, 0);
