@@ -86,8 +86,6 @@ Scenario.prototype.update = function(dt) {
 ```
 
 
-//En nitro y acelearcion continuar ocn el ejemplo del coche
-
 //en nitro y aceleración, como  ejericico, añadir movimiento vertical al sidescroller y que cuando se pulse la tecla E se active el nitro.
 
 //Continuar en vectores, rediseñar el ejemplo anterior del personaje  con vectores.

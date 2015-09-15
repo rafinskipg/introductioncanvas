@@ -10,7 +10,7 @@ BaseEntity.prototype.update = function(dt) {
   this.speed.add(this.acceleration);
 
   //Calculamos el diferencial de posición 
-  var posDt = this.speed.clone().multiply(new Victor(dt / 1000, dt / 1000));
+  var posDt = this.speed.clone().multiply(new Victor(dt, dt));
 
   //Añadimos el diferencial a la posición
   this.pos = this.pos.add(posDt);

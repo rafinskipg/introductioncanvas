@@ -80,5 +80,3 @@ Esto descargará todas las dependencias en nuestra carpeta `bower_components` .
 Ya tenemos un entorno de trabajo un poco más actualizado, que nos va a permitir utilizar librerías de una forma más comoda.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/various/bowerjs.png)
-
-__Continuemos__
