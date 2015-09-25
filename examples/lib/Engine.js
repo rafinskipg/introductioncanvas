@@ -92,8 +92,8 @@ Engine.prototype.loop = function() {
   this.clock += dt;
 
   if (this.clock >= this.startDelay) {
-    this.clear();
     this.update(dt / 1000);
+    this.clear();
     this.render();
     this.currentIteration++;
   }

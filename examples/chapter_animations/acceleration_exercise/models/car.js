@@ -24,7 +24,7 @@ Car.prototype.resetAcceleration = function() {
 }
 
 Car.prototype.clear = function(context, canvas){
-  context.clearRect(this.x, this.y, 100, 50);
+  context.clearRect(this.x - 100, this.y, 200, 50);
 }
 
 Car.prototype.checkLimits = function(maxWidth) {

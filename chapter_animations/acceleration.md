@@ -292,7 +292,7 @@ Delegamos la responsabilidad de borrarse al coche:
 
 ```javascript
 Car.prototype.clear = function(context, canvas){
-  context.clearRect(this.x, this.y, 100, 50);
+  context.clearRect(this.x - 100, this.y, 200, 50);
 }
 ```
 
