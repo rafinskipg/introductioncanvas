@@ -1,12 +1,11 @@
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
+
 var images = {
   hero: 'images/character.png',
   bg: 'images/background.png',
   enemy: 'images/enemy.png'
 };
-
-var loadedResources = [];
 
 function render() {
   var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
@@ -26,29 +25,28 @@ function render() {
 
 }
 
+function loadImage(img){
+  return new Promise(function(resolve, reject){
+    img.onload = function() {
+      resolve();
+    };
+
+    img.onerror = function() {
+      reject('Not loaded');
+    };
+  });
+}
+
 function preload() {
-  Object.keys(images).forEach(function(imgName) {
-
-    var deferred = new Promise(function(resolve, reject) {
-      var img = new Image();
-      img.src = images[imgName];
-      images[imgName] = img;
-
-      img.onload = function() {
-        resolve(imgName);
-      };
-
-      img.onerror = function() {
-        reject('Not loaded' + imgName);
-      };
-    });
-
-    loadedResources.push(deferred);
+  var promises = Object.keys(images).map(function(imgName) {
+    var img = new Image();
+    img.src = images[imgName];
+    images[imgName] = img;
+    return loadImage(img);
   });
 
-  Promise.all(loadedResources).then(function(arrayOfResults) {
-    render();
-  });
+  Promise.all(promises)
+  .then(render);
 }
 
 preload();

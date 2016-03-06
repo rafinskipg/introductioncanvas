@@ -1,6 +1,12 @@
 # Imágenes
 
-Supongamos que tenemos esta estructura:
+En esta sección vamos a ver unos breves ejemplos de como cargar imágenes y redimensionarlas.
+
+Para ello utilizareos el método `context.drawImage()` que permite renderizar una imagen en unas coordenadas y reescalarla.
+
+`context.drawImage(imagen, coordenadaX, coordenadaY, anchuraFinal, alturaFinal);`
+
+Pongamos como punto de partida esta estructura de archivos que podéis emular utilizando las imágenes que deseéis:
 
 ```
 .
@@ -24,17 +30,18 @@ y `enemy.png` es :
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/images/enemy.png)
 
-Para pintar imágenes utilizaremos el método `context.drawImage()`, que permite pintar una imagen en unas coordenadas y reescalarla.
-
-`context.drawImage(imagen, coordenadaX, coordenadaY, anchuraFinal, alturaFinal);`
 
 ## Cargando imágenes
 
-Una de las características a tener en cuenta al dibujar imágenes es que esas imagenes han tenido que ser cargadas previamente, esto quiere decir que o bien se han cargado en una etiqueta `img` en el HTML o se han cargado programáticamente.
+Una de las precondiciones del dibujo de imágenes es haberlas precargado en la página. Podemos hacer esto bien creando una etiqueta `img` o cargándolas programáticamente.
 
-**Cargando imágenes en el documento:**
+### Cargando imágenes en el DOM:
 
-Para usar imágenes cargadas en el HTML es necesario asignarles un `ID` y un estilo `display:none` para que no aparezcan al renderizar la página.
+Una manera sencilla de poder pintar imágenes en un canvas es haberlas cargado previamente mediante el uso de una etiqueta `img`, hay muchas maneras de poder obtener el contenido de esa etiqueta usando usando selectores; la manera más sencilla es asignar un `id` a la etiqueta `img` y referenciarla utilizando `document.getElementById`.
+
+Invariablemente de la aproximación que se utilice para obtener la referencia a la etiqueta será necesario hacer que esas imágenes esten ocultas para que no aparezcan al lado de nuestra etiqueta `canvas`.
+
+Por ejemplo:
 
 ```html
 <img id="character" src="/images/character.png" style="display:none;"/>
@@ -46,7 +53,8 @@ var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
 function render() {
-  var img = document.getElementById("character");
+  //Obtenemos la referencia a la imagen
+  var img = document.getElementById('character');
   //Pintamos la imagen con su tamaño original en la coordenada 10, 10
   context.drawImage(img, 10, 10);
 }
@@ -55,15 +63,15 @@ render();
 ```
 
 
-**Cargando imágenes programáticamente**
+### Cargando imágenes programáticamente
 
 La carga de imágenes bajo demanda es posiblemente la más adecuada para ejercicios complejos.
 
-Para ello utilizaremos una nueva instancia de `Image` y esperaremos a que se dispare su callback `onload`.
+Para ello utilizaremos una nueva instancia de `Image`, le asignaremos una ruta de origen y esperaremos a que se dispare el callback `onload` una vez que esa imagen se haya cargado.
 
 ```javascript
 var img = new Image();
-img.src = 'rutaImage.png';
+img.src = '/img/myImage.png';
 img.onload = function(){
     //Do work
 }
@@ -92,9 +100,10 @@ function loadImages(){
 loadImages();
 ```
 
-## Precargando varias imágenes
+#### Precargando varias imágenes a la vez 
 
-Veamos como pre-cargar todas las imágenes antes de ejecutar el método `render`. 
+Lo más común es que necesitemos pre-cargar varias imágenes para hacer cualquier tipo de animación. Veamos como pre-cargar todas las imágenes antes de ejecutar el método `render`. 
+
 ```javascript
 var images = {
   hero: 'images/character.png',
@@ -106,6 +115,7 @@ var images = {
 function preload() {
   Object.keys(images).forEach(function(imgName) {
     var img = new Image(images[imgName]);
+    //Guardamos la referencia para acceder a ella posteriormente
     images[imgName] = img;
   });
 }
@@ -113,8 +123,11 @@ function preload() {
 preload();
 ```
 
-Necesitaremos detectar cuando se han cargado todos los recursos necesarios para el renderizado. Para ello podriamos implementar distintos mecanismos utilizando el método `onload`, una solución elegante sería utilizar `promesas`. 
+Necesitaremos detectar cuando se han cargado todos los recursos necesarios para el renderizado. Para ello podemos implementar distintos mecanismos utilizando el método `onload`, podríamos plantear una solución a la carga asíncrona paralela mediante el uso de `promesas`. 
+
 _Para más información acerca de como utilizar la nueva API de `Promise` de `EcmaScript6` puedes dirigirte a este artículo de HTML5Rocks `http://www.html5rocks.com/en/tutorials/es6/promises/`._
+
+Ejemplo de carga paralela con `Promise.all`:
 
 ```javascript
 var images = {
@@ -123,29 +136,28 @@ var images = {
   enemy: 'images/enemy.png'
 };
 
-var loadedResources = [];
+function loadImage(img){
+  return new Promise(function(resolve, reject){
+    img.onload = function() {
+      resolve();
+    };
+
+    img.onerror = function() {
+      reject('Not loaded');
+    };
+  });
+}
 
 function preload() {
-  Object.keys(images).forEach(function(imgName) {
-
-    var deferred = new Promise(function(resolve, reject) {
-      var img = new Image();
-      img.src = images[imgName];
-      images[imgName] = img;
-
-      img.onload = function() {
-        resolve(imgName);
-      };
-
-      img.onerror = function() {
-        reject('Not loaded' + imgName);
-      };
-    });
-
-    loadedResources.push(deferred);
+  var promises = Object.keys(images).map(function(imgName) {
+    var img = new Image();
+    img.src = images[imgName];
+    //Guardamos la referencia para acceder a ella posteriormente
+    images[imgName] = img;
+    return loadImage(img);
   });
 
-  Promise.all(loadedResources).then(function() {
+  Promise.all(promises).then(function() {
     alert('Cargado!');
   });
 }
@@ -153,24 +165,13 @@ function preload() {
 preload();
 ```
 
-En el capítulo de animaciones refactorizaremos el ejemplo anterior para crear nuestro propio `Loader`.
+En el capítulo de animaciones veremos como utiliar el ejemplo anterior en nuestro propio `Loader`.
 
-## Poniendo todo junto.
+## Juntando las piezas.
 
-Para empezar, crearemos un fondo un poco más atractivo
+Una vez hemos cargado nuestras imágenes, tan solo tenemos que lidiar con la sencilla implementación de `context.drawImage`.
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/images/background_gradient.png)
-
-
-```javascript
-var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-gradient.addColorStop(0, "rgb(97, 43, 119)");
-gradient.addColorStop(1, "rgb(97, 46, 63)");
-context.fillStyle = gradient;
-context.fillRect(0, 0, canvas.width, canvas.height);
-```
-
-Posteriormente pintamos cada una de las imágenes sobre el canvas:
+Para ello basta con tomar cada una de las referencias a las imágenes y posicionarlas en unas coordenadas del canvas.
 
 ```javascript
 //Dibujamos el fondo
@@ -183,7 +184,75 @@ context.drawImage(images.hero, 10, 10);
 context.drawImage(images.enemy, canvas.width - 150, 200);
 ```
 
+Además hemos pintado previamente el fondo del canvas para que quede más resultón:
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/images/background_gradient.png)
+
+
+```javascript
+var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+gradient.addColorStop(0, "rgb(97, 43, 119)");
+gradient.addColorStop(1, "rgb(97, 46, 63)");
+context.fillStyle = gradient;
+context.fillRect(0, 0, canvas.width, canvas.height);
+```
+
 
 Y este sería el resultado :), en capítulos posteriores continuaremos animando nuestras entidades y manejando `Sprites` de imágenes.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/images/result.png)
+
+```javascript
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+var images = {
+  hero: 'images/character.png',
+  bg: 'images/background.png',
+  enemy: 'images/enemy.png'
+};
+
+function render() {
+  var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(0, "rgb(97, 43, 119)");
+  gradient.addColorStop(1, "rgb(97, 46, 63)");
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  //Dibujamos el fondo
+  context.drawImage(images.bg, 0, 0);
+
+  //Dibujamos el héroe en la posición 10, 10
+  context.drawImage(images.hero, 10, 10);
+
+  //Dibujamos el enemigo en la posición canvas.width - 150, 200
+  context.drawImage(images.enemy, canvas.width - 150, 200);
+
+}
+
+function loadImage(img){
+  return new Promise(function(resolve, reject){
+    img.onload = function() {
+      resolve();
+    };
+
+    img.onerror = function() {
+      reject('Not loaded');
+    };
+  });
+}
+
+function preload() {
+  var promises = Object.keys(images).map(function(imgName) {
+    var img = new Image();
+    img.src = images[imgName];
+    images[imgName] = img;
+    return loadImage(img);
+  });
+
+  Promise.all(promises)
+  .then(render);
+}
+
+preload();
+```
