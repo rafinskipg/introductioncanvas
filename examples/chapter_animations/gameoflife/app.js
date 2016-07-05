@@ -2,7 +2,7 @@ var canvas = document.getElementById('canvas');
 var grid, CELL_SIZE = 10, cords = [], dragging = false;
 
 function update(dt){
-  grid.update(dt);
+  grid.update(dt * 1000);
 }
 
 function render(context){
@@ -10,7 +10,7 @@ function render(context){
 }
 
 function start(){
-  grid = new Grid(canvas.width, canvas.height, CELL_SIZE);
+  grid = new Grid(canvas.width, canvas.height, CELL_SIZE, 10000);
   grid.tick();
   addEventListeners();
 }

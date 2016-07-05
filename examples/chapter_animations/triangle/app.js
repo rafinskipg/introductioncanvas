@@ -2,7 +2,7 @@ var canvas = document.getElementById('canvas');
 var birdy;
 
 function update(dt){
-  birdy.update(dt);
+  birdy.update(dt * 1000);
 }
 
 function render(context){

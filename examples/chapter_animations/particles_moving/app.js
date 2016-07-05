@@ -5,6 +5,7 @@ var bgColor = '#1CA692';
 var colors = ['#F1EBD5', '#FBBC16', '#FF820E', '#FF3352'];
 
 function update(dt){
+  dt = dt * 1000
   
   particles = _.compact(particles.map(function(shape){
     shape.update(dt);

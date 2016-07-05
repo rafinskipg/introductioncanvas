@@ -46,8 +46,9 @@ function renderCallback(context, canvas){
 }
 
 function updateCallback(dt){
+
   triangles.forEach(function(triangle){
-    triangle.update(dt);
+    triangle.update(dt  * 1000);
   });
 }
 
