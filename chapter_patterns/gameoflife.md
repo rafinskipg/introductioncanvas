@@ -1,6 +1,18 @@
 #El juego de la vida
 
-Vamos a hacer una implementación del Juego de la vida de _John Conway_
+En el siguiente ejercicio trabajaremos sobre una implementación del "Juego de la vida" de _John Conway_. 
+El juego de la vida es -- bla bla
+Para entender como se comporta este mecanismo sería conveniente entender que son los *patrones emergentes*.
+
+## Patrones emergentes
+
+Un patrón o comportamiento emergente en un sistema no depende del comportamiento de las partes individuales sino de las relaciones de unas partes con otras. Esto quiere decir que no se puede deducir el comportamiento del sistema observando solamente a una de sus partes, para poder determinar el sistema en conjunto es necesario conocer las reglas de interacción entre las partes.
+Estas reglas, no coordinadas por ninguna entidad "central", aplicadas a cada uno de los individuos generan este comportamiento emergente.
+
+Un ejemplo de comportamiento emergente en la naturaleza es el vuelo de los pájaros en bandada
+
+https://www.linkedin.com/pulse/20141112080947-130319166-flocking-in-the-canvas?trk=prof-post
+
 
 ![](http://upload.wikimedia.org/wikipedia/commons/9/99/Game_of_life_glider_gun.png)
 
