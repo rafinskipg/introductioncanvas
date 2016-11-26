@@ -269,20 +269,26 @@ Grid.prototype.update = function(dt){
       for(var j = 0; j < this.cells[i].length; j++){
         
         //Calculamos los vecinos vivos
-        var neighboursAlive = this.cells[i][j].neighbours.filter(function(neighbour){
-          return self.cells[neighbour[0]][neighbour[1]].alive === true;
-        }).length;
+        var neighboursAlive = this.cells[i][j]
+          .neighbours
+          .filter(function(neighbour){
+            return self.cells[neighbour[0]][neighbour[1]].alive === true;
+          })
+          .length;
 
         //Reglas
         var aliveNextTurn = false;
 
         if(neighboursAlive < 2 || neighboursAlive > 3){
+          //Cualquier célula con menos de 2 o más de 3 vecinos, morirá. Muajaja.
           //Any cell with less than 2 or more than 3 neighbours will perish
           aliveNextTurn = false;
         }else if(neighboursAlive === 3 && this.cells[i][j].alive === false){
+          //Cualquier célula muerta con 3 vecinos continuará viva
           //Any dead cell with 3 neighbours will be alive
           aliveNextTurn = true;
         }else if((neighboursAlive === 2 || neighboursAlive === 3 ) && this.cells[i][j].alive === true){
+          //Cualquier célula viva con 2 o 3 vecinos continuará viva
           //Any live cell with 2 or 3 neighbours will be alive
           aliveNextTurn = true;
         }
@@ -291,8 +297,10 @@ Grid.prototype.update = function(dt){
       }
     }
 
+    //Reseteamos el tiempo de cambio de estado
     this.tickTime = 100;
     
+    //Aplicamos el nuevo estado
     for(var i = 0; i < this.cells.length; i++){
       for(var j = 0; j < this.cells[i].length; j++){
         this.cells[i][j].alive = this.cells[i][j].nextState;
