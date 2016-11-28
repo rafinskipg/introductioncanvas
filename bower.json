@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "lodash": "~3.0.0",
-    "victor": "~0.2.6"
+    "victor": "~0.2.6",
+    "chess.js": "~0.10.2"
   }
 }

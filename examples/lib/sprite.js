@@ -1,6 +1,9 @@
-function Sprite(img){
+function Sprite(img, animation){
   this.img = img;
   this.animations = {};
+  if(animation){
+    this.addAnimation(animation)
+  }
 }
 
 Sprite.prototype.addAnimation = function (name, frames, size, duration, pos, direction){
@@ -16,6 +19,10 @@ Sprite.prototype.addAnimation = function (name, frames, size, duration, pos, dir
     frameIndex : 0,
     frameDt : 0
   }
+}
+
+Sprite.prototype.getAnimation = function(name){
+  return this.animations[name]
 }
 
 Sprite.prototype.playAnimation = function (name, reset){
@@ -69,5 +76,3 @@ Sprite.prototype.render = function(ctx, x, y, resizeX, resizeY, angle){
   }
   
 }
-
-module.exports = Sprite;
