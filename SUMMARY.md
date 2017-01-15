@@ -1,7 +1,7 @@
 # Índice
 
 Índice de contenidos del libro
-
+* [TODO](develop.md)
 * [Prologo](prologo/README.md)
     * [Agradecimientos](prologo/thanks.md)
 * [La base](chapter_intro/README.md)
@@ -34,8 +34,7 @@
     * [Preloader](chapter_advanced/README.md)
     * [Prerender y canvas caché](chapter_advanced/README.md)
     * [La clase Sprite](chapter_advanced/sprite.md)
-* [Herramientas](chapter_tools/README.md)
-    * [Gestión de paquetes con Bower](chapter_tools/packagemanagement.md)
+* [Gestión de paquetes](chapter_tools/packagemanagement.md)
 * [Bonus: Canvas en NodeJS](5_chapter_node/README.md)
 * [Epílogo](epilogo/README.md)
 * [Glosario](GLOSSARY.md)

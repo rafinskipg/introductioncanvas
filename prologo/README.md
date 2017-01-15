@@ -1,8 +1,10 @@
 # Prólogo
 
+Mi nombre es *Rafael Ventura*. Soy un programador con experiencia en distintos sectores. Habiendo trabajado en consultorías grandes, startups pequeñas y empresas que fusionaban lo mejor de cada sector. He jugado con varios lenguajes de programación pero los últimos años los he pasado ejercitándome con JavaScript tanto en lado cliente como en servidor.
+
 ## Acerca del libro
 
-Este libro trata el uso de `canvas`; desde aprender a trazar formas sencillas, a realizar animaciones visuales, crear nuestro propio __motor__ de renderizado, etc.
+Este libro trata el uso de `canvas`. Canvas es el elemento HTML que te permitirá hacer animaciones en 2D y 3D. En este libro aprenderás a utilizar la API de canvas con ejemplos diversos. Crearás tu motor de renderizado y aprenderás a hacer animaciones y usar sprites de imágenes.
 
 ## Formato de los capítulos
 
@@ -28,13 +30,9 @@ O en el formato inline: `canvas`, que permite la continuación del párrafo a su
 Para ejecutar los ejercicios tan solo necesitarás un editor de texto simple y un navegador en el que previsualizarlo.
 
 
-## Sobre el autor
+----
 
-Mi nombre es *Rafael Ventura Pedrola Gimeno* y soy un programador que lleva varios años trabajando con tecnologías JavaScript, he hecho muchas aplicaciones web en cliente aunque últimamente estoy más centrado en NodeJS. 
-
-Encontré en JavaScript un fiel aliado para crear todo tipo de sistemas, tanto visuales como de backend, me quedé alucinado la primera vez que ví Backbone y como podía crear con ese framework un código cliente rico y bien estructurado, desde ese día he probado muchas cosas: *AngularJS*, *ReactJS*, *Browserify*, *NodeJS* - *Express, Sails...*, he hecho mis recetas de *Gulp*, *Grunt*, he hecho generadores de *Yeoman* o plugins para *Grunt*, juegos en *canvas*...
-
-Podéis encontrarme en *GitHub* o en *Twitter* a través del, siempre repetido nickname, @rafinskipg 
+Podéis encontrarme en *GitHub* o en *Twitter* a través de mi nickname @rafinskipg 
 
 __Disfrutad del viaje y cread cosas emocionantes__
 

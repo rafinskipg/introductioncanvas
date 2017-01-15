@@ -1,4 +1,10 @@
-# Hi
+# TODOS
+
+- introduccion, usar api texto
+- Repasar tema 1.
+- Fractales
+
+
 ## Serve
 
 ```

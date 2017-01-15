@@ -2,10 +2,11 @@
 
 ## ¿Qué es `canvas`?
 
-Desde el punto de vista técnico, `canvas` es una etiqueta HTML que permite dibujar gráficos a través de una API.
-Desde un punto de vista más abstracto, `canvas` es una herramienta donde podemos crear representaciones visuales, interactivas, animadas. Que sirve, entre otras cosas, para crear juegos.
+Canvas es un elemento `html` que permite dibujar gráficos a través de un API, utilizando JavaScript.
 
-Vamos a ver unos conceptos básicos que se repetiran a lo largo del libro, en todos los ejercicios.
+`canvas` es también una herramienta donde podemos crear representaciones visuales, interactivas, animadas. Con canvas podemos crear juegos, dotar de más interactividad a la web, cambiar la apariencia de la web clásica y ponerle un vestido nuevo.
+
+Vamos a ver unos conceptos básicos que se repetiran a lo largo del libro. En todos los ejercicios comenzaremos teniendo un archivo `index.html` y un archivo `app.js`. En el archivo `index.html` incluiremos el elemento canvas y en el archivo `app.js` inicializaremos el canvas con su contenido.
 
 ### ¿Como invocar el API de `canvas`?
 
@@ -17,9 +18,11 @@ Lo primero que necesitaremos será crear el elemento `html`.
 
 Este será el elemento HTML sobre el que pintaremos las representaciones visuales.
 
-Para ello, debemos obtener la referencia del elemento y su contexto 2D mediante JavaScript.
+Para ello, debemos obtener la referencia del elemento canvas y extraer su contexto 2D.
 
-El contexto es un objeto HTML con propiedades y métodos que permiten dibujar. 
+El contexto es un objeto HTML (CanvasRenderingContext2D) con propiedades y métodos que permiten dibujar sobre el canvas del que se extrae. Siempre que queramos pintar en canvas necesitaremos este contexto.
+
+Para obtener el contexto utilizaremos `canvas.getContext('2d');`.
 
 ```javascript
 //app.js
@@ -38,9 +41,11 @@ var context =  canvas.getContext('webgl');
 
 Una vez que ya tenemos referenciado el elemento `canvas` y hemos obtenido su contexto `context`, ya podemos empezar a dibujar elementos.
 
-Siempre que vayamos a pintar algo sobre el canvas, tenemos que tener claro su sistema de coordenadas, que es el siguiente 
+## Sistema de coordenadas
 
-El eje `x` aumenta a partir de 0 de izquierda a derecha, y lo mismo pasa con el eje `y` de arriba a abajo.
+Canvas funciona con un sistema de coordenadas. Lo que significa que siempre que se pinta un elemento se habre sobre una posición X e Y. A diferencia del DOM que se organiza automáticamente, en canvas tendremos que decir en que posición exacta queremos un elemento determinado.
+
+En canvas el eje `x` aumenta a partir de 0 de izquierda a derecha, y lo mismo pasa con el eje `y` de arriba a abajo.
 
 ![sistema_coordenadas](https://github.com/rafinskipg/introductioncanvas/raw/master/img/coordinate_system.png)
 
@@ -81,10 +86,10 @@ var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
 function render(){
-  //Hacer cosas
+  //TODO
 }
 
 render();
 ```
 
-**¡Ya estás listo/a para aprender, dale duro!**
+**¡Ya estás listo/a para aprender!**
