@@ -1,8 +1,10 @@
 # Círculos, líneas y beginPath
 
-Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a dar otro pasito en nuestra escalera hacia el dominio del canvas, incorporando la figura circular.
+## Círculos (`context.arc`, `context.beginPath`)
 
-Podemos dibujar un "arco" para trazar un círculo. Para hacerlo usaremos el método:
+Hemos aprendido a dibujar un rectángulo y a pintarlo. Vamos a dar otro pasito en nuestra escalera hacia el dominio del canvas, incorporando el círculo.
+
+Para trazar un círculo deberemos utilizar el método `arc`.
 
 ```javascript
 context.arc(posicionX, posicionY, radio, anguloComienzo, anguloFinal);
@@ -20,6 +22,9 @@ context.arc(posicionX, posicionY, radio, anguloComienzo, anguloFinal);
 }
 > ```
 
+__En la siguiente imagen se puede apreciar que `Math.PI * 2` radianes equivale a un ángulo 360 grados, `(Math.PI * 3)/2` radianes son 270 grados,  `Math.PI` radianes son 180 grados y `Math.PI / 2` radianes son 90 grados.__
+
+
 _Ángulos en radianes en el sentido antihorario tradicional_
 
 ![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/radians_normal.png)
@@ -29,7 +34,6 @@ _Ángulos en radianes en sentido horario, usado en canvas_
 ![angulos en radianes](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/radians_canvas.png)
 
 
-__En la imagen superior se puede apreciar que `Math.PI * 2` radianes equivale a un ángulo 360 grados, `(Math.PI * 3)/2` radianes son 270 grados,  `Math.PI` radianes son 180 grados y `Math.PI / 2` radianes son 90 grados.__
 
 
 Cuando vayamos a trazar un arco de X radianes en canvas, debemos tener en cuenta el sentido de giro de ese ángulo: El ángulo de giro es en sentido horario, como podemos ver en los siguientes ejemplos:
@@ -70,7 +74,9 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/arc2.png)
 
-Con esto queda claro el funcionamiento básico del método `context.arc`, vamos a dibujar círculos completos:
+Como habéis podido analizar el funcionamiento de `arc` dibuja una curva desde un ángulo inicial a uno final.
+
+Con esto queda claro el funcionamiento básico del método `context.arc`, ahora vamos a dibujar círculos completos:
 
 > ###### ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/interesting_icon.png) Un dato interesante 
 > Podemos usar `context.lineWidth` para cambiar la anchura de las líneas
@@ -88,7 +94,7 @@ context.strokeStyle = '#69D2E7';
 //Cambia la anchura de la línea
 context.lineWidth = 5;
 
-//Trazamos un arco de 360 grados 
+//Trazamos un arco de 360 grados o 2*PI radianes
 context.arc(200,200,50,0,2*Math.PI);
 
 //Pintamos su contorno
@@ -105,16 +111,25 @@ Tenemos nuestro primer círculo, vamos a ver que pasa cuando añadimos varias pi
 Añadimos otro círculo en la coordenada `400x200`
 
 ```javascript
+// Definimos el color de línea
 context.strokeStyle = '#69D2E7';
+
+// Anchura de línea de 5 pixels
 context.lineWidth = 5; 
+
+// Primer círculo en la posición 200 x 200
 context.arc(200,200,50,0,2*Math.PI);
+
+// segundo círculo en 400 x 200
 context.arc(400,200,50,0,2*Math.PI);
+
+// Marcamos los contornos
 context.stroke();
 ```
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/circles_stroked_withoutBeginPath.png)
 
-Vemos que aparece una línea entre las dos figuras. Esto sucede porque al invocar el método `context.arc` hemos empezado a dibujar figuras sobre un **trazado**. En canvas, cada figura actúa sobre un único trazado, para evitar estas uniones entre figuras necesitamos “levantar el lápiz del lienzo” y crear un nuevo trazado para la siguiente figura
+Vemos que aparece una línea entre las dos figuras. Esto sucede porque al invocar el método `context.arc` hemos empezado a dibujar figuras sobre un **trazado**. Un trazado, en la vida real, equivaldría a la línea que sigue un lápiz al dibujar. En canvas, cada acción que invocamos actúa sobre **un único trazado**, para evitar estas uniones entre figuras necesitamos “levantar el lápiz del papel y crear un nuevo trazado para la siguiente figura
 
 Para indicarle a canvas que hemos comenzado un nuevo trazado utilizaremos el método `beginPath`
 
@@ -124,9 +139,11 @@ ___`beginPath` invoca a `closePath` e inicia un nuevo trazado.___
 context.strokeStyle = '#69D2E7';
 context.lineWidth = 5; 
 
+// Empezamos un nuevo trazado (no es necesario la primera vez)
 context.beginPath();
 context.arc(200,200,50,0,2*Math.PI);
 
+// Aquí si es necesario
 context.beginPath();
 context.arc(400,200,50,0,2*Math.PI);
 
@@ -160,9 +177,26 @@ context.stroke();
 
 Listo, ya sabemos pintar múltiples elementos :)
 
-## Líneas
 
-> La línea es la distancia más corta entre dos puntos. ___Captain Obvious___
+### Refactorizando
+
+Podríamos mejorar nuestro código abstrayendo el pintado del círculo en una función
+
+```javascript
+
+function drawCircle(xPos, yPos, size) {
+  context.beginPath();
+  context.arc(xPos, yPos, size, 0, Math.PI * 2);
+  context.stroke();
+}
+
+drawCircle(200, 200, 50)
+drawCircle(400, 200, 50)
+
+```
+
+## Líneas (`context.moveTo`, `context.lineTo`)
+
 
 Para pintar **líneas**, tendremos que aprender a usar los métodos `context.moveTo` y `context.lineTo`.
 

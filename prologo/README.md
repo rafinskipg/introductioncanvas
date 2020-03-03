@@ -1,10 +1,22 @@
 # Prólogo
 
-Mi nombre es *Rafael Ventura*. Soy un programador con experiencia en distintos sectores. Habiendo trabajado en consultorías grandes, startups pequeñas y empresas que fusionaban lo mejor de cada sector. He jugado con varios lenguajes de programación pero los últimos años los he pasado ejercitándome con JavaScript tanto en lado cliente como en servidor.
+El autor es *Rafael Ventura*, un programador con experiencia en diferentes sectores. Durante su carrera ha trabajado en grandes consultorías, startups, empresas que fusionaban lo mejor de cada sector y fundado su propia agencia de desarrollo de software.
+
+En la actualidad se encuentra creando productos digitales y ayudando a diferentes personas a introducirse en el mundo de la programación.
 
 ## Acerca del libro
 
-Este libro trata el uso de `canvas`. Canvas es el elemento HTML que te permitirá hacer animaciones en 2D y 3D. En este libro aprenderás a utilizar la API de canvas con ejemplos diversos. Crearás tu motor de renderizado y aprenderás a hacer animaciones y usar sprites de imágenes.
+Este libro trata el uso de `canvas`. Canvas es el elemento HTML que te permitirá hacer animaciones en 2D y 3D. En este libro aprenderás a utilizar la API de canvas con ejemplos diversos. Crearás tu motor de renderizado y aprenderás a hacer animaciones, fondos visuales, interacciones y videojuegos.
+
+Este libro se empezó a escribir en Enero de 2015 y fue revisado para actualizarlo en 2020, actualizando ejemplos a las nuevas especificaciones de EcmaScript.
+
+## Conocimientos previos necesarios
+
+En este libro se asumen un conocimiento básico de JavaScript, funcionamiento de un navegador y programación. De todas maneras los ejemplos son incrementales en dificultad y deberían ser accesibles para cualquier desarrollador o persona que esté aprendiendo a desarrollar.
+
+## Cómo leer el libro
+
+El libro se puede leer de forma secuencial o saltar directamente al capítulo que te interese. La mayoría de los contenidos están aislados y se pueden leer de forma independiente.
 
 ## Formato de los capítulos
 

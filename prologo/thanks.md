@@ -2,9 +2,9 @@
 
 _A mi familia y amigos. _
 
-_A mis compañeros de trabajo y amigos de Sonata, Indra, Adesis, BQ... _
+_A mis compañeros de trabajo y amigos de profesión. _
 
-_A mis compañeros de Aikido_
+_A la gente que me ha mentorizado_
 
 _A los nuevos amigos que estoy conociendo gracias a este libro._
 

@@ -6,11 +6,12 @@ En este capítulo vamos a dibujar un cuadrado en el canvas y pintar sus bordes d
 
 Para ello usaremos el método `rect` que permite la creación de un rectángulo pasándole sus coordenadas de inicio y su tamaño.
 
+
 ```javascript
 context.rect(xInicial, yInicial, Anchura, Altura);
 ```
-
-Una vez hemos notificado a canvas de que hemos creado una figura, podemos pintar sus bordes o rellenarla con 
+Cuando ejecutamos esta operación estamos informando al canvas de que se ha generado una figura, pero esto no hace que aparezca pintada. Para poder visualizarla necesitaremos utilizar una operación de rellenado o de marcado de bordes.
+ 
 
 ```javascript
 context.fill(); //Rellenar
