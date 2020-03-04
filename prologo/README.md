@@ -1,8 +1,4 @@
-# Prólogo
-
-El autor es *Rafael Ventura*, un programador con experiencia en diferentes sectores. Durante su carrera ha trabajado en grandes consultorías, startups, empresas que fusionaban lo mejor de cada sector y fundado su propia agencia de desarrollo de software.
-
-En la actualidad se encuentra creando productos digitales y ayudando a diferentes personas a introducirse en el mundo de la programación.
+# Prólogo y notas técnicas
 
 ## Acerca del libro
 
@@ -41,6 +37,13 @@ O en el formato inline: `canvas`, que permite la continuación del párrafo a su
 
 Para ejecutar los ejercicios tan solo necesitarás un editor de texto simple y un navegador en el que previsualizarlo.
 
+Durante el desarrollo del libro iremos creando una serie de librerías de utilidades que simplificarán ciertos patrones y métodos recurrentes. 
+
+## Sobre el autor
+
+El autor es *Rafael Ventura*, un programador con experiencia en diferentes sectores. Durante su carrera ha trabajado en grandes consultorías, startups, empresas que fusionaban lo mejor de cada sector y fundado su propia agencia de desarrollo de software.
+
+En la actualidad se encuentra creando productos digitales y ayudando a diferentes personas a introducirse en el mundo de la programación.
 
 ----
 

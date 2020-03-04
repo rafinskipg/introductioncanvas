@@ -1,4 +1,4 @@
-# Rectángulos
+# Rectángulos - (`context.fill`, `context.stroke`, `context.rect`, `context.strokeStyle`, `context.fillStyle`)
 
 Empezaremos con unos conceptos básicos de formas geométricas. _Si ya conoces lo básico de `canvas` (dibujar formas geométricas, usar el API de texto o de imagen) puedes saltar directamente al capítulo 2 - Animaciones_
 
@@ -29,7 +29,7 @@ context.rect(20,20,150,100);
 context.stroke();
 ```
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/rect.png)
+![](../img/teory/chapter_1/rect.png)
 
 
 Como no hemos especificado ninguna opción el color del borde se pinta del color por defecto, negro.
