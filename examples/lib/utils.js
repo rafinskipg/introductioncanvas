@@ -11,6 +11,10 @@ Utils.degreeToRadian = function(degree) {
   return degree / (180 / Math.PI);
 }
 
+Utils.randomFromArray = function(items) {
+  return items[Math.floor(Math.random() * items.length)]
+}
+
 //Returns a random Integer between min and max
 Utils.randomInteger = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
