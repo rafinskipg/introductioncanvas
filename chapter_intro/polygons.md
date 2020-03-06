@@ -1,4 +1,4 @@
-# Polígonos, gradientes y sombras.
+# Polígonos, gradientes y sombras. (`context.shadowColor`, `context.shadowOffsetX`. `context.shadowOffsetY`, `context.shadowBlur`, `context.createLinearGradient`, `context.addColorStop` )
 
 En la última sección hemos visto algunas de las características esenciales para dibujar en canvas, tales como `stroke`, `fill`, `arc`, `beginPath`... 
 
@@ -11,7 +11,7 @@ Vamos a pasar a dibujar formas más variadas y a utilizar nuevas propiedades de 
 
 ##Dibujando un polígono
 
-Como ya sabemos, un polígono regular está contenido dentro de un círculo, por lo tanto la suma de los ángulos de sus ángulos es 360 grados. Conociendo el número de lados que queremos dibujar podemos calcular el ángulo que se forma entre lado y lado y así crear el polígono usando la siguiente fórmula
+Para poder dibujar un polígono regular debemos comprender que este está contenido dentro de un círculo, por lo tanto la suma de los ángulos de sus ángulos debe ser 360 grados. Conociendo el número de lados que queremos dibujar podemos calcular el ángulo que se forma entre lado y lado y así crear el polígono usando la siguiente fórmula
 
 > (2 *  Math.PI radianes) / lados
 
@@ -78,7 +78,7 @@ context.fill();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked_shadow.png)
 
-Estamos empezando a ver algo mejor :). Veamos que pasa si cambiamos las propiedades del pintado de línea.
+Estamos empezando a ver algo más chulo :). Veamos que pasa si cambiamos las propiedades del pintado de línea.
 
 ```javascript
 context.strokeStyle = 'rgb(56, 29, 181)';
@@ -88,7 +88,10 @@ context.stroke();
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/hexagon_stroked_shadow_newstroke.png)
 
-Y finalmente, creamos un gradiente. Este gradiente irá desde el origen de la figura hasta su final, y cambiará de color en el centro:
+Y finalmente, creamos un gradiente. Este gradiente irá desde el origen de la figura hasta su final, y cambiará de color en el centro.
+
+Un gradiente es un degradado de un color a otro: 
+![](../img/chapter_1/../teory/chapter_1/gradient_2.png)
 
 Para crear un gradiente usaremos el método `context.createLinearGradient` que recibe los siguientes parámetros :
 

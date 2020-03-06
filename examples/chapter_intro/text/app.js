@@ -1,42 +1,33 @@
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 
-var texts = {
-  title: 'Hello world',
-  subtitle: 'From zero to canvas',
-  description: 'A small book about the basics for building canvas applications'
-};
-
-
 function render() {
+  // Hacemos que el canvas ocupe la pantalla completa
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
+  // Texto simple
+  context.font = '30px MomsTypeWriter';
+  context.fillText('TEXTO', 80, 80);
 
-  var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-  gradient.addColorStop(0, "rgb(97, 43, 119)");
-  gradient.addColorStop(1, "rgb(97, 46, 63)");
+  // Definimos un gradiente
+  context.font = '60px park';
+  var dimensions = context.measureText('A small book about')
+  var gradient = context.createLinearGradient(100, 150, dimensions.width, 30);
+  gradient.addColorStop(0, "blue");
+  gradient.addColorStop(0.5, "green");
+  gradient.addColorStop(1, "red");
   context.fillStyle = gradient;
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // Rellenamos el texto
+  context.fillText('A small book about', 100, 150);
 
-  context.fillStyle = 'white'
-  //Dibujamos el titulo, centrado
-  var textWidth = context.measureText(texts.title).width;
-  context.save();
+
+  //Dibujamos el titulo, centrado y con stroke
   context.textAlign = 'center';
-  context.font = '40px park';
-  context.strokeText(texts.title, canvas.width / 2, 100);
-  context.restore();
-  
-  //Dibujamos el subtitulo, en cursiva y alineado a la izquierda
+  context.font = '60px park';
+  context.strokeText('Canvas and animations', 400, 300);
 
-  context.save();
-  context.font = '20px "Shadows Into Light"';
-  context.fillText(texts.description, 100, 500);
-  context.textAlign = 'left';
-  context.restore();
-  
-  //La description, fuente light y más pequeña
 }
 
 render();
