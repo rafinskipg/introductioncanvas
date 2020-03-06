@@ -1,4 +1,4 @@
-# Imágenes
+# Imágenes, (`context.drawImage`)
 
 En esta sección vamos a ver unos breves ejemplos de como cargar imágenes y redimensionarlas.
 
@@ -37,9 +37,9 @@ Una de las precondiciones del dibujo de imágenes es haberlas precargado en la p
 
 ### Cargando imágenes en el DOM:
 
-Una manera sencilla de poder pintar imágenes en un canvas es haberlas cargado previamente mediante el uso de una etiqueta `img`, hay muchas maneras de poder obtener el contenido de esa etiqueta usando usando selectores; la manera más sencilla es asignar un `id` a la etiqueta `img` y referenciarla utilizando `document.getElementById`.
+Una manera sencilla de poder pintar imágenes en un canvas es haberlas cargado previamente mediante el uso de una etiqueta `img`, hay muchas maneras de poder obtener el contenido de esa etiqueta usando selectores; la manera más sencilla es asignar un `id` a la etiqueta `img` y referenciarla utilizando `document.getElementById`.
 
-Invariablemente de la aproximación que se utilice para obtener la referencia a la etiqueta será necesario hacer que esas imágenes esten ocultas para que no aparezcan al lado de nuestra etiqueta `canvas`.
+Invariablemente de la aproximación que se utilice para obtener la referencia al elemento Imagen será necesario hacer que esas imágenes esten ocultas para que no aparezcan al lado de nuestra etiqueta `canvas`.
 
 Por ejemplo:
 
@@ -125,7 +125,7 @@ preload();
 
 Necesitaremos detectar cuando se han cargado todos los recursos necesarios para el renderizado. Para ello podemos implementar distintos mecanismos utilizando el método `onload`, podríamos plantear una solución a la carga asíncrona paralela mediante el uso de `promesas`. 
 
-_Para más información acerca de como utilizar la nueva API de `Promise` de `EcmaScript6` puedes dirigirte a este artículo de HTML5Rocks `http://www.html5rocks.com/en/tutorials/es6/promises/`._
+_Para más información acerca de como utilizar la API de `Promise` de `EcmaScript6` puedes dirigirte a este artículo de HTML5Rocks `http://www.html5rocks.com/en/tutorials/es6/promises/`._
 
 Ejemplo de carga paralela con `Promise.all`:
 

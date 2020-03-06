@@ -63,3 +63,6 @@ function handleMouseMove(e){
   }
 }
 ```
+
+
+// TODO HACER UN EJEMPLO DE HACER DRAG DE CUADRADOS ENCIMA DE UNA IMAGEN POR EJEMPLO

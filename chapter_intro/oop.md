@@ -1,8 +1,79 @@
-# OOP
+# OOP (Object Oriented Programming)
 
-En cuanto empezamos a usar una lógica más compleja, es conveniente empezar a estructurar el código mediante programación orientada a objetos. De esta manera es más sencillo comprender el código, aislar funcionalidades y evitar que acabemos creando un monstruo.
+Aunque JavaScript es un lenguaje orientado a objetos generalmente trabajamos con programación funcional, es decir, orientada a funciones. 
+
+La programación funcional dice que se debe preservar la inmutabilidad y evitar el cambio de estado. 
+
+Cuando yo desarrollo programas informáticos como aplicaciones web o servidores intento utilizar un estilo de código más funcional, aislando funcionalidad por módulos. 
+
+Pero a la hora de desarrollar visualizaciones para Canvas me resulta más cómodo o sencillo abstraer conceptos en clases utilizando programación orientada a objetos. 
+
+Ejemplos en los que suelo utilizar OOP:
+- Cuando declaro entidades como Jugador, Enemigos, Armas, etc, que tienen ciertas propiedades similares.
+- Cuando declaro escenarios o pantallas.
+
+Vamos a hacer una pequeña introducción a OOP en ES5 y ES6 que será conveniente repasar para ver como crear clases más adelante. 
+
+Si ya sabes suficiente sobre este tema puedes saltarlo y pasar directamente a la parte de animaciones en canvas.
+
+## ¿Qué es una clase? 
+
+Una clase en OOP es una plantilla para crear instancias u objetos con ciertas propiedades y métodos.
+
+Un ejemplo en pseudocódigo:
+
+```
+clase Animal {
+  tipo: string
+  peso: number
+}
+```
+
+Esta sería una clase, en sí las clases no sirven de mucho, necesitamos instancias para poder utilizarlas: 
+
+```
+miPerro = new Animal('perro', 6)
+miGato = new Animal('gato', 2)
+```
+
+Las clases además proporcionan herencia de métodos y propiedades. Tanto para sus instancias como para clases que *hereden* de ellas.
+
+Por ejemplo
+
+```
+clase Animal {
+  hambre = true
+
+  comer () {
+    hambre = false
+  }
+}
+
+miPerro = new Animal()
+miPerro.hambre // true
+miPerro.comer() 
+miPerro.hambre // false
+```
+
+La herencia de clases significa que otras clases pueden "copiar" la estructura y métodos de la clase padre.
+
+```
+clase Perro extends Animal {
+  ladrar() {
+    log('guau!')
+  }
+}
+
+miPerro = new Perro()
+
+```
+
+Como `Perro` extiende `Animal`, la instancia `miPerro` tendrá acceso a los métodos tanto de Perro como de Animal.
+
 
 ## Usando Prototype / Clases en EcmaScript 5
+
+El primer método de OOP que vamos a explicar es Prototype. Hoy en día ya no es necesario utilizar este método ya que ES6 introduce azúcar sintáctico añadiendo las nuevas clases. Pero viene bien echarle un ojo para entender de donde viene originalmente la OOP en JavaScript.
 
 Para crear clases en JavaScript (EcmaScript 5) podemos hacerlo de varias maneras.
 
@@ -19,12 +90,13 @@ function MiClase(){
 }
 
 var miInstancia = new MiClase();
+
 miInstancia.miMetodo(); //=> red
 ```
 
 Pero esta manera, además de que no es la más óptima para organizar clases grandes de código tiene un handicap, cada nueva instancia de `MiClase` tendrá una copia de la función miMetodo.
 
-Mientras que si usamos `prototype` para añadir métodos a la clase cada uno de esos métodos añadidos será añadido de forma estática. Es decir, todas las instancias de `MiClase` usarán la misma función.  Por ejemplo:
+Mientras que si usamos `prototype` para añadir métodos a la clase cada uno de esos métodos añadidos será añadido de forma estática. Es decir, todas las instancias de `MiClase` usarán la misma función, evitando copiar en memoria diferentes instancias de esa función. Por ejemplo:
 
 ```javascript
 function Thing(){
@@ -40,6 +112,7 @@ var bar = new Thing();
 
 bar.applyForce(3); //=> 3
 ```
+
 
 
 Pero, ¿qué pasaría si una nueva instancia modificase el método `applyForce` del prototipo?
@@ -64,7 +137,6 @@ foo.constructor.prototype.applyForce = function(){
 foo.applyForce(3); //=> 'OK'
 bar.applyForce(3); //=> 'OK'
 ```
-
 
 En cambio, si modificamos el método de una instancia, no afectamos al resto de instancias de esa clase:
 
@@ -337,3 +409,72 @@ bar.render();
 bar.destroy();
 //=> Destroyed!
 ```
+
+
+## Herencia en ES6 
+
+Bueno... ¡ha sido duro hasta aquí! 
+
+Todo esto había que hacer antes de EcmaScript6, ahora mismo las clases se definen de la siguiente manera:
+
+```javascript
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+
+  render() {
+    // Hacer el render
+  }
+
+  // aqui otros métodos y propiedades
+}
+
+```
+
+Herencia en ES6
+
+```javascript
+class Animal {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+
+  hablar() {
+    console.log(this.nombre + ' hace un ruido.');
+  }
+}
+
+class Perro extends Animal {
+  hablar() {
+    console.log(this.nombre + ' ladra.');
+  }
+}
+```
+
+Si queremos llamar a métodos de la clase padre:
+
+```javascript
+class Gato {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+ 
+  hablar() {
+    console.log(this.nombre + ' hace ruido.');
+  }
+}
+
+class Leon extends Gato {
+  hablar() {
+    super.hablar();
+    console.log(this.nombre + ' maulla.');
+  }
+}
+
+const miLeon = new Leon('pepe')
+miLeon.hablar() // pepe hace ruido. pepe maulla.
+```
+
+Y ¡listo!

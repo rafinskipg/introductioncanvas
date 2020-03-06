@@ -40,7 +40,7 @@ context.font = '30px MomsTypeWriter';
 context.fillText('TEXTO', x, y);
 ```
 
-![](../img/chapter_1/../../chapter_intro/texto_1.png.png)
+![](../img/teory/chapter_1/texto_1.png.png)
 
 Cuando ejecutamos el método `fillText` estaremos pintando texto con el estilo indicado en `context.fillStyle`. Como hemos visto en capítulos anteriores este `fillStyle` puede ser un color o un gradiente:
 
@@ -60,7 +60,7 @@ Cuando ejecutamos el método `fillText` estaremos pintando texto con el estilo i
   context.restore();
 ```
 
-![](../img/chapter_1/../../chapter_intro/text_gradient.png)
+![](../img/teory/chapter_1/text_gradient.png)
 
 
 Si en vez de utilizar fill utilizamos `strokeText` el estilo que se utilizará es el definido en `strokeStyle`. Por defecto es negro, veamos el ejemplo completo incluyendo un texto con `context.strokeText('Canvas and animations', 400, 300);`
@@ -99,4 +99,4 @@ function render() {
 }
 ```
 
-![](../img/chapter_1/../../chapter_intro/text_complete.png)
+![](../img/teory/chapter_1/text_complete.png)
