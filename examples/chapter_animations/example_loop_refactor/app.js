@@ -1,5 +1,5 @@
-var canvas = document.getElementById('canvas');
-var square;
+const canvas = document.getElementById('canvas');
+let square;
 
 function update(dt){
   square.update(dt);
@@ -14,7 +14,7 @@ function start(){
 }
 
 
-var myEngine = new Engine(canvas);
+const myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
