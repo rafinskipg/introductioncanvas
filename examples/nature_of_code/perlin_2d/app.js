@@ -17,7 +17,7 @@ function render(context) {
     }
   }
 
-  context.fillColor = 'black';
+  
   context.fillRect(0, 0, 100, 100);
   context.putImageData(image, 0, 0);
 }

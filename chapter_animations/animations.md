@@ -62,7 +62,7 @@ function bucle(){
 }
 ```
 
-Si nuestro código fuese eficiente y se ejecutase muy rápido no habría problemas en utilizar `setTimeout`.  Pero el mundo real dista de ser perfecto. Cuando programamos a veces introducimos cálculos costosos o realizamos animaciones que requeieren de mucho renderizado, y nuestro navegador no es capaz de calcular todos los nuevos valores y renderizar todo el canvas en 16 milisegundos. Además, aunque funcionase en nuestro dispositivo, no podemos asegurar de que vaya a funcionar igual en otros dispositivos con menor o mayor capacidad de procesamiento. 
+Si nuestro código fuese eficiente y se ejecutase muy rápido no habría problemas en utilizar `setTimeout`.  Pero el mundo real dista de ser perfecto. Cuando programamos a veces introducimos cálculos costosos o realizamos animaciones que requieren de mucho renderizado, y nuestro navegador no es capaz de calcular todos los nuevos valores y renderizar todo el canvas en 16 milisegundos. Además, aunque funcionase en nuestro dispositivo, no podemos asegurar que vaya a funcionar igual en otros dispositivos con menor o mayor capacidad de procesamiento. 
 Si se da el caso de que un usuario tuviese que ejecutar este código con un `setTimeout` a 16 ms en un dispositivo con una capacidad de renderizado menor, lo que sucedería es que se acumularía memoria entre ejecución y ejecución del bucle, hasta llegar a un estado de inestabilidad de la aplicación. 
 
 Aunque JavaScript tenga tiempo suficiente de enviar las instrucciones de renderizado al navegador, necesitamos esperar a que este termine de pintar todos los cambios antes de volver a ejecutar una fase de `actualizado`, `limpieza`, `renderizado`. 

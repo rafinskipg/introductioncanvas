@@ -18,9 +18,9 @@ function addEventListeners(){
 ```
 
 Cuando escuchamos un evento "mouse" para obtener sus coordenadas solo tenemos la información sobre las cordenadas de la página.
-Para saber en que coordenadas del canvas estamos haciendo click usaremos esta función, que guardaremos en nuestro fichero de `Utils` para poder reutilizarla más adelante en otros ejemplos.
+Para saber en que coordenadas **del canvas** estamos haciendo click usaremos la función `getMouseCoords`, que guardaremos en nuestro fichero de `Utils` para poder reutilizarla más adelante en otros ejemplos.
 
-Tendremos que restarle a las coordenadas del ratón el offset que tiene el canvas (padding, margin) con respecto a la página, de esta manera las coordenadas serán relativas a la posición inicial del canvas y no a toda la página.
+Hay que restarle a las coordenadas del ratón sobre la página el offset que tiene el canvas (padding, margin) con respecto a la página, de esta manera las coordenadas serán relativas a la posición inicial del canvas.
 
 ```javascript
 //lib/Utils.js

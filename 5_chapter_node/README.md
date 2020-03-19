@@ -12,3 +12,4 @@ Vamos a ver ahora unos ejemplos de como podemos exportar PNG's en node compuesto
 
 
 
+https://mattdesl.svbtle.com/generative-art-with-nodejs-and-canvas
