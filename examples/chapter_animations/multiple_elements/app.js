@@ -3,12 +3,9 @@ var particles = [];
 var NUM_PARTICLES = 20;
 
 function update(dt) {
-  particles = _.compact(particles.map(function(particle) {
-    particle.update(dt);
-    if (particle.combustible >= 0) {
-      return particle;
-    }
-  }));
+  particles.forEach(p => p.update(dt))
+  particles = particles
+    .filter(p => p.combustible > 0)   
 }
 
 function render(context) {

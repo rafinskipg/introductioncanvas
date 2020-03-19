@@ -9,8 +9,8 @@ function Particle(options) {
 
 Particle.prototype.update = function(dt){
   this.combustible -= 1;
-  this.x = this.x + ((this.speedX/1000) * dt);
-  this.y = this.y + ((this.speedY/1000) * dt);
+  this.x = this.x + ((this.speedX) * dt);
+  this.y = this.y + ((this.speedY) * dt);
 }
 
 Particle.prototype.render = function(context) {

@@ -197,3 +197,55 @@ drawPolygon(370, 300, 50, 12, 0);
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_1/polygons.png)
 
+
+## Radial gradient
+
+Los gradientes radiales se diferencian de los lineares en que crean un área circular con un degradado alrededor. Al igual que `createLinearGradient`, `createRadialGradient` tiene una API en la que se pueden añadir fases de color utilizando `gradient.addColorStop`.
+
+```javascript
+var gradient = context.createRadialGradient(
+  xCirculoInicial, 
+  yCirculoInicial, 
+  radioCirculoInicial, 
+  xCirculoFinal, 
+  yCirculoFinal, 
+  radioCirculoFinal);
+```
+
+Veamos una implementación del gradiente circular o radial.
+
+<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/radial_gradient.png" style="width: 100%;margin-top: 20px; margin-bottom: 20px;">
+
+```javascript
+const x = 100
+const y = 100
+const radius = 50
+
+function render(context) {
+
+  context.save();
+  context.translate(x - radius / 2, y - radius / 2);
+  context.beginPath();
+
+  var radgrad = context.createRadialGradient(
+    radius / 2,
+    radius / 2,
+    0,
+    radius / 2,
+    radius / 2,
+    radius / 2);
+
+  radgrad.addColorStop(0, 'white');
+  radgrad.addColorStop(0.4, 'red');
+  radgrad.addColorStop(0.6, 'orange');
+  radgrad.addColorStop(1, 'rgba(0,0,0,0)');
+
+  context.fillStyle = radgrad;
+
+  context.rect(0, 0, radius, radius);
+
+  context.fill();
+  context.closePath();
+  context.restore();
+}
+```

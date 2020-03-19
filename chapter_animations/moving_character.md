@@ -1,6 +1,20 @@
-# Moviendo un personaje
+# Movimiento horizontal
 
-En el siguiente ejemplo vamos a construir una animación de un personaje desplazándose por un mapa 2D.
+Vamos a programar una especie de juego en al que un personaje se va a desplazar horizontalmente por un mapa 2D.
+
+
+![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/sidescroller.png)
+
+
+Para empezar montaremos la estructura básica de archivos:
+
+
+```
+.
++-- index.html
++-- app.js
++-- models/player.js
+```
 
 Incluimos una etiqueta `canvas` en el archivo `index.html`.
 
@@ -17,112 +31,106 @@ html, body, canvas {
 }
 ```
 
-
-Creamos nuestro modelo de personaje en la carpeta `models`.
-
-```
-.
-+-- index.html
-+-- models/player.js
-```
-
-`Player` será una entidad con una propiedad `speedX` que indicará la velocidad en el eje x a la que se desplazará. Esta propiedad podrá ser positiva o negativa dependiendo de si el objeto se desplaza a la derecha o a la izquierda respectivamente, y de una propiedad `moving` que indicará que el objeto se está moviendo.
+Creamos nuestro modelo de personaje en la carpeta `models`. `Player` será una entidad con una propiedad `speedX` que indicará la velocidad en el eje x a la que se desplazará. Esta propiedad podrá ser positiva o negativa dependiendo de si el objeto se desplaza a la derecha o a la izquierda respectivamente, y de una propiedad `moving` que indicará que el objeto se está moviendo.
 
 ```javascript
 //models/player.js
-function Player(options) {
-  this.x = options.x;
-  this.y = options.y;
-  this.width = options.width;
-  this.speedX = options.speedX || 0;
+class Player{
+  constructor(options) {
+    this.x = options.x;
+    this.y = options.y;
+    this.width = options.width;
+    this.speedX = options.speedX || 0;
+    this.moving = false;
+  }
+}
+```
+
+Dotaremos al objeto `Player` de una API que nos permita interactuar con él. Comenzaremos por permitir cambiar la dirección del jugador utilizando el método `player.move()` que recibirá un argumento indicando la dirección.
+
+```javascript
+class Player {
+/* ... */
+  move(dir) {
+    this.moving = true;
+
+    switch (dir) {
+      case 'right':
+        this.speedX = Math.abs(this.speedX);
+        break;
+      case 'left':
+        this.speedX = Math.abs(this.speedX) * -1;
+        break;
+    }
+/* ... */
+```
+
+Podremos detener el movimiento utilizando `player.stop()` que marcará la propiedad `moving` a `false`.
+
+```javascript
+stop() {
   this.moving = false;
 }
 ```
 
-Dotaremos al objeto `Player` de una API que permita interactuar con él. Comenzaremos por permitir cambiar la dirección del jugador utilizando el método `player.move()` que recibirá un argumento indicando la dirección.
-
-```javascript
-Player.prototype.move = function(dir) {
-  this.moving = true;
-  switch (dir) {
-    case 'right':
-      this.speedX = Math.abs(this.speedX);
-      break;
-    case 'left':
-      this.speedX = Math.abs(this.speedX) * -1;
-      break;
-  }
-};
-```
-
-Podremos parar al objeto utilizando `player.stop()` que marcará la propiedad `moving` a `false`.
-
-```javascript
-Player.prototype.stop = function() {
-  this.moving = false;
-};
-```
-
-Y añadiremos los métodos que faltan `update` y `render`.
+Y añadiremos los métodos que faltan: `update` y `render`.
 
 ```javascript
 //models/player.js
-function Player(options) {
-  this.x = options.x;
-  this.y = options.y;
-  this.width = options.width;
-  this.speedX = options.speedX || 0;
-  this.moving = false;
+class Player {
+  constructor(options) {
+    this.x = options.x;
+    this.y = options.y;
+    this.width = options.width;
+    this.speedX = options.speedX || 0;
+    this.moving = false;
+  }
+
+
+  stop() {
+    this.moving = false;
+  }
+
+  move(dir) {
+    this.moving = true;
+    switch (dir) {
+      case 'right':
+        this.speedX = Math.abs(this.speedX);
+        break;
+      case 'left':
+        this.speedX = Math.abs(this.speedX) * -1;
+        break;
+    }
+  }
+
+  update(dt) {
+    //Actualizamos la posicion en funcion de la velocidad
+    if (this.moving === true) {
+      var distance = this.speedX * dt;
+      this.x = this.x + distance;
+    }
+  }
+
+  render(context) {
+    context.save();
+    context.beginPath();
+    context.translate(this.x + this.width / 2, this.y + this.width / 2);
+    context.rect(-this.width / 2, -this.width / 2, this.width, this.width);
+    context.fillStyle = 'blue';
+    context.fill();
+    context.restore();
+  }
 }
 
-Player.prototype.stop = function() {
-  this.moving = false;
-};
-
-Player.prototype.move = function(dir) {
-  this.moving = true;
-  switch (dir) {
-    case 'right':
-      this.speedX = Math.abs(this.speedX);
-      break;
-    case 'left':
-      this.speedX = Math.abs(this.speedX) * -1;
-      break;
-  }
-};
-
-Player.prototype.update = function(dt) {
-  //Actualizamos la posicion en funcion de la velocidad
-  if (this.moving === true) {
-    var distance = this.speedX * dt;
-    this.x = this.x + distance;
-  }
-};
-
-Player.prototype.render = function(context) {
-  context.save();
-  context.beginPath();
-  context.translate(this.x + this.width / 2, this.y + this.width / 2);
-  context.rect(-this.width / 2, -this.width / 2, this.width, this.width);
-  context.fillStyle = 'blue';
-  context.fill();
-  context.restore();
-};
 ```
 
 
-Ahora necesiamos inicializar este personaje y poder interactuar con el a través del teclado, para ello crearemos el archivo `app.js` que tomará control de la situación:
-
-```
-.
-+-- index.html
-+-- models/player.js
-+-- app.js
-```
+Ahora necesiamos inicializar este personaje y poder interactuar con el a través del teclado, para ello crearemos el archivo `app.js` que se encargará de orquestar la aplicación:
 
 ```javascript
+// app.js
 var canvas = document.getElementById('canvas');
-var player;
+let player;
 
 function update(dt){
   player.update(dt);
@@ -133,6 +141,7 @@ function render(context){
 }
 
 function start(){
+  // Redimensionamos el canvas para que ocupe toda la pantalla
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
@@ -145,7 +154,7 @@ function start(){
   });
 }
 
-var myEngine = new Engine(canvas);
+const myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
@@ -175,7 +184,7 @@ document.addEventListener('keyup', function (e) {
 });
 ```
 
-Estos eventos responderan al `keydown` y `keyup` del teclado, permitiendonos mover al personaje cuando el usuario presione las teclas de flecha izquierda y flecha derecha.
+Estos eventos responderan al `keydown` y `keyup` del teclado, permitiéndonos mover al personaje cuando el usuario presione las teclas de flecha izquierda y flecha derecha.
 
 Para ambientar más la escena crearemos un fondo animado que se desplazará cuando el personaje se desplace.
 
@@ -301,91 +310,93 @@ Utils.arraymove = function (arr, fromIndex, toIndex) {
 
 ```javascript
 //models/Scenario.js
-function Scenario(options) {
-  this.x = options.x;
-  this.speedX = options.speedX || 0;
-  this.moving = false;
+class Scenario {
+  constructor (options) {
+    this.x = options.x;
+    this.speedX = options.speedX || 0;
+    this.moving = false;
 
-  this.squaresWidth = window.innerWidth / 2;
-  this.squares = [];
-  this.initSquares();
-}
+    this.squaresWidth = window.innerWidth / 2;
+    this.squares = [];
+    this.initSquares();
+  }
 
-Scenario.prototype.addSquare = function(color, start, width) {
-  this.squares.push({
-    x: start,
-    color: color,
-    width: width
-  });
-};
+  addSquare = function(color, start, width) {
+    this.squares.push({
+      x: start,
+      color: color,
+      width: width
+    });
+  };
 
-Scenario.prototype.initSquares = function() {
-  this.addSquare('red', 0, this.squaresWidth);
-  this.addSquare('green', this.squaresWidth, this.squaresWidth);
-  this.addSquare('navy', this.squaresWidth * 2, this.squaresWidth);
-  this.addSquare('grey', this.squaresWidth * 3, this.squaresWidth);
-};
+  initSquares = function() {
+    this.addSquare('red', 0, this.squaresWidth);
+    this.addSquare('green', this.squaresWidth, this.squaresWidth);
+    this.addSquare('navy', this.squaresWidth * 2, this.squaresWidth);
+    this.addSquare('grey', this.squaresWidth * 3, this.squaresWidth);
+  };
 
-Scenario.prototype.update = function(dt) {
-  if (this.moving === true) {
-    var distance = this.speedX * dt;
+  update(dt) {
+    if (this.moving === true) {
+      var distance = this.speedX * dt;
 
-    //Update position
-    for (var i = 0; i < this.squares.length; i++) {
-      var square = this.squares[i];
-      square.x = square.x + distance;
+      //Update position
+      for (var i = this.squares.length - 1; i >= 0; i--) {
+        var square = this.squares[i];
+        square.x = square.x + distance;
 
-      //Si el cuadrado sale del campo de vision lo reordenamos en el array
-      if (this.speedX < 0 && (square.x + square.width < 0)) {
-        var lastSquare = this.squares[this.squares.length - 1];
-        square.x = lastSquare.x + this.squaresWidth;
-        Utils.arraymove(this.squares, i, this.squares.length - 1);
-      } else if (this.speedX > 0 && (square.x > window.innerWidth)) {
-        var firstSquare = this.squares[0];
-        square.x = firstSquare.x - this.squaresWidth;
-        Utils.arraymove(this.squares, i, 0);
+        //Si el cuadrado sale del campo de vision lo reordenamos en el array
+        if (this.speedX < 0 && (square.x + square.width < 0)) {
+          var lastSquare = this.squares[this.squares.length - 1];
+          square.x = lastSquare.x + this.squaresWidth;
+          Utils.arraymove(this.squares, i, this.squares.length - 1);
+        } else if (this.speedX > 0 && (square.x > window.innerWidth)) {
+          var firstSquare = this.squares[0];
+          square.x = firstSquare.x - this.squaresWidth;
+          Utils.arraymove(this.squares, i, 0);
+        }
       }
+
     }
+  };
 
-  }
-};
+  stop() {
+    this.moving = false;
+  };
 
-Scenario.prototype.stop = function() {
-  this.moving = false;
-};
+  move(dir) {
+    this.moving = true;
+    switch (dir) {
+      case 'right':
+        this.speedX = Math.abs(this.speedX);
+        break;
+      case 'left':
+        this.speedX = Math.abs(this.speedX) * -1;
+        break;
+    }
+  };
 
-Scenario.prototype.move = function(dir) {
-  this.moving = true;
-  switch (dir) {
-    case 'right':
-      this.speedX = Math.abs(this.speedX);
-      break;
-    case 'left':
-      this.speedX = Math.abs(this.speedX) * -1;
-      break;
-  }
-};
+  render(context) {
+    context.save();
 
-Scenario.prototype.render = function(context) {
-  context.save();
+    this.squares.forEach((square) => {
+      context.beginPath();
+      context.rect(square.x, 0, square.width, window.innerHeight);
+      context.fillStyle = square.color;
+      context.fill();
+    });
 
-  this.squares.forEach(function(square) {
-    context.beginPath();
-    context.rect(square.x, 0, square.width, window.innerHeight);
-    context.fillStyle = square.color;
-    context.fill();
-  });
-
-  context.restore();
-};
+    context.restore();
+  };
+}
 ```
 
 
-Al igual que con el personaje, necesitaremos inicializar el escenario:
+Al igual que con el personaje, necesitaremos inicializar el escenario en nuestra aplicación:
 
 ```javascript
-var canvas = document.getElementById('canvas');
-var player,scenario;
+const canvas = document.getElementById('canvas');
+let player,scenario;
 
 function update(dt){
   scenario.update(dt);
@@ -430,7 +441,7 @@ function start(){
   });
 }
 
-var myEngine = new Engine(canvas);
+const myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
@@ -455,8 +466,6 @@ Para finalizar, añadimos en el archivo `index.html`  los scripts de la aplicaci
 ```
 
 
-![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/sidescroller.png)
-
 
 ## Ejercicio 1
 
@@ -475,7 +484,7 @@ this.squares.forEach(function(square) {
     context.beginPath();
     context.rect(0, 0, square.width, window.innerHeight);
 
-    var gradient = context.createLinearGradient(0, 0, square.width, 0);
+    const gradient = context.createLinearGradient(0, 0, square.width, 0);
     gradient.addColorStop(0, square.colorStart);
     gradient.addColorStop(1, square.colorEnd);
     context.fillStyle = gradient;

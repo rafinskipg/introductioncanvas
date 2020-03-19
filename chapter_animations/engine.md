@@ -1,5 +1,7 @@
 #  Motor de renderizado
 
+*Código fuente: https://github.com/rafinskipg/introductioncanvas/blob/master/examples/lib/Engine.js*
+
 Una de las características de los programadores es que intentamos buscar siempre la optimización de los procesos repetitivos, minimizando de esta manera el esfuerzo necesario para producir el mismo resultado.
 
 Recordemos el ejemplo de código necesario para orquestar una animación en canvas:
@@ -48,7 +50,7 @@ function loop() {
 loop();
 ```
 
-La mayor parte del código son los endamiajes necesarios para invocar las funciones del bucle una y otra vez. Sin embargo, la lógica que indica que es lo que pinta la aplicación es relativamente pequeña.
+La mayor parte del código son las estructuras necesarias para invocar las funciones del bucle una y otra vez. Sin embargo, la lógica de la aplicación es relativamente pequeña.
 
 Si vamos a realizar más ejercicios sería conveniente no tener que duplicar una y otra vez la función `loop`, para ello vamos a crear un pequeño _motor_ de renderizado que reutilizaremos de aquí en adelante.
 

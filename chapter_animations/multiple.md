@@ -1,8 +1,6 @@
-# Multiples elementos
+# Partículas
 
-El manejo de múltiples elementos que pueden tener cierto tiempo de vida variable puede conllevar una cierta complejidad. Para lidiar con el manejo de estas situaciones se proveen a continuación de una serie de recursos útiles.
-
-Imaginemos el siguiente escenario en el que varias particulas se mueven con movimientos rectilíneos uniformes (sin aceleración), en distintas direcciónes y con distintas velocidades.
+Imaginemos el siguiente escenario en el que varias partículas se mueven con movimientos rectilíneos uniformes (sin aceleración), en distintas direcciónes y con distintas velocidades.
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles.png)
 
@@ -75,7 +73,6 @@ myEngine.addRenderCallback(render);
 myEngine.start();
 ```
 
-Esta, sin duda sería una implementación perfectamente válida, pero el código se complica en cuanto pensamos en añadir nuevas condiciones.
 
 **Condición: Volatilidad**
 
@@ -117,7 +114,7 @@ function update(dt){
 }
 ```
 
-Vamos a refactorizar la función update utilizando `Array.prototype.map` y `lodash.compact`.
+Vamos a refactorizar la función update utilizando algunos de los métodos de Array: `Array.prototype.forEach`, `Array.prototype.map` y `Array.prototype.filter`.
 
 `map` acepta una función como parámetro que será ejecutada sobre cada elemento de la colección y devolverá una colección de elementos retornados en esas funciones.
 
@@ -131,51 +128,32 @@ var results = nums.map(function(num){
 });
 
 console.log(results);
-//[2,4,6]
+// [2,4,6]
 ```
 
-
-En caso de que en algun momento decidamos no devolver un elemento, en la colección resultante quedará un hueco con un `undefined`
+`filter` nos permite reducir la colección a una lista filtrada.
 
 ```javascript
 var nums = [1,2,3];
 
-var results = nums.map(function(num){
-  if(num !== 2){
-    return num * 2;
-  }
-});
+// Quitar todos los números que sean ===2
+var results = nums
+  .map(num => num * 2)
+  .filter(num => num !== 2);
 
 console.log(results);
-//[2, undefined, 6]
+// [4, 6]
 ```
 
-Por eso utilizamos el método `compact` de `lodash`. Este método elimina los elementos vacíos, dejandonos un array reutilizable para la siguiente iteración.
+`forEach` permite iterar sobre cada elemento de un array para ejecutar un callback, aunque no devuelve una nueva lista.
+
+En este caso vamos a usar `forEach` y `filter` para refactorizar el método de update.
 
 ```javascript
-var nums = [1,2,3];
-
-var results = _.compact(nums.map(function(num){
-  if(num !== 2){
-    return num * 2;
-  }
-}));
-
-console.log(results);
-//[2, 6]
-```
-
-Quedando el ejemplo de las partículas de la siguiente manera:
-
-```javascript
-
-function update(dt){
-  particles = _.compact(particles.map(function(particle){
-    particle.update(dt);
-    if(particle.combustible >= 0){
-      return particle;
-    }
-  }));
+function update(dt) {
+  particles.forEach(p => p.update(dt))
+  particles = particles
+    .filter(p => p.combustible > 0)   
 }
 ```
 
@@ -183,56 +161,13 @@ Como se puede apreciar en la siguiente imagen, varias partículas han desapareci
 
 ![](https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible.png)
 
-##Ejercicio 1
+## Ejercicio 1
 
 - Asocia la cantidad de combustible restante en una partícula al tamaño de la misma.
 - Cambia el color de fondo del canvas.
 
-## Radial gradient
 
-Los gradientes radiales se diferencian de los lineares en que crean un área circular con un degradado alrededor. Al igual que `createLinearGradient`, `createRadialGradiente` tiene una API en la que se pueden añadir fases de color utilizando `gradient.addColorStop`.
-
-```javascript
-var gradient = context.createRadialGradient(xCirculoInicial, yCirculoInicial, radioCirculoInicial, xCirculoFinal, yCirculoFinal, radioCirculoFinal);
-```
-
-Veamos una implementación del gradiente circular o radial.
-
-<img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/radial_gradient.png" style="width: 100%;margin-top: 20px; margin-bottom: 20px;">
-
-```javascript
-Particle.prototype.render = function(context) {
-
-  context.save();
-  context.translate(this.x - this.radius / 2, this.y - this.radius / 2);
-  context.beginPath();
-
-  var radius = this.radius;
-
-  var radgrad = context.createRadialGradient(
-    radius / 2,
-    radius / 2,
-    0,
-    radius / 2,
-    radius / 2,
-    radius / 2);
-
-  radgrad.addColorStop(0, 'white');
-  radgrad.addColorStop(0.4, 'red');
-  radgrad.addColorStop(0.6, 'orange');
-  radgrad.addColorStop(1, 'rgba(0,0,0,0)');
-
-  context.fillStyle = radgrad;
-
-  context.rect(0, 0, radius, radius);
-
-  context.fill();
-  context.closePath();
-  context.restore();
-}
-```
-
-#Ejercicio 2
+## Ejercicio 2
 - Renderiza las partículas con combustible utilizando un gradiente `context.createRadialGradient`.
 - Añade a cada partícula una sombra.
 

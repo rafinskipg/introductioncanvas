@@ -1,28 +1,30 @@
- # Nitro y aceleración.
+ # Aceleración.
 
-En este capítulo del libro vamos a ver como manejar el concepto de aceleración de elementos.
+Hasta ahora hemos representado objetos que se desplazaban con una velocidad constante. Pero generalmente esta no es la realidad, cuando queremos hacer animaciones que juegan con conceptos como la gravedad o diferentes fuerzas, necesitamos utilizar aceleración.
 
 Cuando hablamos de aceleración estamos refiriendonos a la modificación de la velocidad a lo largo del tiempo.
 
 >Cuando un objeto se mantiene a una velocidad constante decimos que tiene una aceleración 0 o nula.
   
-Elemental, querido Watson
 
-Cuando una aceleración es positiva la velocidad total del objeto se irá incrementando a lo largo del tiempo, un ejemplo claro sería cuando un conductor pisa el acelerador del vehículo y este comienza a ir cada vez más rápido. 
+Cuando una aceleración es positiva la velocidad total del objeto se irá incrementando a lo largo del tiempo.
 
 ```javascript
-function Car(){
-  this.x = 0;
-  this.speed = 0;
-}
+class Car {
+  constructor() {
+    this.x = 0;
+    this.speed = 0;
+    this.acceleration = 0;
+  }
 
-Car.prototype.update = function(dt){
-  this.speed = this.speed + this.acceleration;
-  this.x = this.x + this.speed * dt;
-}
+  update(dt){
+    this.speed = this.speed + this.acceleration;
+    this.x = this.x + this.speed * dt;
+  }
 
-Car.prototype.accelerate = function(){
-  this.acceleration = 0.10;
+  accelerate(){
+    this.acceleration = 0.10;
+  }
 }
 ```
 
@@ -32,17 +34,7 @@ Car.prototype.accelerate = function(){
 Una aceleración negativa implicará una bajada en la velocidad del vehículo
 
 ```javascript
-function Car(){
-  this.x = 0;
-  this.speed = 0;
-}
-
-Car.prototype.update = function(dt){
-  this.speed = this.speed + this.acceleration;
-  this.x = this.x + this.speed * dt;
-}
-
-Car.prototype.break = function(){
+break(){
   this.acceleration = -0.20;
 }
 ```
@@ -50,7 +42,7 @@ Car.prototype.break = function(){
 
 ![](https://raw.githubusercontent.com/rafinskipg/introductioncanvas/master/img/teory/chapter_animations/acceleration/car_decelerate.png)
 
-La aceleración no solo modifica la velocidad absoluta de un cuerpo, si no que también influye en el sentido de esta. Una aceleración negativa tendrá como efecto temporal parar la velocidad del objeto, mas si el objeto sigue siendo acelerado negativamente su velocidad empezará a cambiar de dirección.
+La aceleración no solo modifica la velocidad absoluta de un cuerpo, si no que también influye en el sentido de esta. Una aceleración negativa tendrá como efecto temporal parar la velocidad del objeto, pero si el objeto sigue siendo acelerado negativamente su velocidad empezará a cambiar de dirección.
 
 Por ejemplo, un cuerpo lanzado desde la tierra al espacio tendrá una velocidad inicial `X`, la velocidad de este cuerpo irá disminuyendo debido a la fuerza gravitatoria que aplicará una aceleración negativa. Cuando el cuerpo haya alcanzando su punto máximo de altura la dirección de movimiento se invertirá y el cuerpo empezará a descender, a una velocidad cada vez mayor aunque con un sentido de movimiento inverso al original.
 
@@ -63,26 +55,28 @@ Tomemos el ejemplo del vehículo en marcha, queremos representar un coche, para 
 Crearemos una clase `Car` que permita renderizar la imagen:
 
 ```javascript
-function Car(options) {
-  this.x = options.x;
-  this.y = options.y;
-  this.img = options.img;
-  this.speed = 0;
-  this.acceleration = 0;
-}
+class Car {
 
-Car.prototype.update = function(dt) {
-  this.speed += this.acceleration;
-  this.x += this.speed * dt;
-}
-
-Car.prototype.render = function(context) {
-  context.drawImage(this.img, this.x, this.y, 70, 50);
-}
-
-Car.prototype.accelerate = function(acceleration) {
-  this.acceleration += acceleration;
-}
+  constructor(options) {
+    this.x = options.x;
+    this.y = options.y;
+    this.img = options.img;
+    this.speed = 0;
+    this.acceleration = 0;
+  }
+  
+  update(dt) {
+    this.speed += this.acceleration;
+    this.x += this.speed * dt;
+  }
+  
+  render(context) {
+    context.drawImage(this.img, this.x, this.y, 70, 50);
+  }
+  
+  accelerate(acceleration) {
+    this.acceleration += acceleration;
+  }
 ```
 
 Para instanciar la clase `Car` deberemos precargar la imagen, para ello podemos usar un preloader o instanciar un objeto `Image` y definir el callback `onload`.
@@ -102,9 +96,9 @@ img.onload = function(){
 Así quedaría orquestado:
 
 ```javascript
-var canvas = document.getElementById('canvas');
-var img = new Image();
-var car;
+const canvas = document.getElementById('canvas');
+const img = new Image();
+let car;
 
 function update(dt) {
   car.update(dt);
@@ -126,7 +120,7 @@ function start(context, canvas) {
 }
 
 
-var myEngine = new Engine(canvas);
+const myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
@@ -272,7 +266,7 @@ function update(dt) {
 }
 ```
 
-¡OSOM! Nuestro vehículo puede acelerar, frenar... Genial.
+¡Genial! Nuestro vehículo puede acelerar, frenar...
 
 Posiblemente en este punto hayas experimentado algunas fricciones con tu aplicación, perdiendo rendimiento a medida que añadiamos cosas. El manejo de imágenes y los renderizados ineficientes suelen ser un problema común al realizar animaciones de cualquier tipo.
 
@@ -291,7 +285,8 @@ myEngine.setClearingMethod(clear);
 Delegamos la responsabilidad de borrarse al coche: 
 
 ```javascript
-Car.prototype.clear = function(context, canvas){
+// car.js
+clear(context, canvas){
   context.clearRect(this.x - 100, this.y, 200, 50);
 }
 ```
@@ -301,7 +296,7 @@ Car.prototype.clear = function(context, canvas){
 Para no perder de vista el vehículo haremos que este vuelva al inicio en caso de que salga de la pantalla:
 
 ```javascript
-Car.prototype.checkLimits = function(maxWidth) {
+checkLimits(maxWidth) {
   if (this.x > maxWidth + 100) {
     //si sobrepasa la anchura máxima (más un pequeño margen), lo devolvemos al inicio
     this.x = -90;
