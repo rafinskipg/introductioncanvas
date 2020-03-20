@@ -3,12 +3,8 @@ var particles = [];
 var NUM_PARTICLES = 20;
 
 function update(dt) {
-  particles = _.compact(particles.map(function(particle) {
-    particle.update(dt);
-    if (particle.combustible >= 0) {
-      return particle;
-    }
-  }));
+  particles.forEach(p => p.update(dt))
+  particles = particles.filter(p => p.combustible > 0)
 }
 
 function render(context) {
@@ -42,7 +38,7 @@ function clear(context, canvas) {
   context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-var myEngine = new Engine(canvas, true, 100);
+var myEngine = new Engine(canvas, true);
 myEngine.setClearingMethod(clear);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);

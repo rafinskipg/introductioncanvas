@@ -289,7 +289,9 @@ clear() {
 }
 ```
 
-De esta manera tendremos la capacidad de definir nuestros propios métodos de limpiado del canvas, veamos un ejemplo:
+De esta manera tendremos la capacidad de definir nuestros propios métodos de limpiado del canvas.
+Esto es útil si queremos delegar la limpieza del canvas a cada una de las entidades: a veces la performance puede mejorar si cada entidad decide borrarse a si misma antes de repintarse, en vez de borrar todo el canvas.
+También puede servir para crear otros efectos. Por ejemplo, podemos dejar el estado anterior semitransparente y mostrar el nuevo encima.
 
 ```javascript
 function clear(context, canvas) {
@@ -301,6 +303,10 @@ function clear(context, canvas) {
 const myEngine = new Engine(canvas);
 myEngine.setClearingMethod(clear);
 ```
+
+![](../img/teory/chapter_animations/multiple/multiple_first_acc.png)
+
+
 
 ## Aceptar un máximo de ciclos
 

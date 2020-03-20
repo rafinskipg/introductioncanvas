@@ -6,24 +6,26 @@ Imaginemos el siguiente escenario en el que varias partículas se mueven con mov
 
 
 ```javascript
-function Particle(options) {
-  this.x = options.x;
-  this.y = options.y;
-  this.speedX = options.speedX;
-  this.speedY = options.speedY;
-  this.alive = true;
-}
+class Particle {
+  constructor(options) {
+    this.x = options.x;
+    this.y = options.y;
+    this.speedX = options.speedX;
+    this.speedY = options.speedY;
+    this.alive = true;
+  }
 
-Particle.prototype.update = function(dt){
-  this.x = this.x + ((this.speedX/1000) * dt);
-  this.y = this.y + ((this.speedY/1000) * dt);
-}
+  update(dt){
+    this.x = this.x + (this.speedX * dt);
+    this.y = this.y + (this.speedY * dt);
+  }
 
-Particle.prototype.render = function(context) {
-  context.beginPath();
-  context.arc(this.x, this.y, 10, 0, 2 * Math.PI);
-  context.lineWidth = 4;
-  context.stroke();
+  render(context) {
+    context.beginPath();
+    context.arc(this.x, this.y, 10, 0, 2 * Math.PI);
+    context.lineWidth = 4;
+    context.stroke();
+  }
 }
 ```
 
@@ -31,18 +33,18 @@ Siguiendo el proceso mental que nos llevó a crear los ejemplos anteriores podr�
 
 ```javascript
 //App.js
-var canvas = document.getElementById('canvas');
-var particles = [];
-var NUM_PARTICLES = 200;
+const canvas = document.getElementById('canvas');
+let particles = [];
+const NUM_PARTICLES = 200;
 
 function update(dt){
-  for(var i = 0; i < particles.length; i++){
+  for(let i = 0; i < particles.length; i++){
     particles[i].update(dt);
   }
 }
 
 function render(context){
-  for(var i = 0; i < particles.length; i++){
+  for(let i = 0; i < particles.length; i++){
     particles[i].render(context);
   }
 }
@@ -51,11 +53,11 @@ function start(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   
-  for (var i = 0; i < NUM_PARTICLES; i++) {
-    var posX = Utils.randomInteger(0, canvas.width);
-    var posY = Utils.randomInteger(0, canvas.height);
-    var speedX = Utils.randomFloat(-100, 100);
-    var speedY = Utils.randomFloat(-100, 100);
+  for (let i = 0; i < NUM_PARTICLES; i++) {
+    const posX = Utils.randomInteger(0, canvas.width);
+    const posY = Utils.randomInteger(0, canvas.height);
+    const speedX = Utils.randomFloat(-100, 100);
+    const speedY = Utils.randomFloat(-100, 100);
     
     particles.push(new Particle({
       x: posX,
@@ -66,7 +68,7 @@ function start(){
   }
 }
 
-var myEngine = new Engine(canvas);
+const myEngine = new Engine(canvas);
 myEngine.addStartCallback(start);
 myEngine.addUpdateCallback(update);
 myEngine.addRenderCallback(render);
@@ -83,19 +85,20 @@ Añadamos al ejemplo anterior una condición:
 - Cada partícula tendrá un `combustible` que irá consumiendo a medida que se mueva, cuando ese combustible se termine la partícula deberá desaparecer de la lista de partículas.
 
 ```javascript
-function Particle(options) {
-  this.x = options.x;
-  this.y = options.y;
-  this.speedX = options.speedX;
-  this.speedY = options.speedY;
-  this.combustible = options.combustible;
-  this.alive = true;
-}
+class Particle {
+  constructor (options) {
+    this.x = options.x;
+    this.y = options.y;
+    this.speedX = options.speedX;
+    this.speedY = options.speedY;
+    this.combustible = options.combustible;
+  }
 
-Particle.prototype.update = function(dt){
-  this.combustible -= 1;
-  this.x = this.x + ((this.speedX/1000) * dt);
-  this.y = this.y + ((this.speedY/1000) * dt);
+  update(dt){
+    this.combustible -= 1;
+    this.x = this.x + (this.speedX * dt);
+    this.y = this.y + (this.speedY * dt);
+  }
 }
 ```
 
@@ -166,18 +169,88 @@ Como se puede apreciar en la siguiente imagen, varias partículas han desapareci
 - Asocia la cantidad de combustible restante en una partícula al tamaño de la misma.
 - Cambia el color de fondo del canvas.
 
-
 ## Ejercicio 2
 - Renderiza las partículas con combustible utilizando un gradiente `context.createRadialGradient`.
 - Añade a cada partícula una sombra.
 
 <img src="https://github.com/rafinskipg/introductioncanvas/raw/master/img/teory/chapter_animations/multiple_particles_combustible_gradient.png" style="width: 100%;margin-top: 20px; margin-bottom: 20px;">
 
+# Aplicando aceleración.
 
-//TODO: explicar luego la aceleracion con estas particulas y hacer un ejercicio de meter particulas cuando una muera en una direccion random, y que sea el particles moving (cap aceleracion)
+Vamos a añadir dos nueva reglas:
+- cuando una partícula muera aparecerá una nueva en una posición aleatoria
+- las partículas aparecerán con una aceleración aleatoria
 
-//Continuar el ejemplo del sidescroller, metiendo balas que pueden ser como las esferas con sombras
+Primero abstraeremos la lógica para poder crear una nueva partícula en un método:
 
-//Luego capitulo de aceleracion metiendo aceleracion con el espacio 
+```javascript
 
-//Luego capítulo de sprites
+function createParticle() {
+  const posX = Utils.randomInteger(0, canvas.width);
+  const posY = Utils.randomInteger(0, canvas.height);
+  const combustible = Utils.randomInteger(100, 200);
+  const speedX = Utils.randomFloat(-100, 100);
+  const speedY = Utils.randomFloat(-100, 100);
+  // Añadimos acc
+  const acc = Utils.randomFloat(-4, 4);
+  
+  return new Particle({
+    x: posX,
+    y: posY,
+    combustible : combustible,
+    speedX: speedX,
+    speedY: speedY,
+    acc: acc
+  });
+}
+```
+
+Si queremos añadir una partícula cuando otra muera, deberemos hacerlo en la fase de `update`. Cuando buscamos las partículas sin combustible, devolveremos una nueva en el caso de encontrar una que acaba de agotarse.
+
+```javascript
+function update(dt) {
+  particles.forEach(p => p.update(dt))
+  particles = particles
+    .map(p => {
+      if (p.combustible <= 0) {
+        return createParticle()
+      } else {
+        return p
+      }
+    })   
+}
+```
+
+Para poder utilizar la aceleración en cada partícula tendremos que tenerla en cuenta y sumar su valor a la velocidad:
+
+```javascript
+update(dt){
+  this.combustible -= 1;
+  // Añadimos la aceleración a la velocidad X e Y
+  this.speedX = this.speedX + this.acc
+  this.speedY = this.speedY + this.acc
+  this.x = this.x + (this.speedX * dt);
+  this.y = this.y + (this.speedY * dt);
+}
+```
+
+![](../img/teory/chapter_animations/multiple/multiple_first_acc.png)
+
+Vemos que empiezan a aparecer movimientos con curvas, debido a que las partículas tienen una velocidad inicial pero pueden tener aceleraciones que apuntan en otra dirección:
+
+![](../img/teory/chapter_animations/multiple/acc_expl.png)
+
+Aún así estamos utilizando una misma aceleración para dos velocidades diferentes, la velocidad en el ejeX y la velocidad en el ejeY. Podemos cambiar la implementacion y crear `accX` y `accY` para aplicar el cambio sobre `speedX` y `speedY`.
+
+```javascript
+update(dt){
+  this.combustible -= 1;
+  // Añadimos la aceleración a la velocidad X e Y
+  this.speedX = this.speedX + this.accX
+  this.speedY = this.speedY + this.accY
+  this.x = this.x + (this.speedX * dt);
+  this.y = this.y + (this.speedY * dt);
+}
+```
+En el siguiente capítulo veremos como utilizar **vectores** para poder simplificar el cálculo de velocidad, aceleración y fuerzas cuando existen más variables a tener en cuenta.
+
