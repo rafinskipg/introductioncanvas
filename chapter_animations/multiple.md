@@ -12,7 +12,6 @@ class Particle {
     this.y = options.y;
     this.speedX = options.speedX;
     this.speedY = options.speedY;
-    this.alive = true;
   }
 
   update(dt){

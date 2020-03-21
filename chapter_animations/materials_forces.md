@@ -1,4 +1,4 @@
-#Modelando materiales
+# Modelando materiales y utilizando fuerzas
 
 Vamos a crear un ecosistema de materiales con distintas propiedades que responderán de maneras distintas a las fuerzas externas.
 
@@ -8,21 +8,30 @@ Primero necesitaremos definir una entidad `BaseEntity` que contendrá la inicial
 
 ```javascript
 //BaseEntity.js
-function BaseEntity(opts){
-  this.pos = opts.hasOwnProperty('pos') ? opts.pos : new Victor(0,0);
-  this.speed = opts.hasOwnProperty('speed') ? opts.speed : new Victor(0,0);
-  this.acceleration = opts.hasOwnProperty('acceleration') ? opts.acceleration : new Victor(0,0);
-}
+class BaseEntity {
+  constructor(opts){
+    // Vector de posición
+    this.pos = new Victor(opts.x, opts.y);
+    // Vector de velocidad
+    this.speed = new Victor(opts.speedX || 0, opts.speedY || 0);
+    // Vector de aceleración
+    this.acceleration = new Victor(opts.accX || 0, opts.accY || 0);
+  }
 
-BaseEntity.prototype.update = function(dt){
-  //Añadimos la aceleración a la velocidad
-  this.speed.add(this.acceleration);
+  update(dt){
+    // Añadimos la aceleración a la velocidad
+    this.speed.add(this.acceleration);
 
-  //Calculamos el diferencial de posición 
-  var posDt = this.speed.clone().multiply(new Victor(dt/1000, dt/1000));
+    // Calculamos el diferencial de posición 
+    const posDt = this.speed.clone().multiply(new Victor(dt, dt));
 
-  //Añadimos el diferencial a la posicion
-  this.pos = this.pos.add(posDt);
+    // Añadimos la diferencia de posición a la posición actual
+    this.pos = this.pos.add(posDt);
+  }
+
+  render(context, canvas){
+    // Implementar
+  }
 }
 ```
 
