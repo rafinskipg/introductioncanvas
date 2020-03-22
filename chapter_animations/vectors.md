@@ -256,7 +256,7 @@ const player = new Player({
 })
 ```
 
-![](../img/teory/chapter_animations/vector/../vectors/spaceship_vectors.png)
+![](../img/teory/chapter_animations/vectors/spaceship_vectors.png)
 
 Este jugador tomará forma de nave espacial. Cuando presionemos las teclas ARROW_LEFT y ARROW_RIGHT la nave va a rotar a izquierda y derecha. Y cuando presionemos ARROW_UP o ARROW_DOWN la nave acelerará o decelerará su velocidad. 
 
@@ -366,7 +366,7 @@ class Player extends BaseEntity {
 }
 ```
 
-![](../img/teory/chapter_animations/multiple/example.png)
+![](../img/teory/chapter_animations/vectors/example.png)
 
 Lo siguiente que querremos animar es el movimiento de la nave hacia adelante. Vamos a implementar el método accelerate.
 
@@ -389,7 +389,7 @@ decelerate(val) {
 }
 ```
 
-![](../img/teory/chapter_animations/multiple/movement.png)
+![](../img/teory/chapter_animations/vectors/movement.png)
 
 
 Así de sencillo. Ya tenemos movimiento de nuestra nave. Pero ahora tenemos un problema, la nave sale de la pantalla y el jugador no puede volver a localizarla. 
