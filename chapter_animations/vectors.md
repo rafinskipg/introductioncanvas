@@ -247,7 +247,7 @@ Esto nos servirá para poder trabajar de forma más eficiente. Si queremos crear
 
 En el ejercicio anterior teníamos una serie de partículas moviendose por la pantalla
 
-Ahora vamos a crear un jugador que obtenga puntos cada vez que colisione con un partícula. Este jugador aparecerá en una posición inicial y podrá desplazarse en cuatro direcciones con el uso del teclado.
+Ahora vamos a crear un jugador que aparecerá en una posición inicial y podrá desplazarse en cuatro direcciones con el uso del teclado.
 
 ```javascript
 const player = new Player({
@@ -538,6 +538,216 @@ function createParticle() {
     acc
   });
 }
+```
+
+Veamos como quedaría todo el código de la aplicación hasta ahora:
+
+```javascript
+//BaseEntity.js
+class BaseEntity {
+  constructor(opts){
+    // Vector de posición
+    this.pos = opts.pos.clone();
+    // Vector de velocidad
+    this.speed = opts.speed ? opts.speed.clone() : new Victor(0,0);
+    // Vector de aceleración
+    this.acceleration = opts.acc ? opts.acc.clone() : new Victor(0,0);
+  }
+
+  update(dt){
+    // Añadimos la aceleración a la velocidad
+    this.speed.add(this.acceleration);
+
+    // Calculamos el diferencial de posición 
+    const posDt = this.speed.clone().multiply(new Victor(dt, dt));
+
+    // Añadimos la diferencia de posición a la posición actual
+    this.pos = this.pos.add(posDt);
+  }
+
+  checkLimits(xMin, xMax, yMin, yMax) {
+    if (this.pos.x > xMax) {
+      this.pos.x = xMin;
+    } else if (this.pos.x < xMin) {
+      this.pos.x = xMax;
+    }
+  
+    if (this.pos.y > yMax) {
+      this.pos.y = yMin;
+    } else if (this.pos.y < yMin) {
+      this.pos.y = yMax;
+    }
+  }
+  
+
+  render(context, canvas){
+    // Implementar
+  }
+}
+```
+
+```javascript
+// Player
+class Player extends BaseEntity {
+  constructor(opts) {
+    super(opts)
+    this.img = opts.img
+    this.angle = 0
+  }
+
+  render(context) {
+    // Renderiza una imagen rotada
+    context.save()
+    context.translate(this.pos.x, this.pos.y)
+    context.rotate(Utils.degreeToRadian(this.angle))
+    context.drawImage(this.img, -75, -75, 150, 150);
+    context.restore()
+  }
+
+  rotate(deg) {
+    this.angle = this.angle + deg
+  }
+
+  accelerate(val) {  
+    const newAcc = new Victor(val, val)
+    this.acceleration.add(newAcc.rotateByDeg(this.angle))
+  }
+
+  decelerate(val) {
+    const newAcc = new Victor(val, val)
+    this.acceleration.subtract(newAcc.rotateByDeg(this.angle))
+  }
+
+  stopAccelerating() {
+    this.acceleration = new Victor(0, 0)
+  }
+}
+```
+
+```javascript
+// Particle
+class Particle extends BaseEntity {
+  constructor(opts) {
+    super(opts)
+    this.combustible = opts.combustible
+  }
+
+  update(dt) {
+    super.update(dt)
+    this.combustible -= 1;
+  }
+
+  render(context) {
+    context.beginPath();
+    context.arc(this.pos.x, this.pos.y, 10, 0, 2 * Math.PI);
+    context.lineWidth = 4;
+    context.stroke();
+  }
+}
+
+```
+
+```javascript
+// App
+const canvas = document.getElementById('canvas');
+const keysPushed = {}
+let particles = [];
+const spaceshipImage = new Image();
+
+// Declare the new player object
+const player = new Player({
+  pos: new Victor(200, 200),
+  img: spaceshipImage
+})
+
+const NUM_PARTICLES = 20;
+
+function createParticle() {
+  const pos = new Victor(Utils.randomInteger(0, canvas.width), Utils.randomInteger(0, canvas.height))
+  const speed = new Victor(Utils.randomFloat(-100, 100), Utils.randomFloat(-100, 100))
+  const acc = new Victor(Utils.randomFloat(-4, 4), Utils.randomFloat(-4, 4))
+  const combustible = Utils.randomInteger(100, 500);
+
+  return new Particle({
+    combustible,
+    pos,
+    speed,
+    acc
+  });
+}
+
+function update(dt) {
+  particles.forEach(p => p.update(dt))
+  particles = particles
+    .map(p => {
+      if (p.combustible <= 0) {
+        return createParticle()
+      } else {
+        return p
+      }
+    })   
+  
+  if(keysPushed['ArrowUp']) {
+    player.accelerate(0.02)
+  } else if (keysPushed['ArrowDown']) {
+    player.decelerate(0.02)
+  } else {
+    player.stopAccelerating()
+  }
+
+  if(keysPushed['ArrowLeft']) {
+    player.rotate(2)
+  }
+
+  if(keysPushed['ArrowRight']) {
+    player.rotate(-2)
+  }
+
+  player.update(dt)
+
+  player.checkLimits(0, canvas.width, 0, canvas.height)
+}
+
+function render(context) {
+  particles.forEach(function(particle) {
+    particle.render(context)
+  })
+
+  player.render(context)
+}
+
+function start() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  for (let i = 0; i < NUM_PARTICLES; i++) {  
+    particles.push(createParticle());
+  }
+}
+
+
+document.addEventListener('keydown', function(e) {
+  e.preventDefault();
+  keysPushed[e.key] = true
+});
+
+document.addEventListener('keyup', function(e) {
+  e.preventDefault();
+  keysPushed[e.key] = false
+});
+
+
+const myEngine = new Engine(canvas);
+
+myEngine.addStartCallback(start);
+myEngine.addUpdateCallback(update);
+myEngine.addRenderCallback(render);
+
+spaceshipImage.src = 'spaceship.png';
+spaceshipImage.onload = function() {
+  myEngine.start();
+};
+
 ```
 
 Los siguientes pasos que podríamos implementar serían:

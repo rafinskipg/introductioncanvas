@@ -9,7 +9,6 @@ const player = new Player({
   img: spaceshipImage
 })
 
-
 const NUM_PARTICLES = 20;
 
 function createParticle() {

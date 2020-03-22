@@ -31,6 +31,4 @@ class Player extends BaseEntity {
   stopAccelerating() {
     this.acceleration = new Victor(0, 0)
   }
-
-
 }
