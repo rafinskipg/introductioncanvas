@@ -207,7 +207,7 @@ class BaseEntity {
 }
 ```
 
-Podríamos reimplementar nuestra partícula de la siguiente forma:
+Podríamos reimplementar nuestra partícula del capítulo anterior de la siguiente forma:
 
 ```javascript
 class Particle extends BaseEntity {
@@ -217,7 +217,7 @@ class Particle extends BaseEntity {
   }
 
   update(dt) {
-    super(dt)
+    super.update(dt)
     this.combustible -= 1;
   }
 
@@ -230,6 +230,320 @@ class Particle extends BaseEntity {
 }
 ```
 
+Para ello tendremos que importar la librería de vectores y la entidad base.
+
+```html
+<script src="../../lib/utils.js"></script>
+<script src="../../lib/Engine.js"></script>
+<script src="../../../bower_components/victor/build/victor.min.js"></script>
+<script src="models/BaseEntity.js"></script>
+<script src="models/particle.js"></script>
+<script src="app.js"></script>
+```
+
 Esto nos servirá para poder trabajar de forma más eficiente. Si queremos crear alguna animación solo tendremos que traernos nuestro `Engine`, nuestra libería de vectores y la entidad base y podremos programar rápidamente.
 
-Hay que tener en cuenta que la programación orientada objetos no vale para todas las soluciones, usala con cuidado.
+## Añadiendo un jugador y refactorizando el código
+
+En el ejercicio anterior teníamos una serie de partículas moviendose por la pantalla
+
+Ahora vamos a crear un jugador que obtenga puntos cada vez que colisione con un partícula. Este jugador aparecerá en una posición inicial y podrá desplazarse en cuatro direcciones con el uso del teclado.
+
+```javascript
+const player = new Player({
+  x: 0,
+  y: 0,
+})
+```
+
+![](../img/teory/chapter_animations/vector/../vectors/spaceship_vectors.png)
+
+Este jugador tomará forma de nave espacial. Cuando presionemos las teclas ARROW_LEFT y ARROW_RIGHT la nave va a rotar a izquierda y derecha. Y cuando presionemos ARROW_UP o ARROW_DOWN la nave acelerará o decelerará su velocidad. 
+
+Primero necesitaremos cargar la imagen de la nave:
+
+```javascript
+//Preload the image
+img.src = 'images/starship.png';
+img.onload = function() {
+  myEngine.start();
+};
+```
+
+Al igual que hicimos anteriormente cuando estudiabamos la aceleración, necesitaremos capturar el input del teclado con `document.addEventlistener`.
+
+```javascript
+const keysPushed = {}
+
+document.addEventListener('keydown', function(e) {
+  e.preventDefault();
+  keysPushed[e.key] = true
+});
+
+document.addEventListener('keyup', function(e) {
+  e.preventDefault();
+  keysPushed[e.key] = false
+});
+
+```
+
+En el método update miraremos que teclas estan siendo pulsadas y haremos que la nave reaccione a esos input
+
+```javascript
+
+function update(dt) {
+  particles.forEach(p => p.update(dt))
+  particles = particles
+    .map(p => {
+      if (p.combustible <= 0) {
+        return createParticle()
+      } else {
+        return p
+      }
+    })   
+  
+  if(keysPushed['ArrowUp']) {
+    player.accelerate(0.2)
+  } else if(keysPushed['ArrowDown']) {
+    player.decelerate(0.02)
+  } else {
+    player.stopAccelerating()
+  }
+
+  if(keysPushed['ArrowLeft']) {
+    player.rotate(2)
+  }
+
+  if(keysPushed['ArrowRight']) {
+    player.rotate(-2)
+  }
+
+  player.update(dt)
+}
+```
+
+Ahora solo nos faltará implementar los métodos `rotate`, `accelerate` y `update` en el jugador.
+Supongamos que partimos de esta clase `Player` que renderiza la imagen.
+
+```javascript
+class Player extends BaseEntity {
+  constructor(opts) {
+    super(opts)
+    this.img = opts.img
+  }
+
+  render(context) {
+    context.drawImage(this.img, this.pos.x, this.pos.y, 150, 150);
+  }
+}
+```
+
+Añadimos el método rotate. Recuerda, como vimos en capítulos anteriores, antes de hacer una rotación vamos a trasladar el origen de coordenadas, luego rotaremos y por último restauraremos el estado del canvas:
+
+```javascript
+class Player extends BaseEntity {
+  constructor(opts) {
+    super(opts)
+    this.img = opts.img
+
+    // Guardamos el ángulo de rotación
+    this.angle = 0
+  }
+
+  render(context) {
+    context.save()
+    context.translate(this.pos.x, this.pos.y)
+    context.rotate(Utils.degreeToRadian(this.angle))
+
+    // Ahora pintamos la imagen en -75, -75 para que el eje de rotación sea el centro de la imagen.
+    context.drawImage(this.img, -75, -75, 150, 150);
+    context.restore()
+  }
+
+  rotate(deg) {
+    this.angle = this.angle + deg
+  }
+}
+```
+
+![](../img/teory/chapter_animations/multiple/example.png)
+
+Lo siguiente que querremos animar es el movimiento de la nave hacia adelante. Vamos a implementar el método accelerate.
+
+```javascript
+accelerate(val) { 
+  const newAcc = new Victor(val, val)
+  this.acceleration.add(newAcc.rotateByDeg(this.angle))
+}
+```
+Estamos llamando a `rotateByDeg` antes de añadir la nueva aceleración a la aceleración actual. Cuando rotamos un vector ciertos grados, en este caso porque la nave está orientada hacia otra dirección, los valores `x` e `y` cambian, aunque la magnitud del vector se mantiene.
+
+Tenemos que rotar la aceleración antes de añadirla para poder tener en cuenta la dirección en la que acelera la nave.
+
+Similarmente, el método decelerate tendría que rotar el vector de aceleración antes de restarlo.
+
+```javascript
+decelerate(val) {
+  const newAcc = new Victor(val, val)
+  this.acceleration.subtract(newAcc.rotateByDeg(this.angle))
+}
+```
+
+![](../img/teory/chapter_animations/multiple/movement.png)
+
+
+Así de sencillo. Ya tenemos movimiento de nuestra nave. Pero ahora tenemos un problema, la nave sale de la pantalla y el jugador no puede volver a localizarla. 
+
+Lo que haremos será incluir un método en la clase `BaseEntity` llamado `checkLimits` que nos indicará si la instancia esta fuera de unos límites determinados, y si es así la desplazará. Utilizaremos este método para resetear la posición de la nave y que reaparezca en el canvas.
+
+
+```javascript
+checkLimits(xMin, xMax, yMin, yMax) {
+  if (this.pos.x > xMax) {
+    this.pos.x = xMin;
+  } else if (this.pos.x < xMin) {
+    this.pos.x = xMax;
+  }
+
+  if (this.pos.y > yMax) {
+    this.pos.y = yMin;
+  } else if (this.pos.y < yMin) {
+    this.pos.y = yMax;
+  }
+}
+```
+
+Este es el código que orquesta nuestra aplicación ahora mismo. 
+
+```javascript
+const canvas = document.getElementById('canvas');
+const keysPushed = {}
+let particles = [];
+const spaceshipImage = new Image();
+
+// Declare the new player object
+const player = new Player({
+  x: 200,
+  y: 200,
+  img: spaceshipImage
+})
+
+const NUM_PARTICLES = 20;
+
+function createParticle() {
+  const posX = Utils.randomInteger(0, canvas.width);
+  const posY = Utils.randomInteger(0, canvas.height);
+  const combustible = Utils.randomInteger(100, 500);
+  const speedX = Utils.randomFloat(-100, 100);
+  const speedY = Utils.randomFloat(-100, 100);
+  const accX = Utils.randomFloat(-4, 4);
+  const accY = Utils.randomFloat(-4, 4);
+
+  return new Particle({
+    x: posX,
+    y: posY,
+    combustible : combustible,
+    speedX: speedX,
+    speedY: speedY,
+    accX: accX,
+    accY: accY
+  });
+}
+
+function update(dt) {
+  particles.forEach(p => p.update(dt))
+  particles = particles
+    .map(p => {
+      if (p.combustible <= 0) {
+        return createParticle()
+      } else {
+        return p
+      }
+    })   
+  
+  if(keysPushed['ArrowUp']) {
+    player.accelerate(0.02)
+  } else if (keysPushed['ArrowDown']) {
+    player.decelerate(0.02)
+  } else {
+    player.stopAccelerating()
+  }
+
+  if(keysPushed['ArrowLeft']) {
+    player.rotate(2)
+  }
+
+  if(keysPushed['ArrowRight']) {
+    player.rotate(-2)
+  }
+
+  player.update(dt)
+
+  player.checkLimits(0, canvas.width, 0, canvas.height)
+}
+
+function render(context) {
+  particles.forEach(function(particle) {
+    particle.render(context)
+  })
+
+  player.render(context)
+}
+
+function start() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  for (let i = 0; i < NUM_PARTICLES; i++) {  
+    particles.push(createParticle());
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  e.preventDefault();
+  keysPushed[e.key] = true
+});
+
+document.addEventListener('keyup', function(e) {
+  e.preventDefault();
+  keysPushed[e.key] = false
+});
+
+
+const myEngine = new Engine(canvas);
+myEngine.addStartCallback(start);
+myEngine.addUpdateCallback(update);
+myEngine.addRenderCallback(render);
+
+spaceshipImage.src = 'spaceship.png';
+spaceshipImage.onload = function() {
+  myEngine.start();
+};
+```
+
+Como hemos empezado a utilizar vectores podemos refactorizar las propiedades que reciben los constructores de las clases, eliminando `x` e `y` y dejando solamente un vector. Haremos lo mismo con las propiedades de velocidad y aceleración.
+
+```javascript
+
+function createParticle() {
+  const pos = new Victor(Utils.randomInteger(0, canvas.width), Utils.randomInteger(0, canvas.height))
+  const speed = new Victor(Utils.randomFloat(-100, 100), Utils.randomFloat(-100, 100))
+  const acc = new Victor(Utils.randomFloat(-4, 4), Utils.randomFloat(-4, 4))
+  const combustible = Utils.randomInteger(100, 500);
+
+  return new Particle({
+    combustible,
+    pos,
+    speed,
+    acc
+  });
+}
+```
+
+Los siguientes pasos que podríamos implementar serían:
+- Que la nave dispare bombas de energía
+- Que las partículas desaparezcan al contacto con una bomba de energía
+- Mantener un sistema de puntos
+
+
+Podrás encontrar los ejemplos completos en la web que acompaña a este libro. 
