@@ -1,9 +1,9 @@
 # Patrones emergentes
 
 Un patrón o comportamiento emergente en un sistema no depende del comportamiento de las partes individuales sino de las relaciones de unas partes con otras. Esto quiere decir que no se puede deducir el comportamiento del sistema observando solamente a una de sus partes, para poder determinar el sistema en conjunto es necesario conocer las reglas de interacción entre las partes.
-Estas reglas, no coordinadas por ninguna entidad "central", aplicadas a cada uno de los individuos generan este comportamiento emergente.
+Estas reglas, no coordinadas por ninguna entidad "central", aplicadas a cada uno de los individuos generan un comportamiento emergente.
 
-Un ejemplo de comportamiento emergente en la naturaleza es el vuelo de los pájaros en bandada
+Un ejemplo de comportamiento emergente en la naturaleza es el vuelo de los pájaros en bandada.
 
 El vuelo de las aves es un comportamiento emergente que surge de 3 simples reglas:
 
@@ -13,7 +13,7 @@ El vuelo de las aves es un comportamiento emergente que surge de 3 simples regla
 
 Gracias a estas 3 reglas se produce el movimiento del vuelo en bandada.
 
-El **juego de la vida** es una implementación de un patrón emergente sencilla y muy clásica en el mundo de la programación.
+Otro ejemplo es el **juego de la vida**, de Johnh Conway (1937 - 2020). Esta es una implementación de un patrón emergente muy famosa en el mundo de la programación. 
 
 En el siguiente ejercicio trabajaremos sobre una implementación del "Juego de la vida" de _John Conway_. 
 
@@ -38,27 +38,31 @@ Para programar la parte visual del juego de la vida necesitaremos una entidad **
 Primero modelemos la entidad célula. Esta célula tendra dos estados: **viva** y **muerta**, que se reflejarán en el booleano `alive`.
 
 ```javascript
-function Cell(x, y, width, alive){
-  this.x = x;
-  this.y = y;
-  this.width = width;
-  this.id = 'id_' + x + ':' + y;
-  this.alive = alive ? true : false;
+class Cell {
+  constructor(x, y, width, alive) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.id = 'id_' + x + ':' + y;
+    this.alive = alive ? true : false;
+    this.highlighted = false;
+  }
+
+  render(context) {
+    context.save();
+    context.translate(this.x, this.y);
+    context.beginPath();
+    context.rect(0, 0, this.width, this.width);
+    context.lineWidth = this.highlighted ? '3': '1';
+    context.fillStyle = this.alive ? 'black' : 'white';
+    context.strokeStyle = this.highlighted ? 'green' :  'black';
+    context.fill();
+    context.stroke();
+    context.closePath();
+    context.restore();
+  }
 }
 
-Cell.prototype.render = function(context){
-  context.save();
-  context.translate(this.x, this.y);
-  context.beginPath();
-  context.rect(0, 0, this.width, this.width);
-  context.lineWidth = '1';
-  context.fillStyle = this.alive ? 'black' : 'white';
-  context.strokeStyle = 'black';
-  context.fill();
-  context.stroke();
-  context.closePath();
-  context.restore();
-}
 ```
 
 

@@ -114,6 +114,9 @@ class Engine {
     this.startCbs.forEach((cb) => {
       cb(this.context, this.canvas)
     });
+
+    // Initial render
+    this.render()
   
     this.clock = 0;
     this.loop();
